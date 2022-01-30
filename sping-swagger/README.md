@@ -1,8 +1,6 @@
-# spring swagger3
+# Springfox-swagger-ui '3.0.0'
 
-## 설정 방법
-
-### dependencies 추가
+### Dependencies 추가
 ```
 implementation group: 'io.springfox', name: 'springfox-boot-starter', version: '3.0.0'
 // https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui
