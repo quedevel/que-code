@@ -47,3 +47,6 @@ public class SwaggerController {
     }
 }
 ```
+
+### 서버실행 후 Swagger UI 접속
+http://localhost:8080/swagger-ui/index.html
