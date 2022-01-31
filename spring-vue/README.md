@@ -77,3 +77,22 @@ build: {
         bundleAnalyzerReport: process.env.npm_config_report
 }
 ```
+
+## 5. vue build
+```
+npm run build
+```
+
+## 6. controller 설정
+```java
+@Controller
+public class WebController {
+
+    @RequestMapping("/vue")
+    public String vue(){
+        return "vue/index";
+    }
+}
+```
+
+## 7. 서버 실행 후 접속 http://localhost:8080/vue
