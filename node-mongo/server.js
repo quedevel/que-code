@@ -12,3 +12,7 @@ app.get('/pet', function(req, res){
 app.get('/beauty', function(req, res){
     res.send('beauty....')
 })
+
+app.get('/', function(req, res){
+    res.sendFile(__dirname+'/index.html')
+})
