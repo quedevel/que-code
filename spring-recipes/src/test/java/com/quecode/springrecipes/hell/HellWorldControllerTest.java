@@ -21,7 +21,7 @@ public class HellWorldControllerTest {
 
     @Test
     public void testHellWorldController() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/hell"))
             .andExpect(status().isOk())
             .andExpect(content().string("Hell World, from Spring Boot 2!"))
             .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_PLAIN));

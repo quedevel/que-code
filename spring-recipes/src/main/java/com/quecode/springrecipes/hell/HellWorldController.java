@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HellWorldController {
 
-    @GetMapping("/")
+    @GetMapping("/hell")
     public String hell(){
         return "Hell World, from Spring Boot 2!";
     }
