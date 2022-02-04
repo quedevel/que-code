@@ -1,12 +1,16 @@
 const express = require('express');
 const app = express();
 
+// server port 설정
 app.listen(8080, function() {
   console.log('listening on 8080');
 })
 
-app.get('/', (req, res) => { res.sendFile(__dirname+'/index.html') });
+// static js 설정
+app.use('/js', express.static(__dirname+'/js'))
 
+// GetMapping
+app.get('/', (req, res) => { res.sendFile(__dirname+'/index.html') });
 app.get('/chapter/1', (req, res) => { res.sendFile(__dirname+'/html/immutableObject.html') })
 app.get('/chapter/2', (req, res) => { res.sendFile(__dirname+'/html/executionContext.html') })
 app.get('/chapter/3', (req, res) => { res.sendFile(__dirname+'/html/this.html') })
