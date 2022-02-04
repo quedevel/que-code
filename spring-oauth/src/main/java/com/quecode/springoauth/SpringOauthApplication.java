@@ -1,7 +1,14 @@
 package com.quecode.springoauth;
 
+import org.apache.catalina.Context;
+import org.apache.catalina.connector.Connector;
+import org.apache.tomcat.util.descriptor.web.SecurityCollection;
+import org.apache.tomcat.util.descriptor.web.SecurityConstraint;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
+import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,34 +25,15 @@ public class SpringOauthApplication {
     public ResponseEntity<String> getMessage() {
         return ResponseEntity.ok("Helllo!");
     }
-/*
-        PS C:\Users\kdh90\Desktop\que-code\spring-oauth> curl -v http://localhost:8080/message
-        자세한 정보 표시: GET http://localhost:8080/message with 0-byte payload
-        자세한 정보 표시: received 7-byte response of content type text/plain;charset=UTF-8
 
+    @GetMapping("/")
+    public String client() {
+        return "client";
+    }
 
-        StatusCode        : 200
-        StatusDescription :
-        Content           : Helllo!
-        RawContent        : HTTP/1.1 200
-                            Keep-Alive: timeout=60
-                            Connection: keep-alive
-                            Content-Length: 7
-                            Content-Type: text/plain;charset=UTF-8
-                            Date: Fri, 04 Feb 2022 13:27:18 GMT
-
-                            Helllo!
-        Forms             : {}
-        Headers           : {[Keep-Alive, timeout=60], [Connection, keep-alive], [Content-Length, 7], [Content-Type, text/plain;charset=UTF-8]...}
-        Images            : {}
-        InputFields       : {}
-        Links             : {}
-        ParsedHtml        : System.__ComObject
-        RawContentLength  : 7
-
-
-
-        PS C:\Users\kdh90\Desktop\que-code\spring-oauth>
-*/
+    @GetMapping("/callback")
+    public String callback() {
+        return "callback_page";
+    }
 
 }
