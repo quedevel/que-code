@@ -1,10 +1,7 @@
 package com.quecode.springrecipes.calculator;
 
-import org.springframework.stereotype.Component;
-
 import java.util.Collection;
 
-@Component
 public class Calculator {
 
     private final Collection<Operation> operations;

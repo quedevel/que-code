@@ -1,14 +1,7 @@
 package com.quecode.springrecipes;
 
-import com.quecode.springrecipes.calculator.Calculator;
-import com.quecode.springrecipes.calculator.Operation;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-
-import java.util.Collection;
 
 /*
 
@@ -57,8 +50,9 @@ public class SpringRecipesApplication {
         };
     }
 */
+/*
 
-    // 3. 값을 property로 관리하기
+     3. 값을 property로 관리하기
 
     @Bean
     public ApplicationRunner calculationRunner(Calculator calculator,
@@ -67,6 +61,8 @@ public class SpringRecipesApplication {
            @Value("${op}") char op){
         return args -> calculator.calculate(lhs, rhs, op);
     }
+
+*/
 
 
 }
