@@ -8,7 +8,7 @@ public class IOUtils {
     /**
      * InputStream에서 url 추출하기
      * @param bufferedReader
-     * @return
+     * @return String
      * @throws IOException
      */
     public static String getUrl(BufferedReader bufferedReader) throws IOException {
@@ -22,7 +22,7 @@ public class IOUtils {
     /**
      * InputStream에서 Content_Type 추출하기
      * @param bufferedReader
-     * @return
+     * @return String
      * @throws IOException
      */
     public static String getContentType(BufferedReader bufferedReader) throws IOException {

@@ -73,32 +73,32 @@ public class RequestHandler extends Thread {
 }
 ```
 
-### 동작 방식
+### 동작 방식을 그려서 이해하기
 ![2021_04_user_count](images/1.png)
 
 
 
 ## 과제 1. index.html 응답하기
 ```java
-try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
-
-    // http 요청 정보를 모두 출력
-    InputStreamReader inputStreamReader = new InputStreamReader(in);
-    BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-    int idx = 0;
-    while (bufferedReader.ready()){
-        // 요청 url 정보 찾기
-        System.out.println(idx+"   "+bufferedReader.readLine());
-        idx++;
+    try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
+    
+        // http 요청 정보를 모두 출력
+        InputStreamReader inputStreamReader = new InputStreamReader(in);
+        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+        int idx = 0;
+        while (bufferedReader.ready()){
+            // 요청 url 정보 찾기
+            System.out.println(idx+"   "+bufferedReader.readLine());
+            idx++;
+        }
+    
+        DataOutputStream dos = new DataOutputStream(out);
+        byte[] body = "Hello World".getBytes();
+        response200Header(dos, body.length);
+        responseBody(dos, body);
+    } catch (IOException e) {
+        e.getStackTrace();
     }
-
-    DataOutputStream dos = new DataOutputStream(out);
-    byte[] body = "Hello World".getBytes();
-    response200Header(dos, body.length);
-    responseBody(dos, body);
-} catch (IOException e) {
-    e.getStackTrace();
-}
 ```
 출력 결과
 ```
@@ -121,10 +121,69 @@ try (InputStream in = connection.getInputStream(); OutputStream out = connection
 ```
 첫번째 라인에 요청 URL 정보가 담겨있는것 확인 <br/>
 
-첫번째 라인 문자열을 분리하여 작업 예정... 생각보다 어렵다...
+첫번째 라인 문자열을 분리하여 작업
+
+```java
+    /**
+     * InputStream에서 url 추출하기
+     * @param bufferedReader
+     * @return String
+     * @throws IOException
+     */
+    public static String getUrl(BufferedReader bufferedReader) throws IOException {
+        String result = "";
+        if(bufferedReader.ready()){
+            result = bufferedReader.readLine().split(" ")[1];
+        }
+        return result;
+    }
+```
+I/O 유틸 클래스 제작 url을 추출
+```java
+// body에 경로 넣기
+byte[] body = Files.readAllBytes(new File("./webapp"+url).toPath());
+```
 
 ## 과제 2. Get 방식으로 회원가입
+
 ## 과제 3. Post 방식으로 회원가입
+
 ## 과제 4. redirect 방식으로 이동
+
 ## 과제 5. cookie
+
 ## 과제 6. stylesheet 적용
+```java
+    /**
+     * InputStream에서 Content_Type 추출하기
+     * @param bufferedReader
+     * @return String
+     * @throws IOException
+     */
+    public static String getContentType(BufferedReader bufferedReader) throws IOException {
+        String result = "";
+        while (bufferedReader.ready()){
+            String temp = bufferedReader.readLine();
+            if(temp.indexOf("Accept") >= 0){
+                result = temp.split(",")[0].split(" ")[1];
+                break;
+            }
+        }
+        return result;
+    }
+```
+I/O 유틸 클래스 > Content_Type을 추출
+
+```java
+    private void response200Header(DataOutputStream dos, int lengthOfBodyContent, String contentType) {
+        try {
+            dos.writeBytes("HTTP/1.1 200 OK \r\n");
+            dos.writeBytes("Content-Type: "+contentType+";charset=utf-8\r\n");
+            dos.writeBytes("Content-Length: " + lengthOfBodyContent + "\r\n");
+            dos.writeBytes("\r\n");
+        } catch (IOException e) {
+            e.getStackTrace();
+        }
+    }
+```
+Content_Type을 동적으로 받도록 메소드 수정
