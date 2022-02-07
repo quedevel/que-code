@@ -19,12 +19,13 @@ public class RequestHandler extends Thread {
 
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
 
-            // http 요청 정보를 모두 출력
+            // http 요청 정보 가져오기
             InputStreamReader inputStreamReader = new InputStreamReader(in);
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
             // bufferedReader.readLine() 첫번째 라인에 url 주소가 있음
             String url = bufferedReader.readLine().split(" ")[1];
+
             DataOutputStream dos = new DataOutputStream(out);
 
             // body에 경로 넣기
