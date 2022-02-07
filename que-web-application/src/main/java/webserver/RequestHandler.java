@@ -1,9 +1,6 @@
 package webserver;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.Socket;
 
 public class RequestHandler extends Thread {
@@ -18,6 +15,17 @@ public class RequestHandler extends Thread {
         System.out.println("New Client Connect! Connected IP : {"+ connection.getInetAddress()+"}, Port : {"+connection.getPort()+"}");
 
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
+
+            // http 요청 정보를 모두 출력
+            InputStreamReader inputStreamReader = new InputStreamReader(in);
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+            int idx = 0;
+            while (bufferedReader.ready()){
+                // 요청 url 정보 찾기
+                System.out.println(idx+"   "+bufferedReader.readLine());
+                idx++;
+            }
+
             DataOutputStream dos = new DataOutputStream(out);
             byte[] body = "Hello World".getBytes();
             response200Header(dos, body.length);
