@@ -29,7 +29,7 @@ public class IOUtils {
         String result = "";
         while (bufferedReader.ready()){
             String temp = bufferedReader.readLine();
-            if(temp.indexOf("Accept") >= 0){
+            if(temp.indexOf("Accept:") >= 0){
                 result = temp.split(",")[0].split(" ")[1];
                 break;
             }
