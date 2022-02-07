@@ -2,6 +2,9 @@ package webserver;
 
 import java.io.*;
 import java.net.Socket;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RequestHandler extends Thread {
 
@@ -19,15 +22,14 @@ public class RequestHandler extends Thread {
             // http 요청 정보를 모두 출력
             InputStreamReader inputStreamReader = new InputStreamReader(in);
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-            int idx = 0;
-            while (bufferedReader.ready()){
-                // 요청 url 정보 찾기
-                System.out.println(idx+"   "+bufferedReader.readLine());
-                idx++;
-            }
 
+            // bufferedReader.readLine() 첫번째 라인에 url 주소가 있음
+            String url = bufferedReader.readLine().split(" ")[1];
             DataOutputStream dos = new DataOutputStream(out);
-            byte[] body = "Hello World".getBytes();
+
+            // body에 경로 넣기
+            byte[] body = Files.readAllBytes(new File("./webapp"+url).toPath());
+
             response200Header(dos, body.length);
             responseBody(dos, body);
         } catch (IOException e) {
