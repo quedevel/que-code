@@ -279,6 +279,46 @@ etc.... : Accept-Encoding: gzip, deflate, br
 etc.... : Accept-Language: ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7
 etc.... : 
 ```
+출력결과를 보는데... post방식이라 url에 안찍히는건 알겠는데 데이터가 어디있는지 모르겠다...
+
+검색해보니 post로 데이터를 전달할 경우 전달하는 데이터는 HTTP 본문에 담긴다고 한다.
+
+HTTP 본문에 데이터 추출하기인데 전혀 모르겠지만 일단 BufferedReader에 담겨올태니 클래스에 있는 read 메소드 사용해보기로 한다.
+```java
+    public int read(char cbuf[], int off, int len) throws IOException 
+```
+```java
+    char[] contentBody = new char[5000];
+    bufferedReader.read(contentBody,0,contentBody.length);
+    
+    String str = String.copyValueOf(contentBody);
+```
+출력결과
+```
+Host: localhost:8080
+Connection: keep-alive
+Content-Length: 38
+Cache-Control: max-age=0
+sec-ch-ua: " Not;A Brand";v="99", "Google Chrome";v="97", "Chromium";v="97"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Windows"
+Upgrade-Insecure-Requests: 1
+Origin: http://localhost:8080
+Content-Type: application/x-www-form-urlencoded
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: http://localhost:8080/user/form.html
+Accept-Encoding: gzip, deflate, br
+Accept-Language: ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7
+
+userId=1&password=1&name=1&email=1%401
+```
+가장 끝에 나오긴하는데.. 어떻게 추출해야할지 고민해봐야될것 같다...
+
 ## 과제 4. redirect 방식으로 이동
 
 ## 과제 5. cookie

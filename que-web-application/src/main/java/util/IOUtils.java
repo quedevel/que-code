@@ -16,7 +16,9 @@ public class IOUtils {
     public static String getUrl(BufferedReader bufferedReader) throws IOException {
         String result = "";
         if(bufferedReader.ready()){
-            result = bufferedReader.readLine().split(" ")[1];
+            String temp = bufferedReader.readLine();
+            System.out.println("temp : "+temp);
+            result = temp.split(" ")[1];
         }
         System.out.println("url: "+result);
         return result;
