@@ -1,6 +1,7 @@
 package webserver;
 
 import entity.User;
+import util.HttpRequestUtils;
 import util.IOUtils;
 
 import java.io.*;
@@ -25,20 +26,29 @@ public class RequestHandler extends Thread {
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
 
             // http 요청 정보 가져오기
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
-
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
             List<String> httpRequestList = new ArrayList<>();
 
-            while(bufferedReader.ready()){
-                httpRequestList.add(bufferedReader.readLine());
-            }
+            String readLine = bufferedReader.readLine();
+
+            if(!"".equals(readLine)) httpRequestList.add(readLine);
 
             // bufferedReader.readLine() 첫번째 라인에 url 주소가 있음
-            String url = IOUtils.getUrl(httpRequestList);
+            String url = readLine.split(" ")[1];
             if(url.isEmpty()){
                 return;
             }
 
+            // 모든 정보 리스트에 넣기
+            while(!"".equals(readLine)){
+                readLine = bufferedReader.readLine();
+                if(!"".equals(readLine)) httpRequestList.add(readLine);
+            }
+
+            // 모든 요청정보 추출
+            httpRequestList.forEach(System.out::println);
+
+            // 컨텐츠 길이 추출
             int contentLength = IOUtils.getContentLength(httpRequestList);
 
             Map<String, String> params = new HashMap<>();
@@ -47,23 +57,25 @@ public class RequestHandler extends Thread {
             if(url.startsWith("/user/create")){
                 // Get 요청으로 파라미터가 쿼리스트링으로 넘어올때
                 int paramIdx = url.indexOf("?");
+                String queryString = "";
                 if(paramIdx >= 0){
                     // queryString 추출
-                    String queryString = url.substring(paramIdx+1); // ex) userId=quedevel&password=1234&name=kimdongho&email=quedevel%40innotree.com
+                    queryString = url.substring(paramIdx+1); // ex) userId=quedevel&password=1234&name=kimdongho&email=quedevel%40innotree.com
 
                     // queryString을 파라미터 맵으로 변경하는 util 제작
-                    params = IOUtils.convertQueryStringToMap(queryString);
+                    params = HttpRequestUtils.parseQueryString(queryString);
 
-                    // 회원생성
-                    User user = new User(params.get("userId"),params.get("password"),params.get("name"),params.get("email"));
-
-                    System.out.println(user.toString());
-
-                    url = "/user/form.html";
                 } else {
-                    String str = IOUtils.readData(bufferedReader, contentLength);
-                    url = "/user/form.html";
+                    // content body 제일 마지막에 넘어온 query string 읽기
+                    queryString = IOUtils.readData(bufferedReader, contentLength);
+                    params = HttpRequestUtils.parseQueryString(queryString);
                 }
+                // 회원생성
+                User user = new User(params.get("userId"),params.get("password"),params.get("name"),params.get("email"));
+                System.out.println(user.toString());
+
+                // redirect 필요...
+                url = "/index.html";
             }
 
 

@@ -10,20 +10,6 @@ import java.util.Optional;
 public class IOUtils {
 
     /**
-     * httpRequestList에서 url 추출하기
-     * @param httpRequestList
-     * @return String
-     * @throws IOException
-     */
-    public static String getUrl(List<String> httpRequestList) throws IOException {
-        String result = "";
-        if(httpRequestList.size() > 0){
-            result = httpRequestList.get(0).split(" ")[1];
-        }
-        return result;
-    }
-
-    /**
      * httpRequestList에서 Content_Type 추출하기
      * @param httpRequestList
      * @return String
