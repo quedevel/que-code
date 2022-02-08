@@ -145,9 +145,140 @@ byte[] body = Files.readAllBytes(new File("./webapp"+url).toPath());
 ```
 
 ## 과제 2. Get 방식으로 회원가입
+method > get
+action > /user/create
+```html
+    <form name="question" method="get" action="/user/create">
+      <div class="form-group">
+          <label for="userId">사용자 아이디</label>
+          <input class="form-control" id="userId" name="userId" placeholder="User ID">
+      </div>
+      <div class="form-group">
+          <label for="password">비밀번호</label>
+          <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+      </div>
+      <div class="form-group">
+          <label for="name">이름</label>
+          <input class="form-control" id="name" name="name" placeholder="Name">
+      </div>
+      <div class="form-group">
+          <label for="email">이메일</label>
+          <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+      </div>
+      <button type="submit" class="btn btn-success clearfix pull-right">회원가입</button>
+      <div class="clearfix" />
+  </form>
+```
+GET > 요청 정보 출력해보기
+```
+url: /user/create?userId=quedevel&password=1234&name=kimdongho&email=quedevel%40innotree.com
+etc.... : Host: localhost:8080
+etc.... : Connection: keep-alive
+etc.... : sec-ch-ua: " Not;A Brand";v="99", "Google Chrome";v="97", "Chromium";v="97"
+etc.... : sec-ch-ua-mobile: ?0
+etc.... : sec-ch-ua-platform: "Windows"
+etc.... : Upgrade-Insecure-Requests: 1
+etc.... : User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36
+etc.... : Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+etc.... : Sec-Fetch-Site: same-origin
+etc.... : Sec-Fetch-Mode: navigate
+etc.... : Sec-Fetch-User: ?1
+etc.... : Sec-Fetch-Dest: document
+etc.... : Referer: http://localhost:8080/user/form.html
+etc.... : Accept-Encoding: gzip, deflate, br
+etc.... : Accept-Language: ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7
+```
+url을 파라미터로 변경 후 User로 만들기
+```java
+    // 회원 가입 url
+    if(url.startsWith("/user/create")){
+        // Get 요청으로 파라미터가 쿼리스트링으로 넘어올때
+        int paramIdx = url.indexOf("?");
+        if(paramIdx >= 0){
+            // queryString 추출
+            String queryString = url.substring(paramIdx+1); // ex) userId=quedevel&password=1234&name=kimdongho&email=quedevel%40innotree.com
+    
+            // queryString을 파라미터 맵으로 변경하는 util 제작
+            params = IOUtils.convertQueryStringToMap(queryString);
+    
+            // 회원생성
+            User user = new User(params.get("userId"),params.get("password"),params.get("name"),params.get("email"));
+    
+            System.out.println(user.toString());
+    
+            url = "/index.html";
+        }
+    }
+```
+queryString을 파라미터 맵으로 변경하는 util 제작
+```java
+    /**
+     * queryString to Map
+     * @param queryString
+     * @return Map<String, String>
+     */
+    public static Map<String, String> convertQueryStringToMap(String queryString){
+        Map<String, String> result = new HashMap<>();
+        String[] pArr = queryString.split("&");
+        if (pArr.length > 0){
+            for(String p : pArr){
+                String[] param = p.split("=");
+                result.put(param[0], param[1]);
+            }
+        }
+        return result;
+    }
+```
 
 ## 과제 3. Post 방식으로 회원가입
-
+method > post
+action > /user/create
+```html
+    <form name="question" method="post" action="/user/create">
+      <div class="form-group">
+          <label for="userId">사용자 아이디</label>
+          <input class="form-control" id="userId" name="userId" placeholder="User ID">
+      </div>
+      <div class="form-group">
+          <label for="password">비밀번호</label>
+          <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+      </div>
+      <div class="form-group">
+          <label for="name">이름</label>
+          <input class="form-control" id="name" name="name" placeholder="Name">
+      </div>
+      <div class="form-group">
+          <label for="email">이메일</label>
+          <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+      </div>
+      <button type="submit" class="btn btn-success clearfix pull-right">회원가입</button>
+      <div class="clearfix" />
+  </form>
+```
+POST > 요청 정보 출력해보기
+```
+url: /user/create
+etc.... : Host: localhost:8080
+etc.... : Connection: keep-alive
+etc.... : Content-Length: 89
+etc.... : Cache-Control: max-age=0
+etc.... : sec-ch-ua: " Not;A Brand";v="99", "Google Chrome";v="97", "Chromium";v="97"
+etc.... : sec-ch-ua-mobile: ?0
+etc.... : sec-ch-ua-platform: "Windows"
+etc.... : Upgrade-Insecure-Requests: 1
+etc.... : Origin: http://localhost:8080
+etc.... : Content-Type: application/x-www-form-urlencoded
+etc.... : User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36
+etc.... : Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+etc.... : Sec-Fetch-Site: same-origin
+etc.... : Sec-Fetch-Mode: navigate
+etc.... : Sec-Fetch-User: ?1
+etc.... : Sec-Fetch-Dest: document
+etc.... : Referer: http://localhost:8080/user/form.html
+etc.... : Accept-Encoding: gzip, deflate, br
+etc.... : Accept-Language: ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7
+etc.... : 
+```
 ## 과제 4. redirect 방식으로 이동
 
 ## 과제 5. cookie

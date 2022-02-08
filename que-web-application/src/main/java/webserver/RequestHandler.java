@@ -1,12 +1,15 @@
 package webserver;
 
+import entity.User;
 import util.IOUtils;
 
 import java.io.*;
 import java.net.Socket;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class RequestHandler extends Thread {
 
@@ -22,13 +25,36 @@ public class RequestHandler extends Thread {
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
 
             // http 요청 정보 가져오기
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
 
             // bufferedReader.readLine() 첫번째 라인에 url 주소가 있음
             String url = IOUtils.getUrl(bufferedReader);
             if(url.isEmpty()){
                 return;
             }
+
+            Map<String, String> params = new HashMap<>();
+
+            // 회원 가입 url
+            if(url.startsWith("/user/create")){
+                // Get 요청으로 파라미터가 쿼리스트링으로 넘어올때
+                int paramIdx = url.indexOf("?");
+                if(paramIdx >= 0){
+                    // queryString 추출
+                    String queryString = url.substring(paramIdx+1); // ex) userId=quedevel&password=1234&name=kimdongho&email=quedevel%40innotree.com
+
+                    // queryString을 파라미터 맵으로 변경하는 util 제작
+                    params = IOUtils.convertQueryStringToMap(queryString);
+
+                    // 회원생성
+                    User user = new User(params.get("userId"),params.get("password"),params.get("name"),params.get("email"));
+
+                    System.out.println(user.toString());
+
+                    url = "/index.html";
+                }
+            }
+
 
             // contentType 추출
             String contentType = IOUtils.getContentType(bufferedReader);
