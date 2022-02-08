@@ -319,6 +319,78 @@ userId=1&password=1&name=1&email=1%401
 ```
 가장 끝에 나오긴하는데.. 어떻게 추출해야할지 고민해봐야될것 같다...
 
+가장 끝에 나온다는 점을 활용하여 최종적으로 리펙토링까지 한 소스
+```java
+    // http 요청 정보 가져오기
+    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
+    List<String> httpRequestList = new ArrayList<>();
+
+    String readLine = bufferedReader.readLine();
+
+    if(!"".equals(readLine)) httpRequestList.add(readLine);
+
+    // bufferedReader.readLine() 첫번째 라인에 url 주소가 있음
+    String url = readLine.split(" ")[1];
+    if(url.isEmpty()){
+        return;
+    }
+
+    // 모든 정보 리스트에 넣기
+    while(!"".equals(readLine)){
+        readLine = bufferedReader.readLine();
+        if(!"".equals(readLine)) httpRequestList.add(readLine);
+    }
+
+    // 모든 요청정보 추출
+    httpRequestList.forEach(System.out::println);
+
+    // 컨텐츠 길이 추출
+    int contentLength = IOUtils.getContentLength(httpRequestList);
+
+    Map<String, String> params = new HashMap<>();
+
+    // 회원 가입 url
+    if(url.startsWith("/user/create")){
+        int paramIdx = url.indexOf("?");
+        String queryString = "";
+        if(paramIdx >= 0){
+            // get 요청
+            // queryString 추출
+            queryString = url.substring(paramIdx+1); // ex) userId=quedevel&password=1234&name=kimdongho&email=quedevel%40innotree.com
+
+            // queryString을 파라미터 맵으로 변경하는 util 제작
+            params = HttpRequestUtils.parseQueryString(queryString);
+
+        } else {
+            // post 요청
+            // content body 제일 마지막에 넘어온 query string 읽기
+            queryString = IOUtils.readData(bufferedReader, contentLength);
+            params = HttpRequestUtils.parseQueryString(queryString);
+        }
+        // 회원생성
+        User user = new User(params.get("userId"),params.get("password"),params.get("name"),params.get("email"));
+        System.out.println(user.toString());
+
+        // redirect 필요...
+        url = "/index.html";
+    }
+
+
+    // contentType 추출
+    String contentType = IOUtils.getContentType(httpRequestList);
+    if(contentType.isEmpty()){
+        return;
+    }
+
+    // body에 경로 넣기
+    byte[] body = Files.readAllBytes(new File("./webapp"+url).toPath());
+
+    // js, css etc... content_type 맞추기
+    DataOutputStream dos = new DataOutputStream(out);
+    response200Header(dos, body.length, contentType);
+    responseBody(dos, body);
+```
+
 ## 과제 4. redirect 방식으로 이동
 
 ## 과제 5. cookie

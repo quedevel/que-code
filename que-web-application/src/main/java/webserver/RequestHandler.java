@@ -48,6 +48,12 @@ public class RequestHandler extends Thread {
             // 모든 요청정보 추출
             httpRequestList.forEach(System.out::println);
 
+            // contentType 추출
+            String contentType = IOUtils.getContentType(httpRequestList);
+            if(contentType.isEmpty()){
+                return;
+            }
+
             // 컨텐츠 길이 추출
             int contentLength = IOUtils.getContentLength(httpRequestList);
 
@@ -55,21 +61,10 @@ public class RequestHandler extends Thread {
 
             // 회원 가입 url
             if(url.startsWith("/user/create")){
-                // Get 요청으로 파라미터가 쿼리스트링으로 넘어올때
-                int paramIdx = url.indexOf("?");
-                String queryString = "";
-                if(paramIdx >= 0){
-                    // queryString 추출
-                    queryString = url.substring(paramIdx+1); // ex) userId=quedevel&password=1234&name=kimdongho&email=quedevel%40innotree.com
-
-                    // queryString을 파라미터 맵으로 변경하는 util 제작
-                    params = HttpRequestUtils.parseQueryString(queryString);
-
-                } else {
-                    // content body 제일 마지막에 넘어온 query string 읽기
-                    queryString = IOUtils.readData(bufferedReader, contentLength);
-                    params = HttpRequestUtils.parseQueryString(queryString);
-                }
+                // post 요청
+                // content body 제일 마지막에 넘어온 query string 읽기
+                String queryString = IOUtils.readData(bufferedReader, contentLength);
+                params = HttpRequestUtils.parseQueryString(queryString);
                 // 회원생성
                 User user = new User(params.get("userId"),params.get("password"),params.get("name"),params.get("email"));
                 System.out.println(user.toString());
@@ -78,18 +73,8 @@ public class RequestHandler extends Thread {
                 url = "/index.html";
             }
 
-
-            // contentType 추출
-            String contentType = IOUtils.getContentType(httpRequestList);
-            if(contentType.isEmpty()){
-                return;
-            }
-
-            // body에 경로 넣기
-            byte[] body = Files.readAllBytes(new File("./webapp"+url).toPath());
-
-            // js, css etc... content_type 맞추기
             DataOutputStream dos = new DataOutputStream(out);
+            byte[] body = Files.readAllBytes(new File("./webapp"+url).toPath());
             response200Header(dos, body.length, contentType);
             responseBody(dos, body);
         } catch (IOException e) {
