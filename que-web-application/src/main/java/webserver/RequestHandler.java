@@ -27,17 +27,19 @@ public class RequestHandler extends Thread {
             // http 요청 정보 가져오기
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
 
-            System.out.println("<-----------------------------------------");
+            List<String> httpRequestList = new ArrayList<>();
 
-            System.out.println(bufferedReader);
-
-            System.out.println("----------------------------------------->");
+            while(bufferedReader.ready()){
+                httpRequestList.add(bufferedReader.readLine());
+            }
 
             // bufferedReader.readLine() 첫번째 라인에 url 주소가 있음
-            String url = IOUtils.getUrl(bufferedReader);
+            String url = IOUtils.getUrl(httpRequestList);
             if(url.isEmpty()){
                 return;
             }
+
+            int contentLength = IOUtils.getContentLength(httpRequestList);
 
             Map<String, String> params = new HashMap<>();
 
@@ -59,19 +61,14 @@ public class RequestHandler extends Thread {
 
                     url = "/user/form.html";
                 } else {
-                    // Post 요청 처리
-                    // 검색해보니 post로 데이터를 전달할 경우 전달하는 데이터는 HTTP 본문에 담긴다고 한다.
-                    char[] contentBody = new char[5000];
-                    bufferedReader.read(contentBody,0,contentBody.length);
-
-                    String str = String.copyValueOf(contentBody);
+                    String str = IOUtils.readData(bufferedReader, contentLength);
                     url = "/user/form.html";
                 }
             }
 
 
             // contentType 추출
-            String contentType = IOUtils.getContentType(bufferedReader);
+            String contentType = IOUtils.getContentType(httpRequestList);
             if(contentType.isEmpty()){
                 return;
             }
