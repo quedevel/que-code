@@ -279,8 +279,6 @@ etc.... : Accept-Encoding: gzip, deflate, br
 etc.... : Accept-Language: ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7
 etc.... : 
 ```
-출력결과를 보는데... post방식이라 url에 안찍히는건 알겠는데 데이터가 어디있는지 모르겠다...
-
 검색해보니 post로 데이터를 전달할 경우 전달하는 데이터는 HTTP 본문에 담긴다고 한다.
 
 HTTP 본문에 데이터 추출하기인데 전혀 모르겠지만 일단 BufferedReader에 담겨올태니 클래스에 있는 read 메소드 사용해보기로 한다.
@@ -317,7 +315,6 @@ Accept-Language: ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7
 
 userId=1&password=1&name=1&email=1%401
 ```
-가장 끝에 나오긴하는데.. 어떻게 추출해야할지 고민해봐야될것 같다...
 
 가장 끝에 나온다는 점을 활용하여 최종적으로 리펙토링까지 한 소스
 ```java
