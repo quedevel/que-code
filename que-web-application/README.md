@@ -411,7 +411,8 @@ Location을 /index.html로 설정
 -> 웹브라우저가 다시 /index.html 로 재요청 -> /index.html 200 응답
 ```
 
-## 과제 5. cookie
+## 과제 5. cookie 로그인 처리
+
 
 ## 과제 6. stylesheet 적용
 ```java
