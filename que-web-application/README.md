@@ -392,6 +392,24 @@ userId=1&password=1&name=1&email=1%401
 ```
 
 ## 과제 4. redirect 방식으로 이동
+302 state code를 적용
+```java
+    private void response302Header(DataOutputStream dos, String url) {
+        try {
+            dos.writeBytes("HTTP/1.1 302 OK \r\n");
+            dos.writeBytes("Location: " + url + "\r\n");
+            dos.writeBytes("\r\n");
+        } catch (IOException e) {
+            e.getStackTrace();
+        }
+    }
+```
+Location을 /index.html로 설정
+
+```
+웹브라우저 -> /user/create 요청 -> 회원가입 처리 후 /index.html 302 응답
+-> 웹브라우저가 다시 /index.html 로 재요청 -> /index.html 200 응답
+```
 
 ## 과제 5. cookie
 

@@ -71,12 +71,14 @@ public class RequestHandler extends Thread {
 
                 // redirect 필요...
                 url = "/index.html";
+                DataOutputStream dos = new DataOutputStream(out);
+                response302Header(dos, url);
+            } else {
+                DataOutputStream dos = new DataOutputStream(out);
+                byte[] body = Files.readAllBytes(new File("./webapp"+url).toPath());
+                response200Header(dos, body.length, contentType);
+                responseBody(dos, body);
             }
-
-            DataOutputStream dos = new DataOutputStream(out);
-            byte[] body = Files.readAllBytes(new File("./webapp"+url).toPath());
-            response200Header(dos, body.length, contentType);
-            responseBody(dos, body);
         } catch (IOException e) {
             e.getStackTrace();
         }
@@ -87,6 +89,16 @@ public class RequestHandler extends Thread {
             dos.writeBytes("HTTP/1.1 200 OK \r\n");
             dos.writeBytes("Content-Type: "+contentType+";charset=utf-8\r\n");
             dos.writeBytes("Content-Length: " + lengthOfBodyContent + "\r\n");
+            dos.writeBytes("\r\n");
+        } catch (IOException e) {
+            e.getStackTrace();
+        }
+    }
+
+    private void response302Header(DataOutputStream dos, String url) {
+        try {
+            dos.writeBytes("HTTP/1.1 302 OK \r\n");
+            dos.writeBytes("Location: " + url + "\r\n");
             dos.writeBytes("\r\n");
         } catch (IOException e) {
             e.getStackTrace();
