@@ -42,7 +42,7 @@
     </nav>
 
     <!-- contents -->
-    <div class="card mt-5">
+    <div class="card mt-5 ml-5 mr-5">
       <h5 class="card-header">Immutable Object (불변 객체)</h5>
       <div class="card-body">
         <h5 class="card-title"><span class="text-danger">'변하지 않는 객체'</span> 즉 이미 할당된 객체가 변하지 않는다는 뜻</h5>
@@ -54,11 +54,11 @@
       </div>
     </div>
 
-    <div class="row mt-3">
-      <div class="col-sm-6">
+    <div class="row mt-3 ml-5 mr-5">
+      <div class="col-sm-4" style="padding-left: 0px;">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title"><strong>객체의 가변성에 따른 문제점</strong></h5>
+            <h5 class="card-title"><strong>문제점</strong></h5>
             <pre>
               <code class="javascript">
       var user = {
@@ -80,15 +80,17 @@
       
       console.log(user.name, user2.name); // Jung Jung
       console.log(user === user2);        // true
+
+
               </code>
             </pre>
           </div>
         </div>
       </div>
-      <div class="col-sm-6">
+      <div class="col-sm-4">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title"><strong>객체의 가변성에 따른 문제점의 해결 방법</strong></h5>
+            <h5 class="card-title"><strong>해결 방법 1</strong></h5>
             <pre>
               <code class="javascript">
       var user3 = {
@@ -116,9 +118,19 @@
           </div>
         </div>
       </div>
+      <div class="col-sm-4" style="padding-right: 0px;">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title"><strong>해결 방법 2</strong></h5>
+            <pre>
+              <code class="javascript">
+      
+              </code>
+            </pre>
+          </div>
+        </div>
+      </div>
     </div>
-
-
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script> 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/languages/bash.min.js"></script> 
