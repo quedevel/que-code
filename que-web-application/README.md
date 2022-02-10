@@ -409,6 +409,90 @@ Location을 /index.html로 설정
 ```
 
 ## 과제 5. cookie 로그인 처리
+response 메소드들 리펙토링
+```java
+    private void response302HeaderWithCookie(OutputStream outputStream) throws IOException{
+        DataOutputStream dos =new DataOutputStream(outputStream);
+        dos.writeBytes("HTTP/1.1 302 OK \r\n");
+        dos.writeBytes("Set-Cookie: isLogin=true \r\n");
+        dos.writeBytes("Location : "+CommonConstants.INDEX_URL+"\r\n");
+        dos.writeBytes("\r\n");
+    }
+
+    private void response302Header(OutputStream outputStream, String url) throws IOException {
+        DataOutputStream dos =new DataOutputStream(outputStream);
+        dos.writeBytes("HTTP/1.1 302 OK \r\n");
+        dos.writeBytes("Location: " + url + "\r\n");
+        dos.writeBytes("\r\n");
+    }
+
+    private void response200Header(OutputStream outputStream, String contentType, String url) throws IOException {
+        DataOutputStream dos =new DataOutputStream(outputStream);
+        byte[] body = Files.readAllBytes(new File("./webapp"+url).toPath());
+        dos.writeBytes("HTTP/1.1 200 OK \r\n");
+        dos.writeBytes("Content-Type: "+contentType+";charset=utf-8\r\n");
+        dos.writeBytes("Content-Length: " + body.length + "\r\n");
+        dos.writeBytes("\r\n");
+        responseBody(dos, body);
+    }
+
+    private void responseBody(DataOutputStream dos, byte[] body) throws IOException {
+        dos.write(body, 0, body.length);
+        dos.flush();
+    }
+```
+자주쓰이며 변하지 않는 값 상수 처리
+```java
+public class CommonConstants {
+
+    public static final String INDEX_URL = "/index.html";
+
+    public static final String LOGIN_FAIL_URL = "/user/login_failed.html";
+}
+```
+로그인 성공 시 Cookie에 isLogin=true값 넣기
+```java
+    // 회원 가입 url
+    if(url.startsWith("/user/create")){
+            ...
+    } else if ("/user/login".equals(url)) {
+        // login 정보 읽기
+        String queryString = IOUtils.readData(bufferedReader, contentLength);
+        params = HttpRequestUtils.parseQueryString(queryString);
+        // user 조회
+        User user = DataBase.findUserById(params.get("userId"));
+
+        // user 존재 여부 검사
+        if(Objects.isNull(user)){
+            System.out.println("등록된 유저가 없음.");
+            // 로그인 실패
+            response200Header(out, contentType, CommonConstants.LOGIN_FAIL_URL);
+        }
+
+        // 로그인 성공 여부
+        if(user.getPassword().equals(params.get("password"))){
+            // 로그인 성공
+            response302HeaderWithCookie(out);
+        } else {
+            System.out.println("비밀번호 틀렸다잉");
+            // 로그인 실패
+            response200Header(out, contentType, CommonConstants.LOGIN_FAIL_URL);
+        }
+    } else {
+        response200Header(out, contentType, url);
+    }
+```
+로그인 후 출력값 확인
+```
+GET /user/login.html HTTP/1.1
+Host: localhost:8080
+Connection: keep-alive
+    .
+    .
+    .
+Accept-Language: ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7
+Cookie: isLogin=true
+```
 
 
 ## 과제 6. stylesheet 적용
