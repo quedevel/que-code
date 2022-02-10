@@ -1,5 +1,7 @@
 package webserver;
 
+import constants.CommonConstants;
+import db.DataBase;
 import entity.User;
 import util.HttpRequestUtils;
 import util.IOUtils;
@@ -7,10 +9,7 @@ import util.IOUtils;
 import java.io.*;
 import java.net.Socket;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class RequestHandler extends Thread {
 
@@ -67,50 +66,70 @@ public class RequestHandler extends Thread {
                 params = HttpRequestUtils.parseQueryString(queryString);
                 // 회원생성
                 User user = new User(params.get("userId"),params.get("password"),params.get("name"),params.get("email"));
-                System.out.println(user.toString());
+
+                // 저장 ( 임의로 전역변수에 저장 )
+                DataBase.addUser(user);
 
                 // redirect 필요...
-                url = "/index.html";
-                DataOutputStream dos = new DataOutputStream(out);
-                response302Header(dos, url);
+                response302Header(out, CommonConstants.INDEX_URL);
+            } else if ("/user/login".equals(url)) {
+                // login 정보 읽기
+                String queryString = IOUtils.readData(bufferedReader, contentLength);
+                params = HttpRequestUtils.parseQueryString(queryString);
+                // user 조회
+                User user = DataBase.findUserById(params.get("userId"));
+
+                // user 존재 여부 검사
+                if(Objects.isNull(user)){
+                    System.out.println("등록된 유저가 없음.");
+                    // 로그인 실패
+                    response200Header(out, contentType, CommonConstants.LOGIN_FAIL_URL);
+                }
+
+                // 로그인 성공 여부
+                if(user.getPassword().equals(params.get("password"))){
+                    // 로그인 성공
+                    response302HeaderWithCookie(out);
+                } else {
+                    System.out.println("비밀번호 틀렸다잉");
+                    // 로그인 실패
+                    response200Header(out, contentType, CommonConstants.LOGIN_FAIL_URL);
+                }
             } else {
-                DataOutputStream dos = new DataOutputStream(out);
-                byte[] body = Files.readAllBytes(new File("./webapp"+url).toPath());
-                response200Header(dos, body.length, contentType);
-                responseBody(dos, body);
+                response200Header(out, contentType, url);
             }
         } catch (IOException e) {
             e.getStackTrace();
         }
     }
 
-    private void response200Header(DataOutputStream dos, int lengthOfBodyContent, String contentType) {
-        try {
-            dos.writeBytes("HTTP/1.1 200 OK \r\n");
-            dos.writeBytes("Content-Type: "+contentType+";charset=utf-8\r\n");
-            dos.writeBytes("Content-Length: " + lengthOfBodyContent + "\r\n");
-            dos.writeBytes("\r\n");
-        } catch (IOException e) {
-            e.getStackTrace();
-        }
+    private void response302HeaderWithCookie(OutputStream outputStream) throws IOException{
+        DataOutputStream dos =new DataOutputStream(outputStream);
+        dos.writeBytes("HTTP/1.1 302 OK \r\n");
+        dos.writeBytes("Set-Cookie: isLogin=true \r\n");
+        dos.writeBytes("Location : "+CommonConstants.INDEX_URL+"\r\n");
+        dos.writeBytes("\r\n");
     }
 
-    private void response302Header(DataOutputStream dos, String url) {
-        try {
-            dos.writeBytes("HTTP/1.1 302 OK \r\n");
-            dos.writeBytes("Location: " + url + "\r\n");
-            dos.writeBytes("\r\n");
-        } catch (IOException e) {
-            e.getStackTrace();
-        }
+    private void response302Header(OutputStream outputStream, String url) throws IOException {
+        DataOutputStream dos =new DataOutputStream(outputStream);
+        dos.writeBytes("HTTP/1.1 302 OK \r\n");
+        dos.writeBytes("Location: " + url + "\r\n");
+        dos.writeBytes("\r\n");
     }
 
-    private void responseBody(DataOutputStream dos, byte[] body) {
-        try {
-            dos.write(body, 0, body.length);
-            dos.flush();
-        } catch (IOException e) {
-            e.getStackTrace();
-        }
+    private void response200Header(OutputStream outputStream, String contentType, String url) throws IOException {
+        DataOutputStream dos =new DataOutputStream(outputStream);
+        byte[] body = Files.readAllBytes(new File("./webapp"+url).toPath());
+        dos.writeBytes("HTTP/1.1 200 OK \r\n");
+        dos.writeBytes("Content-Type: "+contentType+";charset=utf-8\r\n");
+        dos.writeBytes("Content-Length: " + body.length + "\r\n");
+        dos.writeBytes("\r\n");
+        responseBody(dos, body);
+    }
+
+    private void responseBody(DataOutputStream dos, byte[] body) throws IOException {
+        dos.write(body, 0, body.length);
+        dos.flush();
     }
 }
