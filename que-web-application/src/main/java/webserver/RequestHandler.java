@@ -58,6 +58,9 @@ public class RequestHandler extends Thread {
 
             Map<String, String> params = new HashMap<>();
 
+            // 로그인 여부
+            boolean isLogin = IOUtils.isLogin(httpRequestList);
+
             // 회원 가입 url
             if(url.startsWith("/user/create")){
                 // post 요청
@@ -95,6 +98,29 @@ public class RequestHandler extends Thread {
                     // 로그인 실패
                     response200Header(out, contentType, CommonConstants.LOGIN_FAIL_URL);
                 }
+            } else if ("/user/list".equals(url)){
+                if(!isLogin){
+                    response200Header(out, contentType, CommonConstants.LOGIN_URL);
+                    return;
+                }
+                Collection<User> users = DataBase.findAll();
+                StringBuilder sb = new StringBuilder();
+                sb.append("<table border='1'>");
+                for (User user : users) {
+                    sb.append("<tr>");
+                    sb.append("<td>" + user.getUserId() + "</td>");
+                    sb.append("<td>" + user.getName() + "</td>");
+                    sb.append("<td>" + user.getEmail() + "</td>");
+                    sb.append("</tr>");
+                }
+                sb.append("</table>");
+                byte[] body = sb.toString().getBytes();
+                DataOutputStream dos = new DataOutputStream(out);
+                dos.writeBytes("HTTP/1.1 200 OK \r\n");
+                dos.writeBytes("Content-Type: "+contentType+";charset=utf-8\r\n");
+                dos.writeBytes("Content-Length: " + body.length + "\r\n");
+                dos.writeBytes("\r\n");
+                responseBody(dos, body);
             } else {
                 response200Header(out, contentType, url);
             }

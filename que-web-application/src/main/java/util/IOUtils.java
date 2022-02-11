@@ -1,5 +1,7 @@
 package util;
 
+import constants.CommonConstants;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.HashMap;
@@ -40,20 +42,22 @@ public class IOUtils {
     }
 
     /**
-     * queryString to Map
-     * @param queryString
-     * @return Map<String, String>
+     * 로그인 여부 확인
+     * @param httpRequestList
+     * @return boolean
      */
-    public static Map<String, String> convertQueryStringToMap(String queryString){
-        Map<String, String> result = new HashMap<>();
-        String[] pArr = queryString.split("&");
-        if (pArr.length > 0){
-            for(String p : pArr){
-                String[] param = p.split("=");
-                result.put(param[0], param[1]);
+    public static boolean isLogin(List<String> httpRequestList) {
+        String value = "";
+        if(httpRequestList.size() > 0){
+            Optional<String> optional = httpRequestList.stream().filter(s -> s.indexOf("isLogin") >= 0).findFirst();
+            if(optional.isPresent()){
+                value = optional.get().split(" ")[1].split("=")[1];
             }
         }
-        return result;
+        if (CommonConstants.EMPTY.equals(value)) {
+            return false;
+        }
+        return Boolean.parseBoolean(value);
     }
 
     /**
