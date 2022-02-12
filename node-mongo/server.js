@@ -1,11 +1,15 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
-
 app.use(bodyParser.urlencoded({extended : true}))
 
-app.listen(8080, () => {
-    console.log('listening on 8080')    
+const MongoClient = require('mongodb').MongoClient;
+
+MongoClient.connect('mongodb+srv://quedevel:<password>@cluster0.mor3l.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', 
+function(){
+    app.listen(8080, () => {
+        console.log('listening on 8080')    
+    })
 })
 
 app.get('/pet', (req, res) => {
