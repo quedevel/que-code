@@ -9,18 +9,13 @@ import com.google.common.collect.Maps;
 
 public class HttpRequestUtils {
 
-    /**
-     * @param queryString
-     * @return
-     */
+
     public static Map<String, String> parseQueryString(String queryString) {
         return parseValues(queryString, "&");
     }
 
-    /**
-     * @param cookies
-     * @return
-     */
+
+
     public static Map<String, String> parseCookies(String cookies) {
         return parseValues(cookies, ";");
     }

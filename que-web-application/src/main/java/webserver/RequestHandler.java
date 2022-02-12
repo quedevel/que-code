@@ -1,18 +1,25 @@
 package webserver;
 
-import entity.User;
-import util.HttpRequestUtils;
-import util.IOUtils;
+import http.HttpRequest;
+import http.HttpResponse;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.Socket;
-import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 
+import model.User;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import util.HttpRequestUtils;
+import db.DataBase;
+
 public class RequestHandler extends Thread {
+    private static final Logger log = LoggerFactory.getLogger(RequestHandler.class);
 
     private Socket connection;
 
@@ -21,96 +28,71 @@ public class RequestHandler extends Thread {
     }
 
     public void run() {
-        System.out.println("New Client Connect! Connected IP : {"+ connection.getInetAddress()+"}, Port : {"+connection.getPort()+"}");
+        log.debug("New Client Connect! Connected IP : {}, Port : {}", connection.getInetAddress(),
+                connection.getPort());
 
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
+            HttpRequest request = new HttpRequest(in);
+            HttpResponse response = new HttpResponse(out);
+            String path = getDefaultPath(request.getPath());
 
-            // http 요청 정보 가져오기
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
-            List<String> httpRequestList = new ArrayList<>();
+            if ("/user/create".equals(path)) {
+                User user = new User(request.getParameter("userId"), request.getParameter("password"),
+                        request.getParameter("name"), request.getParameter("email"));
+                log.debug("user : {}", user);
+                DataBase.addUser(user);
+                response.sendRedirect("/index.html");
+            } else if ("/user/login".equals(path)) {
+                User user = DataBase.findUserById(request.getParameter("userId"));
+                if (user != null) {
+                    if (user.login(request.getParameter("password"))) {
+                        response.addHeader("Set-Cookie", "logined=true; Path=/");
+                        response.sendRedirect("/index.html");
+                    } else {
+                        response.sendRedirect("/user/login_failed.html");
+                    }
+                } else {
+                    response.sendRedirect("/user/login_failed.html");
+                }
+            } else if ("/user/list".equals(path)) {
+                if (!isLogin(request.getHeader("Cookie"))) {
+                    response.sendRedirect("/user/login.html");
+                    return;
+                }
 
-            String readLine = bufferedReader.readLine();
-
-            if(!"".equals(readLine)) httpRequestList.add(readLine);
-
-            // bufferedReader.readLine() 첫번째 라인에 url 주소가 있음
-            String url = readLine.split(" ")[1];
-            if(url.isEmpty()){
-                return;
-            }
-
-            // 모든 정보 리스트에 넣기
-            while(!"".equals(readLine)){
-                readLine = bufferedReader.readLine();
-                if(!"".equals(readLine)) httpRequestList.add(readLine);
-            }
-
-            // 모든 요청정보 추출
-            httpRequestList.forEach(System.out::println);
-
-            // contentType 추출
-            String contentType = IOUtils.getContentType(httpRequestList);
-            if(contentType.isEmpty()){
-                return;
-            }
-
-            // 컨텐츠 길이 추출
-            int contentLength = IOUtils.getContentLength(httpRequestList);
-
-            Map<String, String> params = new HashMap<>();
-
-            // 회원 가입 url
-            if(url.startsWith("/user/create")){
-                // post 요청
-                // content body 제일 마지막에 넘어온 query string 읽기
-                String queryString = IOUtils.readData(bufferedReader, contentLength);
-                params = HttpRequestUtils.parseQueryString(queryString);
-                // 회원생성
-                User user = new User(params.get("userId"),params.get("password"),params.get("name"),params.get("email"));
-                System.out.println(user.toString());
-
-                // redirect 필요...
-                url = "/index.html";
-                DataOutputStream dos = new DataOutputStream(out);
-                response302Header(dos, url);
+                Collection<User> users = DataBase.findAll();
+                StringBuilder sb = new StringBuilder();
+                sb.append("<table border='1'>");
+                for (User user : users) {
+                    sb.append("<tr>");
+                    sb.append("<td>" + user.getUserId() + "</td>");
+                    sb.append("<td>" + user.getName() + "</td>");
+                    sb.append("<td>" + user.getEmail() + "</td>");
+                    sb.append("</tr>");
+                }
+                sb.append("</table>");
+                response.forwardBody(sb.toString());
             } else {
-                DataOutputStream dos = new DataOutputStream(out);
-                byte[] body = Files.readAllBytes(new File("./webapp"+url).toPath());
-                response200Header(dos, body.length, contentType);
-                responseBody(dos, body);
+                response.forward(path);
             }
         } catch (IOException e) {
-            e.getStackTrace();
+            log.error(e.getMessage());
         }
     }
 
-    private void response200Header(DataOutputStream dos, int lengthOfBodyContent, String contentType) {
-        try {
-            dos.writeBytes("HTTP/1.1 200 OK \r\n");
-            dos.writeBytes("Content-Type: "+contentType+";charset=utf-8\r\n");
-            dos.writeBytes("Content-Length: " + lengthOfBodyContent + "\r\n");
-            dos.writeBytes("\r\n");
-        } catch (IOException e) {
-            e.getStackTrace();
+    private boolean isLogin(String cookieValue) {
+        Map<String, String> cookies = HttpRequestUtils.parseCookies(cookieValue);
+        String value = cookies.get("logined");
+        if (value == null) {
+            return false;
         }
+        return Boolean.parseBoolean(value);
     }
 
-    private void response302Header(DataOutputStream dos, String url) {
-        try {
-            dos.writeBytes("HTTP/1.1 302 OK \r\n");
-            dos.writeBytes("Location: " + url + "\r\n");
-            dos.writeBytes("\r\n");
-        } catch (IOException e) {
-            e.getStackTrace();
+    private String getDefaultPath(String path) {
+        if (path.equals("/")) {
+            return "/index.html";
         }
-    }
-
-    private void responseBody(DataOutputStream dos, byte[] body) {
-        try {
-            dos.write(body, 0, body.length);
-            dos.flush();
-        } catch (IOException e) {
-            e.getStackTrace();
-        }
+        return path;
     }
 }
