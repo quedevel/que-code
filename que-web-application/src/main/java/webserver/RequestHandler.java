@@ -1,5 +1,6 @@
 package webserver;
 
+import constants.CommonConstants;
 import http.HttpRequest;
 import http.HttpResponse;
 
@@ -41,22 +42,22 @@ public class RequestHandler extends Thread {
                         request.getParameter("name"), request.getParameter("email"));
                 log.debug("user : {}", user);
                 DataBase.addUser(user);
-                response.sendRedirect("/index.html");
+                response.sendRedirect(CommonConstants.INDEX_URL);
             } else if ("/user/login".equals(path)) {
                 User user = DataBase.findUserById(request.getParameter("userId"));
                 if (user != null) {
                     if (user.login(request.getParameter("password"))) {
-                        response.addHeader("Set-Cookie", "logined=true; Path=/");
-                        response.sendRedirect("/index.html");
+                        response.addHeader("Set-Cookie", "isLogined=true; Path=/");
+                        response.sendRedirect(CommonConstants.INDEX_URL);
                     } else {
-                        response.sendRedirect("/user/login_failed.html");
+                        response.sendRedirect(CommonConstants.LOGIN_FAIL_URL);
                     }
                 } else {
-                    response.sendRedirect("/user/login_failed.html");
+                    response.sendRedirect(CommonConstants.LOGIN_FAIL_URL);
                 }
             } else if ("/user/list".equals(path)) {
                 if (!isLogin(request.getHeader("Cookie"))) {
-                    response.sendRedirect("/user/login.html");
+                    response.sendRedirect(CommonConstants.LOGIN_URL);
                     return;
                 }
 
@@ -82,7 +83,7 @@ public class RequestHandler extends Thread {
 
     private boolean isLogin(String cookieValue) {
         Map<String, String> cookies = HttpRequestUtils.parseCookies(cookieValue);
-        String value = cookies.get("logined");
+        String value = cookies.get("isLogined");
         if (value == null) {
             return false;
         }
@@ -91,7 +92,7 @@ public class RequestHandler extends Thread {
 
     private String getDefaultPath(String path) {
         if (path.equals("/")) {
-            return "/index.html";
+            return CommonConstants.INDEX_URL;
         }
         return path;
     }
