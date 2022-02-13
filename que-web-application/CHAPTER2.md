@@ -37,7 +37,7 @@ Connection: keep-alive
     .
     .
 Accept-Language: ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7
-Cookie: isLogin=true
+Cookie: isLogined=true
 ```
 
 1. HttpMethod : 메소드 유형 enum 클래스
