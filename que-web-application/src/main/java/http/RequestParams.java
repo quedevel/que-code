@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import util.HttpRequestUtils;
 
 public class RequestParams {
+
     private static final Logger log = LoggerFactory.getLogger(RequestParams.class);
 
     private Map<String, String> params = new HashMap<>();
