@@ -29,8 +29,7 @@ public class RequestHandler extends Thread {
     }
 
     public void run() {
-        log.debug("New Client Connect! Connected IP : {}, Port : {}", connection.getInetAddress(),
-                connection.getPort());
+        log.debug("New Client Connect! Connected IP : {}, Port : {}", connection.getInetAddress(), connection.getPort());
 
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
             HttpRequest request = new HttpRequest(in);
@@ -38,8 +37,10 @@ public class RequestHandler extends Thread {
             String path = getDefaultPath(request.getPath());
 
             if ("/user/create".equals(path)) {
-                User user = new User(request.getParameter("userId"), request.getParameter("password"),
-                        request.getParameter("name"), request.getParameter("email"));
+                User user = new User(request.getParameter("userId"),
+                                request.getParameter("password"),
+                                request.getParameter("name"),
+                                request.getParameter("email"));
                 log.debug("user : {}", user);
                 DataBase.addUser(user);
                 response.sendRedirect(CommonConstants.INDEX_URL);
@@ -61,6 +62,7 @@ public class RequestHandler extends Thread {
                     return;
                 }
 
+                // 사용자 정보 리스트
                 Collection<User> users = DataBase.findAll();
                 StringBuilder sb = new StringBuilder();
                 sb.append("<table border='1'>");

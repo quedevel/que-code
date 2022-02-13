@@ -23,10 +23,10 @@ public class HttpRequest {
     public HttpRequest(InputStream is) {
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-            requestLine = new RequestLine(createRequestLine(br));
-            requestParams.addQueryString(requestLine.getQueryString());
-            headers = processHeaders(br);
-            requestParams.addBody(IOUtils.readData(br, headers.getContentLength()));
+            requestLine = new RequestLine(createRequestLine(br)); // 메소드 유형, url, queryString 추출
+            requestParams.addQueryString(requestLine.getQueryString()); // queryString to map
+            headers = processHeaders(br); // header값 map 형식으로 생성
+            requestParams.addBody(IOUtils.readData(br, headers.getContentLength())); // post로 데이터 보낼때
         } catch (IOException e) {
             log.error(e.getMessage());
         }

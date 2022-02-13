@@ -25,6 +25,7 @@ public class RequestParams {
             return;
         }
 
+        // queryString to map
         params.putAll(HttpRequestUtils.parseQueryString(data));
         log.debug("params : {}", params);
     }

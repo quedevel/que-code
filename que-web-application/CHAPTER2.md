@@ -60,12 +60,15 @@ public class RequestLine {
 
     public RequestLine(String requestLine) {
         log.debug("request line : {}", requestLine);
+        // GET /user/create?userId=quedevel&password=1q2w3e4r&name=leo HTTP/1.1
         String[] tokens = requestLine.split(" ");
-        this.method = HttpMethod.valueOf(tokens[0]);
+
+        this.method = HttpMethod.valueOf(tokens[0]); // 메소드 유형 enum
 
         String[] url = tokens[1].split("\\?");
-        this.path = url[0];
+        this.path = url[0]; // url로 변수 초기화
 
+        // queryString이 없다면 url.length == 1
         if (url.length == 2) {
             this.queryString = url[1];
         }
@@ -103,6 +106,7 @@ public class RequestParams {
             return;
         }
 
+        // queryString to map
         params.putAll(HttpRequestUtils.parseQueryString(data));
         log.debug("params : {}", params);
     }
@@ -128,6 +132,10 @@ public class HttpHeaders {
 
     void add(String header) {
         log.debug("header : {}", header);
+        // Connection: keep-alive
+        // Content-Length: 38
+        // Cache-Control: max-age=0
+        // header값 담아주기
         String[] splitedHeaders = header.split(":");
         headers.put(splitedHeaders[0], splitedHeaders[1].trim());
     }
@@ -161,10 +169,10 @@ public class HttpRequest {
     public HttpRequest(InputStream is) {
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-            requestLine = new RequestLine(createRequestLine(br));
-            requestParams.addQueryString(requestLine.getQueryString());
-            headers = processHeaders(br);
-            requestParams.addBody(IOUtils.readData(br, headers.getContentLength()));
+            requestLine = new RequestLine(createRequestLine(br)); // 메소드 유형, url, queryString 추출
+            requestParams.addQueryString(requestLine.getQueryString()); // queryString to map
+            headers = processHeaders(br); // header값 map 형식으로 생성
+            requestParams.addBody(IOUtils.readData(br, headers.getContentLength())); // post로 데이터 보낼때
         } catch (IOException e) {
             log.error(e.getMessage());
         }
@@ -222,6 +230,10 @@ public class HttpResponse {
         headers.put(key, value);
     }
 
+    /**
+     * content-type 별로 forward 보내기
+     * @param url
+     */
     public void forward(String url) {
         try {
             byte[] body = Files.readAllBytes(new File("./webapp" + url).toPath());
@@ -268,6 +280,10 @@ public class HttpResponse {
         }
     }
 
+    /**
+     * 302상태값을 통해 redirect 보내기
+     * @param redirectUrl
+     */
     public void sendRedirect(String redirectUrl) {
         try {
             dos.writeBytes("HTTP/1.1 302 Found \r\n");
@@ -295,8 +311,7 @@ public class HttpResponse {
 7. 리팩토링 후 RequestHandler의 run() 함수 수정
 ```java
     public void run() {
-        log.debug("New Client Connect! Connected IP : {}, Port : {}", connection.getInetAddress(),
-                connection.getPort());
+        log.debug("New Client Connect! Connected IP : {}, Port : {}", connection.getInetAddress(), connection.getPort());
 
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
             HttpRequest request = new HttpRequest(in);
@@ -304,8 +319,10 @@ public class HttpResponse {
             String path = getDefaultPath(request.getPath());
 
             if ("/user/create".equals(path)) {
-                User user = new User(request.getParameter("userId"), request.getParameter("password"),
-                        request.getParameter("name"), request.getParameter("email"));
+                User user = new User(request.getParameter("userId"),
+                                request.getParameter("password"),
+                                request.getParameter("name"),
+                                request.getParameter("email"));
                 log.debug("user : {}", user);
                 DataBase.addUser(user);
                 response.sendRedirect(CommonConstants.INDEX_URL);
@@ -327,6 +344,7 @@ public class HttpResponse {
                     return;
                 }
 
+                // 사용자 정보 리스트
                 Collection<User> users = DataBase.findAll();
                 StringBuilder sb = new StringBuilder();
                 sb.append("<table border='1'>");

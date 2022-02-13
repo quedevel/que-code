@@ -16,6 +16,10 @@ public class HttpHeaders {
 
     void add(String header) {
         log.debug("header : {}", header);
+        // Connection: keep-alive
+        // Content-Length: 38
+        // Cache-Control: max-age=0
+        // header값 담아주기
         String[] splitedHeaders = header.split(":");
         headers.put(splitedHeaders[0], splitedHeaders[1].trim());
     }

@@ -28,6 +28,10 @@ public class HttpResponse {
         headers.put(key, value);
     }
 
+    /**
+     * content-type 별로 forward 보내기
+     * @param url
+     */
     public void forward(String url) {
         try {
             byte[] body = Files.readAllBytes(new File("./webapp" + url).toPath());
@@ -74,6 +78,10 @@ public class HttpResponse {
         }
     }
 
+    /**
+     * 302상태값을 통해 redirect 보내기
+     * @param redirectUrl
+     */
     public void sendRedirect(String redirectUrl) {
         try {
             dos.writeBytes("HTTP/1.1 302 Found \r\n");
