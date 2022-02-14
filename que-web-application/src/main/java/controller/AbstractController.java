@@ -4,6 +4,9 @@ import http.HttpMethod;
 import http.HttpRequest;
 import http.HttpResponse;
 
+/**
+ * HttpServlet 역할
+ */
 public abstract class AbstractController implements Controller{
 
     @Override

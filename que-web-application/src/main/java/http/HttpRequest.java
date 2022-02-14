@@ -10,6 +10,9 @@ import org.slf4j.LoggerFactory;
 
 import util.IOUtils;
 
+/**
+ * HttpServletRequest 역할
+ */
 public class HttpRequest {
 
     private static final Logger log = LoggerFactory.getLogger(HttpRequest.class);
