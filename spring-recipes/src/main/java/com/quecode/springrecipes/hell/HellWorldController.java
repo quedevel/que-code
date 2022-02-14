@@ -1,14 +1,38 @@
 package com.quecode.springrecipes.hell;
 
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.concurrent.Callable;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ThreadLocalRandom;
 
 @RestController
 public class HellWorldController {
 
-    @GetMapping("/hell")
-    public String hell(){
-        return "Hell World, from Spring Boot 2!";
+    private final TaskExecutor taskExecutor;
+
+    public HellWorldController(TaskExecutor taskExecutor) {
+        this.taskExecutor = taskExecutor;
+    }
+
+    // 스프링 MVC 비동기
+
+    @GetMapping("/")
+    public CompletableFuture<String> hell(){
+        return CompletableFuture.supplyAsync(() -> {
+            randomDelay();
+            return "Hell World, from Spring Boot 2!";
+        }, taskExecutor);
+    }
+
+    private void randomDelay() {
+        try {
+            Thread.sleep(ThreadLocalRandom.current().nextInt(5000));
+        } catch (InterruptedException e){
+            Thread.currentThread().interrupt();
+        }
     }
 }
 /*
