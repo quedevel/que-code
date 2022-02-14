@@ -1,6 +1,7 @@
 package webserver;
 
 import constants.CommonConstants;
+import controller.Controller;
 import http.HttpRequest;
 import http.HttpResponse;
 
@@ -36,96 +37,23 @@ public class RequestHandler extends Thread {
             HttpResponse response = new HttpResponse(out);
             String path = getDefaultPath(request.getPath());
 
-            if ("/user/create".equals(path)) {
-                this.createUser(request, response);
-            } else if ("/user/login".equals(path)) {
-                this.login(request, response);
-            } else if ("/user/list".equals(path)) {
-                this.listUser(request, response);
+            Controller controller = RequestMapping.getController(path);
+
+            // 매핑된 컨트롤러 여부 확인
+            if (controller != null) {
+                controller.service(request, response);
             } else {
                 response.forward(path);
             }
+
         } catch (IOException e) {
             log.error(e.getMessage());
         }
     }
 
-    /**
-     * 사용자 목록
-     * @param request
-     * @param response
-     */
-    private void listUser(HttpRequest request, HttpResponse response) {
-        if (!isLogin(request.getHeader("Cookie"))) {
-            response.sendRedirect(CommonConstants.LOGIN_URL);
-            return;
-        }
-
-        // 사용자 정보 리스트
-        Collection<User> users = DataBase.findAll();
-        StringBuilder sb = new StringBuilder();
-        sb.append("<table border='1'>");
-        for (User user : users) {
-            sb.append("<tr>");
-            sb.append("<td>" + user.getUserId() + "</td>");
-            sb.append("<td>" + user.getName() + "</td>");
-            sb.append("<td>" + user.getEmail() + "</td>");
-            sb.append("</tr>");
-        }
-        sb.append("</table>");
-        response.forwardBody(sb.toString());
-    }
 
     /**
-     * 로그인 처리
-     * @param request
-     * @param response
-     */
-    private void login(HttpRequest request, HttpResponse response) {
-        User user = DataBase.findUserById(request.getParameter("userId"));
-        if (user != null) {
-            if (user.login(request.getParameter("password"))) {
-                response.addHeader("Set-Cookie", "isLogined=true; Path=/");
-                response.sendRedirect(CommonConstants.INDEX_URL);
-            } else {
-                response.sendRedirect(CommonConstants.LOGIN_FAIL_URL);
-            }
-        } else {
-            response.sendRedirect(CommonConstants.LOGIN_FAIL_URL);
-        }
-    }
-
-    /**
-     * 회원 가입
-     * @param request
-     * @param response
-     */
-    private void createUser(HttpRequest request, HttpResponse response) {
-        User user = new User(request.getParameter("userId"),
-                request.getParameter("password"),
-                request.getParameter("name"),
-                request.getParameter("email"));
-        log.debug("user : {}", user);
-        DataBase.addUser(user);
-        response.sendRedirect(CommonConstants.INDEX_URL);
-    }
-
-    /**
-     * 로그인 여부
-     * @param cookieValue
-     * @return boolean
-     */
-    private boolean isLogin(String cookieValue) {
-        Map<String, String> cookies = HttpRequestUtils.parseCookies(cookieValue);
-        String value = cookies.get("isLogined");
-        if (value == null) {
-            return false;
-        }
-        return Boolean.parseBoolean(value);
-    }
-
-    /**
-     * /index.html
+     * default url
      * @param path
      * @return
      */
