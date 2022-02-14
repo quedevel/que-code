@@ -46,5 +46,10 @@ app.post('/add', (req, res) => {
 })
 
 app.get('/list', function(req, res){
-    res.render('list.ejs')
+
+    // 데이터 모두 찾기
+    db.collection('post').find().toArray(function(error, result){
+        console.log(result);
+        res.render('list.ejs', {posts : result});
+    });
 })
