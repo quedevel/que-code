@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({extended : true}))
 
 const MongoClient = require('mongodb').MongoClient;
+app.set('view engine', 'ejs');
 
 var db;
 
@@ -14,8 +15,6 @@ MongoClient.connect('mongodb+srv://quedevel:??@cluster0.mor3l.mongodb.net/myFirs
         }
 
         db = client.db('todoapp');
-
-        
 
         app.listen(8080, () => {
             console.log('listening on 8080')    
@@ -41,8 +40,11 @@ app.get('/write', (req, res) => {
 
 app.post('/add', (req, res) => {
     res.send('post success....')
-    console.log(req.body)
-    db.collection('post').insertOne({_id : 10, data: req.body}, function(err, result){
+    db.collection('post').insertOne({_id : 11, data: req.body}, function(err, result){
         console.log('저장완료!')
     })
+})
+
+app.get('/list', function(req, res){
+    res.render('list.ejs')
 })
