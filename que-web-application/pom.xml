@@ -36,6 +36,7 @@
         </dependency>
 
     </dependencies>
+
     <build>
         <finalName>web-application-server</finalName>
         <sourceDirectory>src/main/java</sourceDirectory>
