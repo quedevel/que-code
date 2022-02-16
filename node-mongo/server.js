@@ -40,7 +40,6 @@ app.get('/write', (req, res) => {
 
 app.post('/add', (req, res) => {
     
-
     db.collection('counter').findOne({name : 'board'}, (err, result)=>{
         console.log("result.totalPost : "+result.totalPost);
         var totalPost = result.totalPost
@@ -55,7 +54,6 @@ app.post('/add', (req, res) => {
         })
 
     })
-    
 })
 
 app.get('/list', function(req, res){
@@ -67,5 +65,8 @@ app.get('/list', function(req, res){
 })
 
 app.delete('/delete', (req, res)=> {
-    db.collection('post').deleteOne({_id : Number.parseInt(req.body._id)}, (err, result) => { if(err) return console.log(err) });
+    db.collection('post').deleteOne({_id : Number.parseInt(req.body._id)}, (err, result) => {
+        if(err) return console.log(err)
+        res.status(200).send({message : '삭제에 성공했습니다.'});
+    });
 })

@@ -51,14 +51,13 @@
           $.ajax({
             method : 'DELETE',
             url : '/delete',
-            data : { _id : $(this).val() },
-            success : function(result){
-              console.log("삭제 버튼 클릭")
-              console.log($self);
-              $self.parent().remove();
-            }
+            data : { _id : $(this).val() }
           }).done(function(result){
-            
+            console.log('done....')
+            alert(result.message);
+            $self.parent().remove();
+          }).fail(function(){
+            console.log('fail....')
           })
         })
       })
