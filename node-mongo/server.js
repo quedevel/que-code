@@ -40,16 +40,21 @@ app.get('/write', (req, res) => {
 
 app.post('/add', (req, res) => {
     res.send('post success....')
-    db.collection('post').insertOne({_id : 11, data: req.body}, function(err, result){
-        console.log('저장완료!')
+
+    db.collection('counter').findOne({name : '게시물갯수'}, (err, result)=>{
+        
+        db.collection('post').insertOne({_id : result.totalPost+1, data: req.body}, function(err, result){
+            console.log('저장완료!')
+        })
+
     })
+    
 })
 
 app.get('/list', function(req, res){
 
     // 데이터 모두 찾기
     db.collection('post').find().toArray(function(error, result){
-        console.log(result);
         res.render('list.ejs', {posts : result});
     });
 })
