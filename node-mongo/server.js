@@ -39,7 +39,7 @@ app.get('/write', (req, res) => {
 })
 
 app.post('/add', (req, res) => {
-    res.send('post success....')
+    
 
     db.collection('counter').findOne({name : 'board'}, (err, result)=>{
         console.log("result.totalPost : "+result.totalPost);
@@ -50,6 +50,7 @@ app.post('/add', (req, res) => {
             db.collection('counter').updateOne({name : 'board'},{ $inc : { totalPost: 1 } },(err, result)=>{
                 if(err) return console.log(err);
                 console.log("총갯수 +1 성공")
+                res.redirect('/list');
             })
         })
 
@@ -66,5 +67,5 @@ app.get('/list', function(req, res){
 })
 
 app.delete('/delete', (req, res)=> {
-    console.log(req.body);
+    db.collection('post').deleteOne({_id : Number.parseInt(req.body._id)}, (err, result) => { if(err) return console.log(err) });
 })
