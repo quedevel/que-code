@@ -41,10 +41,16 @@ app.get('/write', (req, res) => {
 app.post('/add', (req, res) => {
     res.send('post success....')
 
-    db.collection('counter').findOne({name : '게시물갯수'}, (err, result)=>{
+    db.collection('counter').findOne({name : 'board'}, (err, result)=>{
+        console.log("result.totalPost : "+result.totalPost);
+        var totalPost = result.totalPost
         
-        db.collection('post').insertOne({_id : result.totalPost+1, data: req.body}, function(err, result){
+        db.collection('post').insertOne({_id : totalPost+1, data: req.body}, (err, result) => {
             console.log('저장완료!')
+            db.collection('counter').updateOne({name : 'board'},{ $inc : { totalPost: 1 } },(err, result)=>{
+                if(err) return console.log(err);
+                console.log("총갯수 +1 성공")
+            })
         })
 
     })
@@ -54,7 +60,7 @@ app.post('/add', (req, res) => {
 app.get('/list', function(req, res){
 
     // 데이터 모두 찾기
-    db.collection('post').find().toArray(function(error, result){
+    db.collection('post').find().toArray((error, result)=>{
         res.render('list.ejs', {posts : result});
     });
 })
