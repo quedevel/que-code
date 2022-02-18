@@ -59,7 +59,6 @@ app.post('/add', (req, res) => {
 })
 
 app.get('/list', function(req, res){
-
     // 데이터 모두 찾기
     db.collection('post').find().toArray((error, result)=>{
         res.render('list.ejs', {posts : result});
@@ -68,10 +67,16 @@ app.get('/list', function(req, res){
 
 // URL parameter
 app.get('/detail/:id', function(req, res){
-    console.log(Number.parseInt(req.params.id))
     db.collection('post').findOne({_id : Number.parseInt(req.params.id)}, (error, result) => {
         console.log(result)
         res.render('detail.ejs', { board : result });
+    })
+})
+
+app.get('/edit/:id', function(req, res){
+    db.collection('post').findOne({_id : Number.parseInt(req.params.id)}, (error, result) => {
+        console.log(result)
+        res.render('edit.ejs', { board : result });
     })
 })
 
