@@ -6,6 +6,11 @@ app.use(bodyParser.urlencoded({extended : true}))
 app.use('/public', express.static('public'))
 
 const MongoClient = require('mongodb').MongoClient;
+
+const methodOverride = require('method-override');
+
+app.use(methodOverride('_method'))
+
 app.set('view engine', 'ejs');
 
 var db;
