@@ -3,6 +3,8 @@ const app = express()
 const bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({extended : true}))
 
+app.use('/public', express.static('public'))
+
 const MongoClient = require('mongodb').MongoClient;
 app.set('view engine', 'ejs');
 
@@ -31,11 +33,11 @@ app.get('/beauty', (req, res) => {
 })
 
 app.get('/', (req, res) => {
-    res.sendFile(__dirname+'/index.html')
+    res.render('index.ejs')
 })
 
 app.get('/write', (req, res) => { 
-    res.sendFile(__dirname +'/write.html')
+    res.render('write.ejs')
 })
 
 app.post('/add', (req, res) => {
