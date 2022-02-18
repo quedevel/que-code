@@ -64,6 +64,16 @@ app.get('/list', function(req, res){
     });
 })
 
+// URL parameter
+app.get('/detail/:id', function(req, res){
+    console.log(Number.parseInt(req.params.id))
+    db.collection('post').findOne({_id : Number.parseInt(req.params.id)}, (error, result) => {
+        console.log(result)
+        res.render('detail.ejs', { board : result });
+    })
+})
+
+
 app.delete('/delete', (req, res)=> {
     db.collection('post').deleteOne({_id : Number.parseInt(req.body._id)}, (err, result) => {
         if(err) return console.log(err)
