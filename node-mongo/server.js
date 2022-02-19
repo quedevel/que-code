@@ -38,7 +38,7 @@ app.get('/beauty', (req, res) => {
 })
 
 app.get('/', (req, res) => {
-    res.render('index.ejs')
+    res.render('list.ejs')
 })
 
 app.get('/write', (req, res) => { 
