@@ -50,18 +50,16 @@ app.get("/write", (req, res) => {
 });
 
 app.post("/add", (req, res) => {
-  db.collection("counter").findOne(
-    {
-      name: "board",
-    },
-    (err, result) => {
-      console.log("result.totalPost : " + result.totalPost);
+  db.collection("counter").findOne( { name: "board"}, (err, result) => {
+
       var totalPost = result.totalPost;
 
       db.collection("post").insertOne(
         {
           _id: totalPost + 1,
-          data: req.body,
+          title: req.body.title,
+          date: req.body.date,
+          content: req.body.content,
         },
         (err, result) => {
           console.log("저장완료!");
@@ -144,11 +142,9 @@ app.put("/edit", (req, res) => {
   var _id = Number.parseInt(req.body._id);
 
   var params = {
-    data: {
       title: req.body.title,
       date: req.body.date,
       content: req.body.content,
-    },
   };
 
   console.log(params);
@@ -253,3 +249,11 @@ function isLogin(req, res, next) {
     res.send("로그인 안했는뎅?");
   }
 }
+
+// URL query string
+app.get('/search', (req, res)=>{
+    console.log(req.query.value)
+    db.collection('post').find({title : req.query.value}).toArray((error, result)=>{
+        console.log(result);
+    })
+})

@@ -18,15 +18,15 @@
             <input name="_id" type="hidden" value="<%= board._id %>" > 
             <div class="form-group">
                 <label>오늘의 할일</label>
-                <input name="title" type="text" class="form-control" value="<%= board.data.title %>">
+                <input name="title" type="text" class="form-control" value="<%= board.title %>">
             </div>
             <div class="form-group">
                 <label>날짜</label>
-                <input name="date" type='date' id='currentDate' class="form-control" value="<%= board.data.date %>"/>
+                <input name="date" type='date' id='currentDate' class="form-control" value="<%= board.date %>"/>
             </div>
             <div class="form-group">
                 <label>내용</label>
-                <input name="content" class="form-control" value="<%= board.data.content %>"></input>
+                <input name="content" class="form-control" value="<%= board.content %>"></input>
             </div>
             <button type="submit" class="btn btn-outline-secondary">Submit</button>
         </form>
