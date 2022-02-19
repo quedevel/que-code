@@ -17,16 +17,18 @@ app.use(methodOverride("_method"));
 
 app.set("view engine", "ejs");
 
+require('dotenv').config()
+
 var db;
 
-MongoClient.connect("mongodb+srv://quedevel:??@cluster0.mor3l.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", function (error, client) {
+MongoClient.connect(process.env.DB_URL, function (error, client) {
   if (error) {
     return console.log(console.log(error));
   }
 
   db = client.db("todoapp");
 
-  app.listen(8080, () => {
+  app.listen(process.env.PORT, () => {
     console.log("listening on 8080");
   });
 });
