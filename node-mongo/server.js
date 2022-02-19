@@ -92,3 +92,16 @@ app.delete('/delete', (req, res)=> {
         res.status(200).send({message : '삭제에 성공했습니다.'});
     });
 })
+
+app.put('/edit',(req, res)=>{
+
+    var _id = Number.parseInt(req.body._id);
+
+    var params = { data : {title : req.body.title, date:req.body.date, content:req.body.content}};
+
+    console.log(params);
+    db.collection('post').updateOne({_id : _id}, {$set : params}, ()=>{
+        console.log('수정완료')
+        res.redirect('/list');
+    })
+})
