@@ -235,7 +235,20 @@ function isLogin(req, res, next) {
 // URL query string
 app.get('/search', (req, res) => {
     console.log(req.query.value)
-    db.collection('post').find({ title: req.query.value }).toArray((error, result) => {
+
+    var searchCondition = [
+        {
+            $search: {
+                index: 'titleSearch',
+                text: {
+                  query: req.query.value,
+                  path: ['title', 'content']
+              }
+            }
+        }
+    ];
+
+    db.collection('post').aggregate(searchCondition).toArray((error, result) => {
         console.log(result);
         res.render("search.ejs", { posts: result });
     })
