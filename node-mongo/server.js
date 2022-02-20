@@ -245,7 +245,8 @@ app.get('/search', (req, res) => {
                   path: ['title', 'content']
               }
             }
-        }
+        },
+        { $sort : { _id : 1 } }
     ];
 
     db.collection('post').aggregate(searchCondition).toArray((error, result) => {
