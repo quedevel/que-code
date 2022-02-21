@@ -254,3 +254,14 @@ app.get('/search', (req, res) => {
         res.render("search.ejs", { posts: result });
     })
 })
+
+app.get('/register', (req, res) => {
+    res.render('register.ejs');
+})
+
+app.post('/register', (req, res)=>{
+    db.collection('login').insertOne({id: req.body.id, pw: req.body.pw}, (error, result)=>{
+        console.log('회원가입 성공');
+        res.redirect('/');
+    })
+})
