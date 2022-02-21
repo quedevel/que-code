@@ -21,7 +21,7 @@ require('dotenv').config()
 
 var db;
 
-MongoClient.connect(process.env.DB_URL, function (error, client) {
+MongoClient.connect(process.env.DB_URL, (error, client) => {
     if (error)  return console.log(console.log(error));
 
     db = client.db("todoapp");
@@ -48,7 +48,7 @@ app.get("/login", (req, res) => {
     res.render("login.ejs");
 });
 
-app.post("/login", passport.authenticate("local", { failureRedirect: "/fail", }), (req, res) => {
+app.post("/login", passport.authenticate("local", { failureRedirect: "/fail" }), (req, res) => {
     res.redirect("/");
 });
 
@@ -60,8 +60,7 @@ passport.use(
             session: true, //  session에 저장
             passReqToCallback: false, // 아이디/비번 말고도 다른 정보 검사
         },
-        function (id, pw, done) {
-            console.log(id, pw);
+        (id, pw, done) => {
             db.collection("login").findOne({ id: id }, (error, result) => {
                 if (error) return done(error);
                 if (!result)
@@ -121,7 +120,7 @@ app.post("/add", isLogin, (req, res) => {
     });
 });
 
-app.get("/list", function (req, res) {
+app.get("/list", (req, res) => {
     // 데이터 모두 찾기
     db.collection("post").find().toArray((error, result) => {
         res.render("list.ejs", { posts: result });
@@ -129,13 +128,13 @@ app.get("/list", function (req, res) {
 });
 
 // URL parameter
-app.get("/detail/:id", function (req, res) {
+app.get("/detail/:id", (req, res) => {
     db.collection("post").findOne( { _id: Number.parseInt(req.params.id) }, (error, result) => {
         res.render("detail.ejs", { board: result });
     });
 });
 
-app.get("/edit/:id", function (req, res) {
+app.get("/edit/:id", (req, res) => {
     let param = {_id: Number.parseInt(req.params.id)}
     db.collection("post").findOne(param, (error, result) => {
         if (error) return console.log(error);
@@ -144,7 +143,6 @@ app.get("/edit/:id", function (req, res) {
 });
 
 app.delete("/delete", (req, res) => {
-    console.log(req.user)
     let param = {_id: Number.parseInt(req.body._id), writer : req.user._id}
     db.collection("post").deleteOne( param , (error, result) => {
         if (error) return console.log(error);
