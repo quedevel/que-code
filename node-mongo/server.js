@@ -60,6 +60,7 @@ app.post("/add", (req, res) => {
                 title: req.body.title,
                 date: req.body.date,
                 content: req.body.content,
+                writer: req.user._id,
             },
             (err, result) => {
                 console.log("저장완료!");
@@ -260,8 +261,15 @@ app.get('/register', (req, res) => {
 })
 
 app.post('/register', (req, res)=>{
-    db.collection('login').insertOne({id: req.body.id, pw: req.body.pw}, (error, result)=>{
-        console.log('회원가입 성공');
-        res.redirect('/');
-    })
+    db.collection('login').findOne({id: req.body.id}, (error, result)=>{
+        if(typeof result === null){
+            db.collection('login').insertOne({id: req.body.id, pw: req.body.pw}, (error, result)=>{
+                console.log('회원가입 성공');
+                res.redirect('/');
+            })
+        } else {
+            console.log('이미 아이디 있어');
+            res.redirect('/register')
+        }
+    }) 
 })
