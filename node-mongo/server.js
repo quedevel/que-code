@@ -209,3 +209,7 @@ app.post('/register', (req, res)=>{
         }
     }) 
 })
+
+//  routes.... 
+app.use('/shop', require('./routes/shop.js') );
+app.use('/board', require('./routes/board.js') );
