@@ -33,6 +33,62 @@ MongoClient.connect(process.env.DB_URL, function (error, client) {
     });
 });
 
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
+const session = require("express-session");
+
+app.use(session({
+    secret: "비밀코드",
+    resave: true,
+    saveUninitialized: false,
+})
+);
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.get("/login", (req, res) => {
+    res.render("login.ejs");
+});
+
+app.post("/login", passport.authenticate("local", { failureRedirect: "/fail", }), (req, res) => {
+    res.redirect("/");
+});
+
+passport.use(
+    new LocalStrategy(
+        {
+            usernameField: "id", // form name
+            passwordField: "pw", // form name
+            session: true, //  session에 저장
+            passReqToCallback: false, // 아이디/비번 말고도 다른 정보 검사
+        },
+        function (id, pw, done) {
+            console.log(id, pw);
+            db.collection("login").findOne({ id: id }, (error, result) => {
+                if (error) return done(error);
+                if (!result)
+                    return done(null, false, { message: "존재하지않는 아이디요" });
+                if (pw == result.pw) {
+                    return done(null, result);
+                } else {
+                    return done(null, false, { message: "비번틀렸어요" });
+                }
+            });
+        })
+);
+
+// 로그인 후 쿠키 방행
+passport.serializeUser((user, done) => {
+    done(null, user.id);
+});
+
+passport.deserializeUser((param, done) => {
+    console.log('param.... :'+param);
+    db.collection('login').findOne({ id: param }, (error, result) => {
+        done(null, result);
+    })
+});
+
 app.get("/pet", (req, res) => {
     res.send("pet....");
 });
@@ -45,15 +101,14 @@ app.get("/", (req, res) => {
     res.redirect("/list");
 });
 
-app.get("/write", (req, res) => {
+app.get("/write", isLogin, (req, res) => {
     res.render("write.ejs");
 });
 
-app.post("/add", (req, res) => {
+app.post("/add", isLogin, (req, res) => {
+    console.log(req.user);
     db.collection("counter").findOne({ name: "board" }, (err, result) => {
-
         var totalPost = result.totalPost;
-
         db.collection("post").insertOne(
             {
                 _id: totalPost + 1,
@@ -148,7 +203,6 @@ app.put("/edit", (req, res) => {
         content: req.body.content,
     };
 
-    console.log(params);
     db.collection("post").updateOne(
         {
             _id: _id,
@@ -163,62 +217,7 @@ app.put("/edit", (req, res) => {
     );
 });
 
-const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
-const session = require("express-session");
 
-app.use(session({
-    secret: "비밀코드",
-    resave: true,
-    saveUninitialized: false,
-})
-);
-app.use(passport.initialize());
-app.use(passport.session());
-
-app.get("/login", (req, res) => {
-    res.render("login.ejs");
-});
-
-app.post("/login", passport.authenticate("local", { failureRedirect: "/fail", }), (req, res) => {
-    res.redirect("/");
-});
-
-passport.use(
-    new LocalStrategy(
-        {
-            usernameField: "id", // form name
-            passwordField: "pw", // form name
-            session: true, //  session에 저장
-            passReqToCallback: false, // 아이디/비번 말고도 다른 정보 검사
-        },
-        function (id, pw, done) {
-            console.log(id, pw);
-            db.collection("login").findOne({ id: id }, (error, result) => {
-                if (error) return done(error);
-                if (!result)
-                    return done(null, false, { message: "존재하지않는 아이디요" });
-                if (pw == result.pw) {
-                    return done(null, result);
-                } else {
-                    return done(null, false, { message: "비번틀렸어요" });
-                }
-            });
-        })
-);
-
-// 로그인 후 쿠키 방행
-passport.serializeUser((user, done) => {
-    done(null, user.id);
-});
-
-passport.deserializeUser((id, done) => {
-    // user의 다른 정보를 넣어쥼
-    db.collection('login').findOne({ id: id }, (error, result) => {
-        done(null, result);
-    })
-
-});
 
 app.get("/mypage", isLogin, (req, res) => {
     console.log(req.user)
