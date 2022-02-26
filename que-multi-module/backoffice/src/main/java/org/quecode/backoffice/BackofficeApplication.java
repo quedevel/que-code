@@ -1,4 +1,4 @@
-package org.quecode;
+package org.quecode.backoffice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
