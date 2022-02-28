@@ -13,4 +13,11 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
      * @return Optional<Member>
      */
     Optional<Member> findByMbrId(String mbrId);
+
+    /**
+     * 아이디로 회원 삭제
+     * @param mbrId
+     */
+    void deleteByMbrId(String mbrId);
+
 }

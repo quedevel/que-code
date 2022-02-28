@@ -18,5 +18,11 @@ public interface MemberService {
      */
     Member findMemberById(String mbrId);
 
+    /**
+     * 아이디로 회원 삭제
+     * @param mbrId
+     */
+    void deleteMemberById(String mbrId);
+
 
 }
