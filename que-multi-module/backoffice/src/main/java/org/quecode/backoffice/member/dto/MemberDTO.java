@@ -3,6 +3,7 @@ package org.quecode.backoffice.member.dto;
 import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
+import org.quecode.backoffice.member.entity.Member;
 
 @ToString
 @Data
@@ -16,4 +17,13 @@ public class MemberDTO {
     private String mbrPw;
 
     private String mbrNm;
+
+    public Member toEntity(){
+        return Member.builder()
+                .mbrSn(mbrSn)
+                .mbrId(mbrId)
+                .mbrPw(mbrPw)
+                .mbrNm(mbrNm)
+                .build();
+    }
 }

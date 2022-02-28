@@ -1,7 +1,6 @@
 package org.quecode.backoffice.member.service;
 
 import lombok.RequiredArgsConstructor;
-import org.quecode.backoffice.common.mapper.CustomModelMapper;
 import org.quecode.backoffice.member.entity.Member;
 import org.quecode.backoffice.member.dto.MemberDTO;
 import org.quecode.backoffice.member.repository.MemberRepository;
@@ -19,23 +18,23 @@ public class MemberServiceImpl implements MemberService {
     /**
      * 회원가입
      * @param memberDTO
+     * @return Member
      */
     @Override
-    public void join(MemberDTO memberDTO) {
-        CustomModelMapper modelMapper = new CustomModelMapper();
-        Member member = modelMapper.map(memberDTO, Member.class);
-        memberRepository.save(member);
+    public Member join(MemberDTO memberDTO) {
+        return memberRepository.save(memberDTO.toEntity());
     }
 
     /**
      * 아이디로 회원 찾기
      * @param mbrId
-     * @return Optional<Member>
+     * @return Member
      */
-    public Optional<Member> findMemberById(String mbrId) {
+    public Member findMemberById(String mbrId) {
         if(StringUtils.hasLength(mbrId)){
-            return memberRepository.findByMbrId(mbrId);
+            Optional<Member> memberOptional = memberRepository.findByMbrId(mbrId);
+            if(memberOptional.isPresent()) return memberOptional.get();
         }
-        return Optional.empty();
+        return null;
     }
 }

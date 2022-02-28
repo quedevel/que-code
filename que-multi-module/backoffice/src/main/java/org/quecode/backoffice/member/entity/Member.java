@@ -1,10 +1,8 @@
 package org.quecode.backoffice.member.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.quecode.backoffice.common.entity.BaseEntity;
+import org.quecode.backoffice.member.dto.MemberDTO;
 
 import javax.persistence.*;
 
@@ -13,7 +11,7 @@ import javax.persistence.*;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "M_MEMBER", uniqueConstraints = {@UniqueConstraint(name = "MBR_ID_UNIQUE", columnNames = {"MBR_ID"})})
+@Table(name = "M_MEMBER")
 @Entity
 public class Member extends BaseEntity {
 
@@ -21,9 +19,19 @@ public class Member extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long mbrSn;
 
+    @Column(unique = true)
     private String mbrId;
 
     private String mbrPw;
 
     private String mbrNm;
+
+    public MemberDTO toDTO(){
+        return MemberDTO.builder()
+                .mbrSn(mbrSn)
+                .mbrId(mbrId)
+                .mbrPw(mbrPw)
+                .mbrNm(mbrNm)
+                .build();
+    }
 }
