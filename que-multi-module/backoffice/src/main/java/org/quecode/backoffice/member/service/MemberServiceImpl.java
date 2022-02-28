@@ -2,7 +2,7 @@ package org.quecode.backoffice.member.service;
 
 import lombok.RequiredArgsConstructor;
 import org.quecode.backoffice.member.entity.Member;
-import org.quecode.backoffice.member.payload.MemberPayload;
+import org.quecode.backoffice.member.dto.MemberDTO;
 import org.quecode.backoffice.member.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ public class MemberServiceImpl implements MemberService {
      * @param payload
      */
     @Override
-    public void join(MemberPayload payload) {
+    public void join(MemberDTO payload) {
 
     }
 

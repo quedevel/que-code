@@ -1,4 +1,4 @@
-package org.quecode.backoffice.member.payload;
+package org.quecode.backoffice.member.dto;
 
 import lombok.Builder;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.ToString;
 @ToString
 @Data
 @Builder
-public class MemberPayload {
+public class MemberDTO {
 
     private Long mbrSn;
 
