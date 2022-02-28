@@ -2,6 +2,7 @@ package org.quecode.backoffice.member;
 
 import static org.assertj.core.api.Assertions.*;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.quecode.backoffice.member.dto.MemberDTO;
@@ -15,6 +16,12 @@ public class MemberTest {
 
     @Autowired
     private MemberService memberService;
+
+    @BeforeEach
+    void deleteTestMember(){
+        String mbrId = "test123";
+        memberService.deleteMemberById(mbrId);
+    }
 
     @Test
     @DisplayName("회원 가입 테스트")
