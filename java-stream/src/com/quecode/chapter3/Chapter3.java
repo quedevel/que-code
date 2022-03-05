@@ -2,6 +2,7 @@ package com.quecode.chapter3;
 
 import com.quecode.chapter3.util.Adder;
 
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 /**
@@ -34,12 +35,24 @@ public class Chapter3 {
          *  매개변수가 하나일 경우 괄호 생략 가능
          *  바로 리턴하는 경우 중괄호 생략 가능
          */
-        Function<Integer, Integer> adder2 = i -> i + 10;
+        Function<Integer, Integer> adder2 = i -> i+10;
 
         int result2 = adder2.apply(1);
 
         System.out.println("> 3.2 Lambda Expression ( Anonymous function )");
         System.out.println("result2 = " + result2);
+        System.out.println("");
+        System.out.println("");
+
+        /**
+         * 3.3 BiFunction Interface
+         *  매개변수가 두 개일 때
+         */
+        BiFunction<Integer, Integer, Integer> adder3 = (x, y) -> x+y;
+        int result3 = adder3.apply(3,4);
+
+        System.out.println("> 3.3 BiFunction Interface");
+        System.out.println("result3 = " + result3);
         System.out.println("");
         System.out.println("");
 
