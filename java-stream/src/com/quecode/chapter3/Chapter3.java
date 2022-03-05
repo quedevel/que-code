@@ -7,19 +7,41 @@ import java.util.function.Function;
 /**
  *
  * 3.1 Function Interface
- * 3.2 Lambda
+ * 3.2 Lambda Expression ( Anonymous function )
  * 3.3 BiFunction Interface
  * 3.4 Functional Interface
- * 
+ *
  */
 public class Chapter3 {
 
     public static void main(String[] args) {
 
+        /**
+         * 3.1 Function Interface
+         */
         Function<Integer, Integer> adder = new Adder();
 
         int result = adder.apply(1);
 
-        System.out.println(result);
+        System.out.println("> 3.1 Function Interface");
+        System.out.println("result = " + result);
+        System.out.println("");
+        System.out.println("");
+
+        /**
+         * 3.2 Lambda Expression ( Anonymous function )
+         *  매개변수의 타입이 유추 가능할 경우 타입 생략 가능
+         *  매개변수가 하나일 경우 괄호 생략 가능
+         *  바로 리턴하는 경우 중괄호 생략 가능
+         */
+        Function<Integer, Integer> adder2 = i -> i + 10;
+
+        int result2 = adder2.apply(1);
+
+        System.out.println("> 3.2 Lambda Expression ( Anonymous function )");
+        System.out.println("result2 = " + result2);
+        System.out.println("");
+        System.out.println("");
+
     }
 }
