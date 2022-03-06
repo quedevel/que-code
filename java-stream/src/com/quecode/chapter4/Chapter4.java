@@ -1,5 +1,8 @@
 package com.quecode.chapter4;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
@@ -24,15 +27,30 @@ public class Chapter4 {
 
         printRandomDoubles(doubleSupplier, 5);
 
+        System.out.println();
+        System.out.println();
         /**
          * 4.2 Consumer
          */
+        Consumer<String> stringConsumer = str -> System.out.println(str);
+        stringConsumer.accept("Hell World");
+
+        Consumer<Integer> integerConsumer = x -> System.out.println("Processing Integer " + x);
+        List<Integer> integerList = Arrays.asList(4,2,3);
+
+        process(integerList, integerConsumer);
 
     }
 
     public static void printRandomDoubles(Supplier<Double> randomSupplier, int count){
         for (int i = 0; i < count; i++){
             System.out.println(randomSupplier.get());
+        }
+    }
+
+    public static <T> void process(List<T> inputs, Consumer<T> processor){
+        for (T input : inputs){
+            processor.accept(input);
         }
     }
 }
