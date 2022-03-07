@@ -1,9 +1,11 @@
 package com.quecode.chapter4;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 /**
@@ -57,6 +59,16 @@ public class Chapter4 {
         /**
          * 4.4 Predicate
          */
+        Predicate<Integer> integerPredicate = x -> x>0;
+        System.out.println(integerPredicate.test(2));
+
+        List<Integer> inputs = Arrays.asList(10,-5,-2,0,3);
+        System.out.println("filter(inputs, integerPredicate) = " + filter(inputs, integerPredicate));
+        System.out.println("filter(inputs, integerPredicate.negate()) = " + filter(inputs, integerPredicate.negate()));
+        System.out.println("filter(inputs, integerPredicate.or(x-> x==0)) = " + filter(inputs, integerPredicate.or(x-> x==0)));
+        System.out.println("filter(inputs, integerPredicate.and(x-> x%2 == 0)) = " + filter(inputs, integerPredicate.and(x-> x%2 == 0)));
+        System.out.println();
+        System.out.println();
     }
 
     public static void printRandomDoubles(Supplier<Double> randomSupplier, int count){
@@ -75,5 +87,15 @@ public class Chapter4 {
         for (int i = 0; i < inputs.size(); i++) {
             processor.accept(i, inputs.get(i));
         }
+    }
+
+    public static <T> List<T> filter(List<T> inputs, Predicate<T> condition){
+        List<T> output = new ArrayList<>();
+        for (T t : inputs) {
+            if(condition.test(t)){
+                output.add(t);
+            }
+        }
+        return output;
     }
 }
