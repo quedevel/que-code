@@ -1,6 +1,11 @@
 package com.quecode.chapter5;
 
+import com.quecode.chapter5.model.User;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.BiFunction;
+import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -37,8 +42,24 @@ public class Chapter5 {
         System.out.println();
 
         /**
-         * 4.1 Method Reference 2
+         * 4.2 Method Reference 2
          */
+        Function<String, Integer> strLength = String::length;
+        int length = strLength.apply("Hell World");
+        System.out.println("length = " + length);
+
+        BiPredicate<String, String> strEquals = String::equals;
+        boolean result = strEquals.test("Hell", "World");
+        System.out.println("result = " + result);
+
+        List<User> users = new ArrayList<>();
+        users.add(new User(3, "Alice"));
+        users.add(new User(1, "Charlie"));
+        users.add(new User(5, "Bob"));
+        printUserField(users, User::getName);
+
+        System.out.println();
+        System.out.println();
     }
 
     public static int calculate(int x, int y, BiFunction<Integer, Integer, Integer> operator){
@@ -55,5 +76,11 @@ public class Chapter5 {
 
     public void myMethod(){
         System.out.println(calculate(10,3,this::subtract));
+    }
+
+    public static void printUserField(List<User> users, Function<User, Object> getter){
+        for (User user : users) {
+            System.out.println(getter.apply(user));
+        }
     }
 }
