@@ -79,11 +79,11 @@ public class Chapter4 {
         users.add(new User(5, "Bob"));
         System.out.println("users = " + users);
         
-        Comparator<User> idComparator = (u1, u2) -> u1.getId() - u2.getId();
+        Comparator<User> idComparator = Comparator.comparingInt(User::getId);
         Collections.sort(users, idComparator);
         System.out.println("users = " + users);
 
-        Collections.sort(users, (u1, u2) -> u1.getName().compareTo(u2.getName()));
+        Collections.sort(users, Comparator.comparing(User::getName));
         System.out.println("users = " + users);
 
     }
