@@ -1,9 +1,15 @@
 package com.quecode.chapter5;
 
-import com.quecode.chapter5.model.User;
+import com.quecode.chapter4.model.User;
+import com.quecode.chapter5.model.Car;
+import com.quecode.chapter5.model.Sedan;
+import com.quecode.chapter5.model.Suv;
+import com.quecode.chapter5.model.Van;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
@@ -60,6 +66,40 @@ public class Chapter5 {
 
         System.out.println();
         System.out.println();
+
+        /**
+         * 4.3 Constructor Reference
+         */
+        User u = new User(1, "Alice");
+        BiFunction<Integer, String, User> userCreator = User::new;
+        User charlie = userCreator.apply(3,"Charlie");
+        System.out.println("charlie = " + charlie);
+
+        Map<String, BiFunction<String,String, Car>> carTypeMap = new HashMap<>();
+        carTypeMap.put("sedan", Sedan::new);
+        carTypeMap.put("suv", Suv::new);
+        carTypeMap.put("van", Van::new);
+
+        String[][] inputs = new String[][]{
+                {"sedan", "Sonata","Hyundai"},
+                {"van", "Sienna","Toyota"},
+                {"sedan", "Model S","Tesla"},
+                {"suv", "Sorento","KIA"}
+        };
+
+        List<Car> carList = new ArrayList<>();
+        for (int i = 0; i < inputs.length; i++) {
+            String[] input = inputs[i];
+            String carType = input[0];
+            String name = input[1];
+            String brand = input[2];
+
+            carList.add(carTypeMap.get(carType).apply(name,brand));
+        }
+
+        for (Car car : carList) {
+            car.drive();
+        }
     }
 
     public static int calculate(int x, int y, BiFunction<Integer, Integer, Integer> operator){
