@@ -1,8 +1,8 @@
 package com.quecode.chapter4;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import com.quecode.chapter4.model.User;
+
+import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -69,6 +69,23 @@ public class Chapter4 {
         System.out.println("filter(inputs, integerPredicate.and(x-> x%2 == 0)) = " + filter(inputs, integerPredicate.and(x-> x%2 == 0)));
         System.out.println();
         System.out.println();
+
+        /**
+         * 4.5 Comparator
+         */
+        List<User> users = new ArrayList<>();
+        users.add(new User(3, "Alice"));
+        users.add(new User(1, "Charlie"));
+        users.add(new User(5, "Bob"));
+        System.out.println("users = " + users);
+        
+        Comparator<User> idComparator = (u1, u2) -> u1.getId() - u2.getId();
+        Collections.sort(users, idComparator);
+        System.out.println("users = " + users);
+
+        Collections.sort(users, (u1, u2) -> u1.getName().compareTo(u2.getName()));
+        System.out.println("users = " + users);
+
     }
 
     public static void printRandomDoubles(Supplier<Double> randomSupplier, int count){
