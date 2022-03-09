@@ -57,26 +57,39 @@ public class Chapter6 {
         User user2 = new User().setId(102).setName("Bob").setVerified(false).setEmailAddress("bob@innotree.com");
         User user3 = new User().setId(103).setName("Charlie").setVerified(false).setEmailAddress("charlie@innotree.com");
 
-        List<User> users = Arrays.asList(user1, user2, user3);
-        List<User> verifiedUsers = users.stream().filter(User::isVerified).collect(Collectors.toList());
+        List<User> verifiedUsers = Arrays.asList(user1, user2, user3).stream().filter(User::isVerified).collect(Collectors.toList());
         System.out.println("검증된 유저");
         verifiedUsers.forEach(System.out::println);
 
-        List<User> unverifiedUsres = users.stream().filter(user -> !user.isVerified()).collect(Collectors.toList());
+        List<User> unverifiedUsres = Arrays.asList(user1, user2, user3).stream().filter(user -> !user.isVerified()).collect(Collectors.toList());
         System.out.println("검증되지 않은 유저");
         unverifiedUsres.forEach(System.out::println);
 
-        Order order1 = new Order().setId(1001).setStatus(Order.OrderStatus.CREATED);
-        Order order2 = new Order().setId(1002).setStatus(Order.OrderStatus.ERROR);
-        Order order3 = new Order().setId(1003).setStatus(Order.OrderStatus.IN_PROGRESS);
-        Order order4 = new Order().setId(1004).setStatus(Order.OrderStatus.PROCESSED);
-        Order order5 = new Order().setId(1005).setStatus(Order.OrderStatus.ERROR);
+        Order order1 = new Order().setId(1001).setStatus(Order.OrderStatus.CREATED).setCreatedByUserId(101);
+        Order order2 = new Order().setId(1002).setStatus(Order.OrderStatus.ERROR).setCreatedByUserId(102);
+        Order order3 = new Order().setId(1003).setStatus(Order.OrderStatus.IN_PROGRESS).setCreatedByUserId(103);
+        Order order4 = new Order().setId(1004).setStatus(Order.OrderStatus.PROCESSED).setCreatedByUserId(104);
+        Order order5 = new Order().setId(1005).setStatus(Order.OrderStatus.ERROR).setCreatedByUserId(105);
 
-        List<Order> orders = Arrays.asList(order1,order2,order3,order4,order5);
-        List<Order> filteredOrders = orders.stream().filter(order -> order.getStatus() == Order.OrderStatus.ERROR).collect(Collectors.toList());
+        List<Order> filteredOrders = Arrays.asList(order1,order2,order3,order4,order5).stream().filter(order -> order.getStatus() == Order.OrderStatus.ERROR).collect(Collectors.toList());
         System.out.println("ERROR 상태인 주문");
         System.out.println("filteredOrders = " + filteredOrders);
+        System.out.println();
+        System.out.println();
 
+        /**
+         * 6.3 Map
+         */
+        List<Integer> integers = Arrays.asList(3,6,-4).stream().map(x -> x * 2).collect(Collectors.toList());
+        System.out.println("integers = " + integers);
 
+        List<String> strings = Arrays.asList(3,6,-4).stream().map(x -> "Number is "+x).collect(Collectors.toList());
+        System.out.println("strings = " + strings);
+
+        List<String> emails = Arrays.asList(user1, user2, user3).stream().map(User::getEmailAddress).collect(Collectors.toList());
+        System.out.println("emails = " + emails);
+
+        List<Long> userIds = Arrays.asList(order1,order2,order3,order4,order5).stream().map(Order::getCreatedByUserId).collect(Collectors.toList());
+        System.out.println("userIds = " + userIds);
     }
 }
