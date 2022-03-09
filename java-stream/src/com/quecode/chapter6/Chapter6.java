@@ -57,11 +57,11 @@ public class Chapter6 {
         User user2 = new User().setId(102).setName("Bob").setVerified(false).setEmailAddress("bob@innotree.com");
         User user3 = new User().setId(103).setName("Charlie").setVerified(false).setEmailAddress("charlie@innotree.com");
 
-        List<User> verifiedUsers = Arrays.asList(user1, user2, user3).stream().filter(User::isVerified).collect(Collectors.toList());
+        List<User> verifiedUsers = Stream.of(user1, user2, user3).filter(User::isVerified).collect(Collectors.toList());
         System.out.println("검증된 유저");
         verifiedUsers.forEach(System.out::println);
 
-        List<User> unverifiedUsres = Arrays.asList(user1, user2, user3).stream().filter(user -> !user.isVerified()).collect(Collectors.toList());
+        List<User> unverifiedUsres = Stream.of(user1, user2, user3).filter(user -> !user.isVerified()).collect(Collectors.toList());
         System.out.println("검증되지 않은 유저");
         unverifiedUsres.forEach(System.out::println);
 
@@ -71,7 +71,7 @@ public class Chapter6 {
         Order order4 = new Order().setId(1004).setStatus(Order.OrderStatus.PROCESSED).setCreatedByUserId(104);
         Order order5 = new Order().setId(1005).setStatus(Order.OrderStatus.ERROR).setCreatedByUserId(105);
 
-        List<Order> filteredOrders = Arrays.asList(order1,order2,order3,order4,order5).stream().filter(order -> order.getStatus() == Order.OrderStatus.ERROR).collect(Collectors.toList());
+        List<Order> filteredOrders = Stream.of(order1,order2,order3,order4,order5).filter(order -> order.getStatus() == Order.OrderStatus.ERROR).collect(Collectors.toList());
         System.out.println("ERROR 상태인 주문");
         System.out.println("filteredOrders = " + filteredOrders);
         System.out.println();
@@ -80,16 +80,16 @@ public class Chapter6 {
         /**
          * 6.3 Map
          */
-        List<Integer> integers = Arrays.asList(3,6,-4).stream().map(x -> x * 2).collect(Collectors.toList());
+        List<Integer> integers = Stream.of(3,6,-4).map(x -> x * 2).collect(Collectors.toList());
         System.out.println("integers = " + integers);
 
-        List<String> strings = Arrays.asList(3,6,-4).stream().map(x -> "Number is "+x).collect(Collectors.toList());
+        List<String> strings = Stream.of(3,6,-4).map(x -> "Number is "+x).collect(Collectors.toList());
         System.out.println("strings = " + strings);
 
-        List<String> emails = Arrays.asList(user1, user2, user3).stream().map(User::getEmailAddress).collect(Collectors.toList());
+        List<String> emails = Stream.of(user1, user2, user3).map(User::getEmailAddress).collect(Collectors.toList());
         System.out.println("emails = " + emails);
 
-        List<Long> userIds = Arrays.asList(order1,order2,order3,order4,order5).stream().map(Order::getCreatedByUserId).collect(Collectors.toList());
+        List<Long> userIds = Stream.of(order1,order2,order3,order4,order5).map(Order::getCreatedByUserId).collect(Collectors.toList());
         System.out.println("userIds = " + userIds);
     }
 }
