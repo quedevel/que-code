@@ -3,10 +3,9 @@ package com.quecode.chapter6;
 import com.quecode.chapter6.model.Order;
 import com.quecode.chapter6.model.User;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -65,11 +64,13 @@ public class Chapter6 {
         System.out.println("검증되지 않은 유저");
         unverifiedUsres.forEach(System.out::println);
 
-        Order order1 = new Order().setId(1001).setStatus(Order.OrderStatus.CREATED).setCreatedByUserId(101);
-        Order order2 = new Order().setId(1002).setStatus(Order.OrderStatus.ERROR).setCreatedByUserId(102);
-        Order order3 = new Order().setId(1003).setStatus(Order.OrderStatus.IN_PROGRESS).setCreatedByUserId(103);
-        Order order4 = new Order().setId(1004).setStatus(Order.OrderStatus.PROCESSED).setCreatedByUserId(104);
-        Order order5 = new Order().setId(1005).setStatus(Order.OrderStatus.ERROR).setCreatedByUserId(105);
+        LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
+
+        Order order1 = new Order().setId(1001).setStatus(Order.OrderStatus.CREATED).setCreatedByUserId(101).setCreatedAt(now.minusHours(4));
+        Order order2 = new Order().setId(1002).setStatus(Order.OrderStatus.ERROR).setCreatedByUserId(102).setCreatedAt(now.minusHours(1));
+        Order order3 = new Order().setId(1003).setStatus(Order.OrderStatus.IN_PROGRESS).setCreatedByUserId(103).setCreatedAt(now.minusHours(3));
+        Order order4 = new Order().setId(1004).setStatus(Order.OrderStatus.PROCESSED).setCreatedByUserId(104).setCreatedAt(now.minusHours(36));
+        Order order5 = new Order().setId(1005).setStatus(Order.OrderStatus.ERROR).setCreatedByUserId(105).setCreatedAt(now.minusHours(24));
 
         List<Order> filteredOrders = Stream.of(order1,order2,order3,order4,order5).filter(order -> order.getStatus() == Order.OrderStatus.ERROR).collect(Collectors.toList());
         System.out.println("ERROR 상태인 주문");
@@ -91,5 +92,48 @@ public class Chapter6 {
 
         List<Long> userIds = Stream.of(order1,order2,order3,order4,order5).map(Order::getCreatedByUserId).collect(Collectors.toList());
         System.out.println("userIds = " + userIds);
+        System.out.println();
+        System.out.println();
+
+        /**
+         * 6.4 Stream의 구성 요소
+         */
+        List<User> users = Arrays.asList(user1, user2, user3);
+        List<String> emailList = new ArrayList<>();
+        for (User user : users) {
+            if(!user.isVerified()){
+                emailList.add(user.getEmailAddress());
+            }
+        }
+        System.out.println("emailList = " + emailList);
+
+        List<String> emailList2 = Stream.of(user1, user2, user3)
+                .filter(u -> !u.isVerified())
+                .map(User::getEmailAddress)
+                .collect(Collectors.toList());
+
+        System.out.println("emailList2 = " + emailList2);
+
+        List<Order> orders = Arrays.asList(order1,order2,order3,order4,order5);
+        List<Long> userIdList = orders.stream()
+                .filter(o-> o.getStatus() == Order.OrderStatus.ERROR)
+                .map(Order::getId)
+                .collect(Collectors.toList());
+
+        System.out.println("userIdList = " + userIdList);
+
+        List<Long> userIdList2 = orders.stream()
+                .filter(o -> o.getStatus() == Order.OrderStatus.ERROR)
+                .filter(o -> o.getCreatedAt().isAfter(now.minusHours(25)))
+                .map(Order::getId)
+                .collect(Collectors.toList());
+
+        System.out.println("userIdList2 = " + userIdList2);
+        System.out.println();
+        System.out.println();
+
+
+
+
     }
 }
