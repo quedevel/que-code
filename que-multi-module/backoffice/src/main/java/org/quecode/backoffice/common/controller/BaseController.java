@@ -15,4 +15,19 @@ public class BaseController {
     public String defaultPath(){
         return "redirect:/index";
     }
+
+    @GetMapping("/error/401")
+    public void error401(){
+
+    }
+
+    @GetMapping("/error/404")
+    public void error404(){
+
+    }
+
+    @GetMapping("/error/500")
+    public void error500(){
+
+    }
 }
