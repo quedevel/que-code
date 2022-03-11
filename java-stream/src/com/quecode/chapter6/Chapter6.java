@@ -132,7 +132,27 @@ public class Chapter6 {
         System.out.println();
         System.out.println();
 
+        /**
+         * 6.5 데이터의 정렬
+         */
+        List<Integer> integerList = Arrays.asList(3,-5,7,4);
+        List<Integer> sortedIntegers = integerList.stream()
+                .sorted()
+                .collect(Collectors.toList());
+        System.out.println("sortedIntegers = " + sortedIntegers);
 
+        List<User> sortedUsers = users.stream()
+                .sorted(Comparator.comparing(User::getName))
+                .collect(Collectors.toList());
+
+        System.out.println("sortedUsers = " + sortedUsers);
+
+        List<Long> sortedOrders = orders.stream()
+                .sorted(Comparator.comparing(Order::getCreatedAt))
+                .map(Order::getId)
+                .collect(Collectors.toList());
+
+        System.out.println("sortedOrders = " + sortedOrders);
 
 
     }
