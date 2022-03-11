@@ -153,7 +153,18 @@ public class Chapter6 {
                 .collect(Collectors.toList());
 
         System.out.println("sortedOrders = " + sortedOrders);
+        System.out.println();
+        System.out.println();
 
+        /**
+         * 6.6 중복제거
+         */
+        List<Integer> integerList1 = Arrays.asList(3,-5,4,-5,2,3);
+        List<Integer> distinctIntegers1 = integerList1.stream().distinct().collect(Collectors.toList());
+        System.out.println("distinctIntegers1 = " + distinctIntegers1);
+
+        List<Long> distinctOrder = orders.stream().map(Order::getCreatedByUserId).distinct().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
+        System.out.println("distinctOrder = " + distinctOrder);
 
     }
 }
