@@ -1,7 +1,7 @@
-package org.quecode.backoffice.code.service;
+package org.quecode.common.code.service;
 
 import lombok.RequiredArgsConstructor;
-import org.quecode.backoffice.code.repository.CodeRepository;
+import org.quecode.common.code.repository.CodeRepository;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor

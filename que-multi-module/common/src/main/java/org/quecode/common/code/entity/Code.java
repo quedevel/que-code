@@ -1,15 +1,23 @@
-package org.quecode.backoffice.code.dto;
+package org.quecode.common.code.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
-import lombok.ToString;
-import org.quecode.backoffice.code.entity.Code;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.quecode.common.code.dto.CodeDTO;
 
-@ToString
-@Data
+import javax.persistence.*;
+
 @Builder
-public class CodeDTO {
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "M_CODE")
+@Entity
+public class Code {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
     private String parentId;
     private String codeNm;
@@ -18,8 +26,8 @@ public class CodeDTO {
     private String codeOp2;
     private String codeOp3;
 
-    public Code toEntity(){
-        return Code.builder()
+    public CodeDTO toDTO(){
+        return CodeDTO.builder()
                 .id(id)
                 .parentId(parentId)
                 .codeNm(codeNm)
@@ -29,5 +37,4 @@ public class CodeDTO {
                 .codeOp3(codeOp3)
                 .build();
     }
-
 }
