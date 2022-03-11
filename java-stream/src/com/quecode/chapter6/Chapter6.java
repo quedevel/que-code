@@ -165,6 +165,21 @@ public class Chapter6 {
 
         List<Long> distinctOrder = orders.stream().map(Order::getCreatedByUserId).distinct().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
         System.out.println("distinctOrder = " + distinctOrder);
+        System.out.println();
+        System.out.println();
+
+        /**
+         * 6.7 FlatMap
+         */
+        String[][] cities = new String[][]{
+                {"Seoul","Busan"},
+                {"San Francisco","New York"},
+                {"Madrid","Barcelona"}
+        };
+        Stream<String[]> cityStream2 = Arrays.stream(cities);
+        List<String> cityList2 = cityStream2.flatMap(Arrays::stream).collect(Collectors.toList());
+        System.out.println("cityList2 = " + cityList2);
+
 
     }
 }
