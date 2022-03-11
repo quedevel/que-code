@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.quecode.backoffice.member.dto.MemberDTO;
 import org.quecode.backoffice.menu.dto.MenuDTO;
 
 import javax.persistence.*;
