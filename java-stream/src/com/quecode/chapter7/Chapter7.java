@@ -10,6 +10,10 @@ import java.util.Optional;
  */
 public class Chapter7 {
     public static void main(String[] args) {
+
+        /**
+         * 7.1 Optional
+         */
         User user1 = new User().setId(1001).setName("Alice").setVerified(false);
         User user2 = new User().setId(1001).setName("Alice").setVerified(false).setEmailAddress("alice@innotree.com");
 
@@ -38,8 +42,33 @@ public class Chapter7 {
         String email3 = maybeEmail2.orElseGet(()->defaultEmail);
         System.out.println("email3 = " + email3);
 
-        String email4 = maybeEmail2.orElseThrow(() -> new RuntimeException("email not present"));
-        System.out.println("email4 = " + email4);
+        //String email4 = maybeEmail2.orElseThrow(() -> new RuntimeException("email not present"));
+        //System.out.println("email4 = " + email4);
+        System.out.println();
+        System.out.println();
+
+        /**
+         * 7.2 Optional 응용
+         */
+        Optional<User> maybeUser = Optional.ofNullable(maybeGetUser(true));
+        maybeUser.ifPresent(System.out::println);
+
+        Optional<Integer> maybeId = Optional.ofNullable(maybeGetUser(true)).map(User::getId);
+        maybeId.ifPresent(System.out::println);
+
+        String userName = Optional.ofNullable(maybeGetUser(false))
+                .map(User::getName)
+                .map(name -> "The name is "+name)
+                .orElse("Name is Empty");
+        System.out.println("userName = " + userName);
+
+    }
+
+    public static User maybeGetUser(boolean returnUser){
+        if(returnUser){
+            return new User().setId(1001).setName("Alice").setVerified(false);
+        }
+        return null;
     }
 
     public static boolean userEquals(User u1, User u2){
