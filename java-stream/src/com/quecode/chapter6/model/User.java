@@ -1,5 +1,6 @@
 package com.quecode.chapter6.model;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class User {
@@ -7,6 +8,17 @@ public class User {
     private String name;
     private String emailAddress;
     private boolean isVerified;
+    private LocalDateTime createdAt;
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public User setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+        return this;
+    }
+
     private List<Integer> friendUserIds;
 
     public int getId() {
