@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.quecode.common.code.dto.CodeDTO;
+import org.quecode.common.entity.BaseEntity;
 
 import javax.persistence.*;
 
@@ -14,10 +15,9 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Table(name = "M_CODE")
 @Entity
-public class Code {
+public class Code extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
     private String parentId;
     private String codeNm;

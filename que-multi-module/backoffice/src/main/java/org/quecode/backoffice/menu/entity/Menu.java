@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.quecode.backoffice.menu.dto.MenuDTO;
+import org.quecode.common.entity.BaseEntity;
 
 import javax.persistence.*;
 
@@ -14,7 +15,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Table(name = "M_MENU")
 @Entity
-public class Menu {
+public class Menu extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

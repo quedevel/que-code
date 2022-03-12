@@ -1,7 +1,7 @@
 package org.quecode.backoffice.member.entity;
 
 import lombok.*;
-import org.quecode.backoffice.common.entity.BaseEntity;
+import org.quecode.common.entity.BaseEntity;
 import org.quecode.backoffice.member.dto.MemberDTO;
 
 import javax.persistence.*;

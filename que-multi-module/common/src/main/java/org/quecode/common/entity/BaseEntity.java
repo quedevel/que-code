@@ -1,4 +1,4 @@
-package org.quecode.backoffice.common.entity;
+package org.quecode.common.entity;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
