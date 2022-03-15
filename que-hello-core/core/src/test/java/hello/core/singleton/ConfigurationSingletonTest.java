@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import java.lang.reflect.Field;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -34,4 +35,22 @@ public class ConfigurationSingletonTest {
         assertThat(memberRepository1).isSameAs(memberRepository2);
     }
 
+    @Test
+    void configurationDeep(){
+        ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
+
+        AppConfig bean = ac.getBean(AppConfig.class);
+
+        System.out.println("bean = " + bean.getClass());
+
+        Class<?> clz = bean.getClass();
+
+        Field[] fields = clz.getFields();
+        for (Field field : fields) {
+            System.out.println("field = " + field);
+            System.out.println("field.getName() = " + field.getName());
+        }
+
+
+    }
 }
