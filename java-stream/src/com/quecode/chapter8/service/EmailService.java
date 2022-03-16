@@ -8,7 +8,7 @@ public class EmailService {
         user.getEmailAddress().ifPresent(s -> System.out.println("Sending 'Play With Friends' email to " + s));
     }
 
-    public void sendMakeMoreFriendsEmail(User user){
+    public static void sendMakeMoreFriendsEmail(User user){
         user.getEmailAddress().ifPresent(s -> System.out.println("Sending 'Mak More Friends' email to " + s));
     }
 }
