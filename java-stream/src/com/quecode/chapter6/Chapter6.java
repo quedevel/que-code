@@ -52,9 +52,9 @@ public class Chapter6 {
         List<Integer> filteredIntegers2 = Stream.of(3,-5,7,10,-3).filter(x -> x>0).collect(Collectors.toList());
         System.out.println("filteredIntegers2 = " + filteredIntegers2);
 
-        User user1 = new User().setId(101).setName("Alice").setVerified(true).setEmailAddress("alice@innotree.com");
-        User user2 = new User().setId(102).setName("Bob").setVerified(false).setEmailAddress("bob@innotree.com");
-        User user3 = new User().setId(103).setName("Charlie").setVerified(false).setEmailAddress("charlie@innotree.com");
+        User user1 = new User().setId(101).setName("Alice").setVerified(true).setEmailAddress(Optional.of("alice@innotree.com"));
+        User user2 = new User().setId(102).setName("Bob").setVerified(false).setEmailAddress(Optional.of("bob@innotree.com"));
+        User user3 = new User().setId(103).setName("Charlie").setVerified(false).setEmailAddress(Optional.of("charlie@innotree.com"));
 
         List<User> verifiedUsers = Stream.of(user1, user2, user3).filter(User::isVerified).collect(Collectors.toList());
         System.out.println("검증된 유저");
@@ -87,8 +87,8 @@ public class Chapter6 {
         List<String> strings = Stream.of(3,6,-4).map(x -> "Number is "+x).collect(Collectors.toList());
         System.out.println("strings = " + strings);
 
-        List<String> emails = Stream.of(user1, user2, user3).map(User::getEmailAddress).collect(Collectors.toList());
-        System.out.println("emails = " + emails);
+//        List<String> emails = Stream.of(user1, user2, user3).map(User::getEmailAddress).collect(Collectors.toList());
+//        System.out.println("emails = " + emails);
 
         List<Long> userIds = Stream.of(order1,order2,order3,order4,order5).map(Order::getCreatedByUserId).collect(Collectors.toList());
         System.out.println("userIds = " + userIds);
@@ -100,19 +100,19 @@ public class Chapter6 {
          */
         List<User> users = Arrays.asList(user1, user2, user3);
         List<String> emailList = new ArrayList<>();
-        for (User user : users) {
-            if(!user.isVerified()){
-                emailList.add(user.getEmailAddress());
-            }
-        }
+//        for (User user : users) {
+//            if(!user.isVerified()){
+//                emailList.add(user.getEmailAddress());
+//            }
+//        }
         System.out.println("emailList = " + emailList);
 
-        List<String> emailList2 = Stream.of(user1, user2, user3)
-                .filter(u -> !u.isVerified())
-                .map(User::getEmailAddress)
-                .collect(Collectors.toList());
-
-        System.out.println("emailList2 = " + emailList2);
+//        List<String> emailList2 = Stream.of(user1, user2, user3)
+//                .filter(u -> !u.isVerified())
+//                .map(User::getEmailAddress)
+//                .collect(Collectors.toList());
+//
+//        System.out.println("emailList2 = " + emailList2);
 
         List<Order> orders = Arrays.asList(order1,order2,order3,order4,order5);
         List<Long> userIdList = orders.stream()
