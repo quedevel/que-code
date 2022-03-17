@@ -15,7 +15,7 @@ public class Chapter7 {
          * 7.1 Optional
          */
         User user1 = new User().setId(1001).setName("Alice").setVerified(false);
-        User user2 = new User().setId(1001).setName("Alice").setVerified(false).setEmailAddress("alice@innotree.com");
+        User user2 = new User().setId(1001).setName("Alice").setVerified(false).setEmailAddress(Optional.of("alice@innotree.com"));
 
         // NullPointerException 발생
         // System.out.println("Same? :" + userEquals(user1, user2));

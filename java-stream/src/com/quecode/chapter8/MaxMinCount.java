@@ -20,10 +20,10 @@ public class MaxMinCount {
         Optional<Integer> max = Stream.of(5, 3, 6, 2, 1).max(Comparator.comparingInt(x -> x));
         System.out.println("max = " + max.get());
 
-        User user1 = new User().setId(104).setName("Alice").setVerified(true).setEmailAddress("alice@innotree.com");
-        User user2 = new User().setId(105).setName("Bob").setVerified(false).setEmailAddress("bob@innotree.com");
-        User user3 = new User().setId(106).setName("Charlie").setVerified(false).setEmailAddress("charlie@innotree.com");
-        User user4 = new User().setId(107).setName("David").setVerified(true).setEmailAddress("david@innotree.com");
+        User user1 = new User().setId(104).setName("Alice").setVerified(true).setEmailAddress(Optional.of("alice@innotree.com"));
+        User user2 = new User().setId(105).setName("Bob").setVerified(false).setEmailAddress(Optional.of("bob@innotree.com"));
+        User user3 = new User().setId(106).setName("Charlie").setVerified(false).setEmailAddress(Optional.of("charlie@innotree.com"));
+        User user4 = new User().setId(107).setName("David").setVerified(true).setEmailAddress(Optional.of("david@innotree.com"));
 
         List<User> users = Arrays.asList(user1,user2,user3);
 

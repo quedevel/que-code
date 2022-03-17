@@ -2,13 +2,23 @@ package com.quecode.chapter6.model;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public class User {
     private int id;
     private String name;
-    private String emailAddress;
+    private Optional<String> emailAddress;
     private boolean isVerified;
     private LocalDateTime createdAt;
+
+    public Optional<String> getEmailAddress() {
+        return emailAddress;
+    }
+
+    public User setEmailAddress(Optional<String> emailAddress) {
+        this.emailAddress = emailAddress;
+        return this;
+    }
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
@@ -36,15 +46,6 @@ public class User {
 
     public User setName(String name) {
         this.name = name;
-        return this;
-    }
-
-    public String getEmailAddress() {
-        return emailAddress;
-    }
-
-    public User setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
         return this;
     }
 

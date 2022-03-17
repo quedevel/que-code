@@ -4,6 +4,7 @@ import com.quecode.chapter6.model.User;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public class AllMatchAnyMatch {
     public static void main(String[] args) {
@@ -16,10 +17,10 @@ public class AllMatchAnyMatch {
         boolean anyNegative = integerList.stream().anyMatch(i -> i <0);
         System.out.println("anyNegative = " + anyNegative);
 
-        User user1 = new User().setId(108).setName("Alice").setVerified(true).setEmailAddress("alice@innotree.com");
-        User user2 = new User().setId(109).setName("Bob").setVerified(false).setEmailAddress("bob@innotree.com");
-        User user3 = new User().setId(110).setName("Charlie").setVerified(false).setEmailAddress("charlie@innotree.com");
-        User user4 = new User().setId(111).setName("David").setVerified(true).setEmailAddress("david@innotree.com");
+        User user1 = new User().setId(108).setName("Alice").setVerified(true).setEmailAddress(Optional.of("alice@innotree.com"));
+        User user2 = new User().setId(109).setName("Bob").setVerified(false).setEmailAddress(Optional.of("bob@innotree.com"));
+        User user3 = new User().setId(110).setName("Charlie").setVerified(false).setEmailAddress(Optional.of("charlie@innotree.com"));
+        User user4 = new User().setId(111).setName("David").setVerified(true).setEmailAddress(Optional.of("david@innotree.com"));
 
         List<User> users = Arrays.asList(user1, user2, user3, user4);
         boolean allMatch = users.stream().allMatch(User::isVerified);
