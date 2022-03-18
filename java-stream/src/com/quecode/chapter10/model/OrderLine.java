@@ -1,4 +1,4 @@
-package com.quecode.chapter6.model;
+package com.quecode.chapter10.model;
 
 import java.math.BigDecimal;
 
@@ -10,7 +10,8 @@ public class OrderLine {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
+    public OrderLine setAmount(BigDecimal amount) {
         this.amount = amount;
+        return this;
     }
 }
