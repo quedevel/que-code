@@ -11,6 +11,7 @@ public class User {
     private Optional<String> emailAddress;
     private boolean isVerified;
     private LocalDateTime createdAt;
+    private List<Integer> friendUserIds;
 
     public User(Builder builder){
         this.id = builder.id;
@@ -18,6 +19,7 @@ public class User {
         this.emailAddress = builder.emailAddress;
         this.isVerified = builder.isVerified;
         this.createdAt = builder.createdAt;
+        this.friendUserIds = builder.friendUserIds;
     }
 
     public static Builder builder(int id, String name){
@@ -31,8 +33,6 @@ public class User {
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
-
-    private List<Integer> friendUserIds;
 
     public int getId() {
         return id;
@@ -56,6 +56,7 @@ public class User {
         public Optional<String> emailAddress;
         public boolean isVerified;
         public LocalDateTime createdAt;
+        private List<Integer> friendUserIds;
 
         private Builder(int id, String name){
             this.id = id;
