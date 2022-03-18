@@ -56,7 +56,7 @@ public class User {
         public Optional<String> emailAddress;
         public boolean isVerified;
         public LocalDateTime createdAt;
-        private List<Integer> friendUserIds;
+        public List<Integer> friendUserIds;
 
         private Builder(int id, String name){
             this.id = id;
