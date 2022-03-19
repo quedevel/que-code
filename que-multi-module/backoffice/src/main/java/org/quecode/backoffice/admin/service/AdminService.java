@@ -14,6 +14,6 @@ public class AdminService {
     private final AdminRepository adminRepository;
 
     public void join(AdminDTO adminDTO){
-        log.info("call join...");
+        log.info("join() called with: adminDTO = [" + adminDTO + "]");
     }
 }
