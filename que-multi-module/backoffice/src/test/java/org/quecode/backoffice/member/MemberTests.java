@@ -5,9 +5,9 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.quecode.backoffice.member.dto.MemberDTO;
-import org.quecode.backoffice.member.entity.Member;
-import org.quecode.backoffice.member.service.MemberService;
+import org.quecode.common.member.dto.MemberDTO;
+import org.quecode.common.member.entity.Member;
+import org.quecode.common.member.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 

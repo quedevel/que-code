@@ -1,6 +1,6 @@
-package org.quecode.backoffice.member.repository;
+package org.quecode.common.member.repository;
 
-import org.quecode.backoffice.member.entity.Member;
+import org.quecode.common.member.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 

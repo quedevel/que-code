@@ -1,9 +1,9 @@
-package org.quecode.backoffice.member.dto;
+package org.quecode.common.member.dto;
 
 import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
-import org.quecode.backoffice.member.entity.Member;
+import org.quecode.common.member.entity.Member;
 
 @ToString
 @Data

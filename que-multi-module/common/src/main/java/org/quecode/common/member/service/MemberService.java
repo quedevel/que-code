@@ -1,9 +1,9 @@
-package org.quecode.backoffice.member.service;
+package org.quecode.common.member.service;
 
 import lombok.RequiredArgsConstructor;
-import org.quecode.backoffice.member.entity.Member;
-import org.quecode.backoffice.member.dto.MemberDTO;
-import org.quecode.backoffice.member.repository.MemberRepository;
+import org.quecode.common.member.entity.Member;
+import org.quecode.common.member.dto.MemberDTO;
+import org.quecode.common.member.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
