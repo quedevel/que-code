@@ -1,6 +1,7 @@
 package org.quecode.common.member.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.quecode.common.member.entity.Member;
 import org.quecode.common.member.dto.MemberDTO;
 import org.quecode.common.member.repository.MemberRepository;
@@ -9,8 +10,9 @@ import org.springframework.util.StringUtils;
 
 import java.util.Optional;
 
-@Service
+@Slf4j
 @RequiredArgsConstructor
+@Service
 public class MemberService {
 
     private final MemberRepository memberRepository;
@@ -21,6 +23,7 @@ public class MemberService {
      * @return Member
      */
     public Member join(MemberDTO memberDTO) {
+        log.info("join() called with: memberDTO = [" + memberDTO + "]");
         return memberRepository.save(memberDTO.toEntity());
     }
 
@@ -30,6 +33,7 @@ public class MemberService {
      * @return Member
      */
     public Member findMemberById(String mbrId) {
+        log.info("findMemberById() called with: mbrId = [" + mbrId + "]");
         if(StringUtils.hasLength(mbrId)){
             Optional<Member> memberOptional = memberRepository.findByMbrId(mbrId);
             if(memberOptional.isPresent()) return memberOptional.get();
@@ -42,6 +46,7 @@ public class MemberService {
      * @param mbrId
      */
     public void deleteMemberById(String mbrId) {
+        log.info("deleteMemberById() called with: mbrId = [" + mbrId + "]");
         memberRepository.deleteByMbrId(mbrId);
     }
 }

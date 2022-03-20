@@ -16,4 +16,8 @@ public class AdminService {
     public void join(AdminDTO adminDTO){
         log.info("join() called with: adminDTO = [" + adminDTO + "]");
     }
+
+    public void login(AdminDTO adminDTO){
+        log.info("login() called with: adminDTO = [" + adminDTO + "]");
+    }
 }
