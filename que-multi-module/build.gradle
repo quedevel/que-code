@@ -49,6 +49,7 @@ project(':backoffice') {
         implementation group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect', version: '3.0.0'
         implementation 'org.springframework.boot:spring-boot-starter-security'
         // https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui
+        implementation group: 'io.springfox', name: 'springfox-boot-starter', version: '3.0.0'
         implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '3.0.0'
     }
 }
