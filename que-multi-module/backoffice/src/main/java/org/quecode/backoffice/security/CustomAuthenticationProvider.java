@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
-    private final CustomUserService customUserService;
+    private final CustomUserDetailsService customUserDetailsService;
 
     @Override
     public Authentication authenticate(Authentication auth) throws AuthenticationException {
@@ -25,7 +25,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String username = auth.getName();
         String password = auth.getCredentials().toString();
 
-        CustomUser user = (CustomUser) customUserService.loadUserByUsername(username);
+        CustomUserDetails user = (CustomUserDetails) customUserDetailsService.loadUserByUsername(username);
 
         log.info("authenticate() user = " + user.toString());
 

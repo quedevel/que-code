@@ -8,7 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 @EnableWebSecurity
 @Configuration
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * 정적 파일의 경우, 인증/인가 절차를 무시하도록 설정

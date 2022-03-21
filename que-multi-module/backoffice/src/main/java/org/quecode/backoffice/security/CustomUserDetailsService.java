@@ -12,14 +12,14 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class CustomUserService implements UserDetailsService {
+public class CustomUserDetailsService implements UserDetailsService {
 
     private final AdminService adminService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.info("loadUserByUsername() called with: username = [" + username + "]");
-        return new CustomUser(adminService.getAdminByUsername(username));
+        return new CustomUserDetails(adminService.getAdminByUsername(username));
     }
 
 }

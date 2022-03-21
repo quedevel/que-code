@@ -8,11 +8,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 
 @ToString
-public class CustomUser implements UserDetails {
+public class CustomUserDetails implements UserDetails {
 
     private Admin admin;
 
-    public CustomUser(Admin admin) {
+    public CustomUserDetails(Admin admin) {
         this.admin = admin;
     }
 
