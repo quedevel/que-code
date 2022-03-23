@@ -18,14 +18,29 @@ public class AdminService {
 
     private final AdminRepository adminRepository;
 
-    public void join(AdminDTO adminDTO){
+    /**
+     * 관리자 회원가입
+     * @param adminDTO
+     */
+    public Admin join(AdminDTO adminDTO){
         log.info("join() called with: adminDTO = [" + adminDTO + "]");
+        // todo validation
+        return adminRepository.save(adminDTO.toEntity());
     }
 
+    /**
+     * 관리자 로그인
+     * @param adminDTO
+     */
     public void login(AdminDTO adminDTO){
         log.info("login() called with: adminDTO = [" + adminDTO + "]");
     }
 
+    /**
+     * 관리자 조회 by username
+     * @param username
+     * @return
+     */
     public Admin getAdminByUsername(String username){
         log.info("getAdminByUsername() called with: username = [" + username + "]");
         Optional<Admin> optionalAdmin = adminRepository.findByAdminId(username);
@@ -33,5 +48,13 @@ public class AdminService {
             throw new UsernameNotFoundException(ErrorCode.USERNAME_OR_PASSWORD_NOT_FOUND_EXCEPTION.getMessage());
         }
         return optionalAdmin.get();
+    }
+
+    /**
+     * 관리자 삭제 by adminId
+     * @param adminId
+     */
+    public void deleteByAdminId(String adminId){
+        adminRepository.deleteByAdminId(adminId);
     }
 }
