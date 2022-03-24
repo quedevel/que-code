@@ -6,6 +6,9 @@ import org.quecode.backoffice.admin.dto.AdminDTO;
 import org.quecode.backoffice.admin.entity.Admin;
 import org.quecode.backoffice.admin.repository.AdminRepository;
 import org.quecode.backoffice.common.contants.ErrorCode;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -29,17 +32,28 @@ public class AdminService {
     }
 
     /**
-     * 관리자 로그인
-     * @param adminDTO
+     * 관리자 삭제 by adminId
+     * @param adminId
      */
-    public void login(AdminDTO adminDTO){
-        log.info("login() called with: adminDTO = [" + adminDTO + "]");
+    public void deleteByAdminId(String adminId){
+        log.info("deleteByAdminId() called with: adminId = [" + adminId + "]");
+        adminRepository.deleteByAdminId(adminId);
+    }
+
+    /**
+     * 관리자 조회
+     * @param pageable
+     * @return Page<Admin>
+     */
+    public Page<Admin> selectAdminList(Pageable pageable){
+        log.info("selectAdminList() called with: pageable = [" + pageable + "]");
+        return adminRepository.findAll(pageable);
     }
 
     /**
      * 관리자 조회 by username
      * @param username
-     * @return
+     * @return Admin
      */
     public Admin getAdminByUsername(String username){
         log.info("getAdminByUsername() called with: username = [" + username + "]");
@@ -50,11 +64,4 @@ public class AdminService {
         return optionalAdmin.get();
     }
 
-    /**
-     * 관리자 삭제 by adminId
-     * @param adminId
-     */
-    public void deleteByAdminId(String adminId){
-        adminRepository.deleteByAdminId(adminId);
-    }
 }
