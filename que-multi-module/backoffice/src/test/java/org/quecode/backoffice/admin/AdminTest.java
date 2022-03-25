@@ -10,6 +10,11 @@ import org.quecode.backoffice.admin.entity.Admin;
 import org.quecode.backoffice.admin.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import java.util.List;
+import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -21,12 +26,12 @@ public class AdminTest {
     private AdminService adminService;
 
     /**
-     * 모든 테스트 시작전에 test123
+     * 모든 테스트 시작전에 test123 제거
      */
     @BeforeAll
     void deleteAdmin(){
         String adminId = "test123";
-        adminService.deleteByAdminId(adminId);
+        //adminService.deleteByAdminId(adminId);
     }
 
 
@@ -40,5 +45,30 @@ public class AdminTest {
 
         // then
         assertThat(admin.getAdminId()).isEqualTo(dto.getAdminId());
+    }
+
+    @Test
+    void selectTest(){
+        Page<Admin> adminList = adminService.selectAdminList(Pageable.unpaged());
+        int totalPages = adminList.getTotalPages();
+
+        System.out.println("totalPages = " + totalPages);
+
+        List<Admin> adminListContent = adminList.getContent();
+
+        adminListContent.stream().map(Admin::getAdminId).forEach(System.out::println);
+    }
+
+    @Test
+    void insertDummyAdmin(){
+//        IntStream.range(1,31).forEach(i-> {
+//            AdminDTO dto = AdminDTO.builder()
+//                    .adminId("dummy"+i)
+//                    .adminNm("dummy"+i)
+//                    .adminPw("dummy"+i)
+//                    .build();
+//
+//            adminService.join(dto);
+//        });
     }
 }
