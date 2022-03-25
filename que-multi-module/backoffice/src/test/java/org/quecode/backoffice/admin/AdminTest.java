@@ -60,6 +60,19 @@ public class AdminTest {
     }
 
     @Test
+    void selectTest2(){
+        Pageable pageable = Pageable.ofSize(3);
+
+        Page<Admin> adminList = adminService.selectAdminList(pageable);
+
+        int totalPages = adminList.getTotalPages();
+
+        System.out.println("totalPages = " + totalPages);
+
+
+    }
+
+    @Test
     void insertDummyAdmin(){
 //        IntStream.range(1,31).forEach(i-> {
 //            AdminDTO dto = AdminDTO.builder()
