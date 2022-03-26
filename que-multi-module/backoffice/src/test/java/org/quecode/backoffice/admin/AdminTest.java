@@ -8,6 +8,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.quecode.backoffice.admin.dto.AdminDTO;
 import org.quecode.backoffice.admin.entity.Admin;
 import org.quecode.backoffice.admin.service.AdminService;
+import org.quecode.backoffice.common.constants.CommonConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
@@ -61,7 +62,7 @@ public class AdminTest {
 
     @Test
     void selectTest2(){
-        Pageable pageable = Pageable.ofSize(3);
+        Pageable pageable = Pageable.ofSize(CommonConstants.DEFAULT_PAGE_SIZE.getCode());
 
         Page<Admin> adminList = adminService.selectAdminList(pageable);
 
