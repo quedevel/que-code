@@ -62,7 +62,7 @@ public class AdminTest {
 
     @Test
     void selectTest2(){
-        Pageable pageable = Pageable.ofSize(CommonConstants.DEFAULT_PAGE_SIZE.getCode());
+        Pageable pageable = Pageable.ofSize(CommonConstants.DEFAULT_PAGE_SIZE);
 
         Page<Admin> adminList = adminService.selectAdminList(pageable);
 

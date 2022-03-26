@@ -1,14 +1,7 @@
 package org.quecode.backoffice.common.constants;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+public class CommonConstants {
 
-@AllArgsConstructor
-@Getter
-public enum CommonConstants {
-
-    DEFAULT_PAGE_SIZE(10);
-
-    private int code;
+    public static final int DEFAULT_PAGE_SIZE = 10;
 
 }
