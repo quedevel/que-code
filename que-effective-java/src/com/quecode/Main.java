@@ -1,7 +1,11 @@
 package com.quecode;
 
+import com.quecode.chapter2.Discount;
+
+import java.io.*;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("테스트");
+        Discount.getInstance("1");
     }
 }
