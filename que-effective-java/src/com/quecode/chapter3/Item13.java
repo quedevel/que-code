@@ -9,7 +9,7 @@ package com.quecode.chapter3;
  * 성능 최적화 관점에서 검토한 후 별다른 문제가 없을 때만 드믈게 허용해야 한다. 기본 원칙을 '복제 기능은 생성자와 팩터리를
  * 이용하는 게 최고'라는 것이다. 단, 배열만은 clone 메서드 방식이 가장 깔끔한, 이 규칙의 합당한 예외라 할 수 있다.
  */
-public class Item13 implements Cloneable {
+public class Item13 implements Cloneable{
     int num;
 
     public Item13() {
@@ -28,9 +28,6 @@ public class Item13 implements Cloneable {
     @Override
     public Item13 clone() {
         try {
-            System.out.println("---------------------");
-            System.out.println("Item13 Clone");
-            System.out.println("---------------------");
             return (Item13) super.clone();
         } catch (CloneNotSupportedException e) {
             throw new RuntimeException();
