@@ -112,6 +112,36 @@ public Item13 clone() {
 
 
 ## 🎯  아이템 14. Comparable을 구혈할지 고려하라.
+_**알파벳, 숫자, 연대 같이 순서가 명확한 값 클래스를 작성한다면 반드시 `Comparable` 인터페이스를 구현하자.**_
+> 이 객체와 주어진 객체의 순서를 비교한다. 이 객체가 주어진 객체보다 작으면 음의 정수를,<br> 
+> 같으면 0을, 크면 양의 정수를 반환한다. 이 객체와 비교할 수 없는 타입의 객체가 주어지면<br> 
+> `ClassCastException` 을 던진다.
 
+```java
+public class Item14 implements Comparable<Item14> {
 
+    private Integer integer;
+
+    public Item14(Integer integer) {
+        this.integer = integer;
+    }
+
+    @Override
+    public int compareTo(Item14 o) {
+        return Integer.compare(integer, o.integer);
+    }
+
+    public static void main(String[] args) {
+        Item14 item = new Item14(3);
+        Item14 item2 = new Item14(1);
+        Item14 item3 = new Item14(5);
+        Item14 item4 = new Item14(3);
+        System.out.println(item.compareTo(item2)); // 1
+        System.out.println(item.compareTo(item3)); // -1
+        System.out.println(item.compareTo(item4)); // 0
+    }
+}
+```
 ## ⭐ 결론
+**_Object에서 final이 아닌 메서드는 모두 재정의를 염두에 두고 설계가 되었지만...<br>
+반드시 각각의 규약 따라서 재정의 할 수 있도록한다._**
