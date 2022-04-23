@@ -121,6 +121,112 @@ setter 제공하지 않으며 생성자로 인하여 불변식 설정이 모두 
 > 4️⃣ 불변 객체는 그 자체로 실패 원자성을 제공한다. <br>
 
 ## 🎯  아이템 18. 상속보다는 컴포지션을 사용하라.
+_**상속은 상위 클래스가 어떻게 구현되느냐에 따라 하위 클래스의 동작에 이상이 생길 수 있다.<br>
+그 여파로 코드 한 줄 건드리지 않은 하위 클래스가 오동작할 수 있다.<br>**_
+
+* 잘못된 예 - 상속을 잘못 사용했다.
+```java
+public class InstrumentedHashSet<E> extends HashSet<E> {
+    private int addCount = 0;
+    public InstrumentedHashSet(){};
+    public InstrumentedHashSet(int initCap, float loadFactor){
+        super(initCap, loadFactor);
+    }
+
+    @Override
+    public boolean add(E e) {
+        addCount++;
+        return super.add(e);
+    }
+
+    @Override
+    public boolean addAll(Collection<? extends E> c) {
+        addCount += c.size();
+        return super.addAll(c); // add(e)를 호출한다.
+    }
+
+    public int getAddCount(){
+        return addCount;
+    }
+
+    public static void main(String[] args) {
+        InstrumentedHashSet<String> s = new InstrumentedHashSet<>();
+        s.addAll(List.of("ㄱ","ㄴ","ㄷ"));
+        System.out.println("s.getAddCount() : "+s.getAddCount());
+    }
+}
+```
+예상한 결과값은 `3`이겠지만 실제로는 6을 반환한다.
+<img width="50%" src="https://user-images.githubusercontent.com/55771326/164878844-8c7f48d3-078f-4582-ac36-04fa740275f7.PNG">
+
+```java
+public boolean addAll(Collection<? extends E> c) {
+    boolean modified = false;
+    for (E e : c)
+        if (add(e))
+            modified = true;
+    return modified;
+}
+```
+`super.addAll(c)`의 구현체에서 `add(e)`를 실행하기 때문이다.
+
+⭐ **이러한 문제를 모두 피해가는 묘안으로 컴포지션을 사용하자.** <br>
+_새 클래스의 인스턴스 메서드들은 기존 클래스의 대응하는 메서드를 호출해 그 결과를 반환한다.<br> 
+이 방식을 `forwarding`이라 하며, 새 클래스의 메서드들을 전달 메서드라 부른다._
+
+* 래퍼 클래스 - 상속 대신 컴포지션을 사용
+```java
+public class InstrumentedSet<E> extends ForwardingSet<E> {
+    private int addCount = 0;
+
+    public InstrumentedSet(Set<E> s) {
+        super(s);
+    }
+
+    @Override public boolean add(E e) {
+        addCount++;
+        return super.add(e);
+    }
+    @Override public boolean addAll(Collection<? extends E> c) {
+        addCount += c.size();
+        return super.addAll(c);
+    }
+    public int getAddCount() {
+        return addCount;
+    }
+
+    public static void main(String[] args) {
+        InstrumentedSet<String> s = new InstrumentedSet<>(new HashSet<>());
+        s.addAll(List.of("ㄱ", "ㄴ", "ㄷ"));
+        System.out.println("s.getAddCount() = "+s.getAddCount());
+    }
+}
+```
+* 재사용할 수 있는 전달 클래스
+```java
+public class ForwardingSet<E> implements Set<E> {
+    private final Set<E> s;
+    public ForwardingSet(Set<E> s) { this.s = s; }
+
+    public int size()                 { return s.size();      }
+    public boolean add(E e)           { return s.add(e);      }
+    public boolean addAll(Collection<? extends E> c)
+    { return s.addAll(c);      }
+    
+    ... 생략
+}
+```
+하나는 집합 클래스 자신이고, 다른 하나는 전달 메서드만으로 이뤄진 재사용 가능한 전달 클래스다.<br>
+<img width="50%" src="https://user-images.githubusercontent.com/55771326/164879225-0ace43e3-0dc7-419b-81b0-af6f8e45f9be.PNG">
+
+<br>
+
+> **상속**은 강력하지만 **캡슐화**를 해친다는 문제가 있다. **상속**은 상위 클래스와 하위 클리스가<br> 
+> 순수한 is-a 관계일 때만 써야한다. is-a 관계일 때도 안심할 수만은 없는 게, 하위 클래스의<br>
+> 패키지가 상위 클래스와 다르고, 상위 클래스가 확장을 고려해 설계되지 않았다면<br>
+> 여전히 문제가 될 수 있다. **상속**의 취약점을 피하려면 **상속** 대신 **컴포지션**과 전달을 사용하자.<br>
+> 특히 래퍼 클래스로 구현할 적당한 인터페이스가 있다면 더욱 그렇다. 래퍼 클래스는<br> 
+> 하위 클래스보다 견고하고 강력하다.
 
 ## 🎯  아이템 19. 상속을 고려해 설계하고 문서화하라. 그러지 않았다면 상속을 금지하라.
 
