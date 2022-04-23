@@ -79,6 +79,46 @@ public class Point {
 > 중첩 클래스에서는 종종 (불변이든 가변이든) 필드를 노출하는 편이 나을 때도 있다.
 
 ## 🎯  아이템 17. 변경 가능성을 최소화하라.
+_**불변 클래스는 가변 클래스보다 설계하고 구현하고 사용하기 쉬우며, 오류가 생길 여지도 적고 훨씬 안전하다.**_
+
+* 클래스를 불변으로 만들기 위한 5가지 규칙
+> 1️⃣ 객체의 상태를 변경하는 메서드(setter)를 제공하지 않는다. <br>
+> 2️⃣ 클래스를 확장할 수 없도록 한다. <br>
+> 3️⃣ 모든 필드를 final로 선언한다. <br>
+> 4️⃣ 모든 필드를 private으로 선언한다. <br>
+> 5️⃣ 자신 외에는 내부의 가변 컴포넌트에 접근할 수 없도록 한다. <br>
+
+* 예제 ) 불변의 복소수 클래스
+```java
+// class를 final로 선언하여 확장할 수 없도록 함
+public final class Complex {
+    // 모든 필드를 private final로 선언
+    private final double re;
+    private final double im;
+
+    public Complex(double re, double im) {
+        this.re = re;
+        this.im = im;
+    }
+
+    // getter만 존재 setter는 만들지 않는다.
+    public double getRe() { return re; }
+    public double getIm() { return im; }
+    
+    public Complex plus(Complex complex) { return new Complex(re + complex.re, im + complex.im); }
+    
+    ...생략
+}
+```
+setter 제공하지 않으며 생성자로 인하여 불변식 설정이 모두 완료된, 초기화가 완벽히 끝난 상태의 객체를 생성하게 된다.<br>
+
+<br>
+
+* 불변 클래스의 장점
+> 1️⃣ 불변 객체는 근본적으로 스레드 안전하여 따로 동기화할 필요 없다. <br>
+> 2️⃣ 불변 객체는 안심하고 공유할 수 있다. <br>
+> 3️⃣ 불변 객체는 자유롭게 공유할 수 있음은 물론, 불변 객체끼리는 내부 데이터를 공유할 수 있다. <br>
+> 4️⃣ 불변 객체는 그 자체로 실패 원자성을 제공한다. <br>
 
 ## 🎯  아이템 18. 상속보다는 컴포지션을 사용하라.
 
