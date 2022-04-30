@@ -388,8 +388,88 @@ public class Figure {
 1️⃣ 태그 달린 클래스는 장황하게, 오류를 내기 쉽고, 비효율적이다.<br>
 2️⃣ 태그 달린 클래스는 클래스 계층구조를 어설프게 흉내낸 아류일 뿐이다.<br>
 
-
 ## 🎯  아이템 24. 맴버 클래스는 되도록 static으로 만들라.
+* 예제 ) 빌더 패턴
+```java
+public class Member {
+    private long mbrSn;
+    private String mbrId;
+    private String mbrPw;
+    private String mbrNm;
+
+    public Member(Builder builder) {
+        this.mbrSn = builder.mbrSn;
+        this.mbrId = builder.mbrId;
+        this.mbrPw = builder.mbrPw;
+        this.mbrNm = builder.mbrNm;
+    }
+
+    public static Builder builder(String id, String pw) {
+        return new Builder(id, pw);
+    }
+
+    public static class Builder {
+        public long mbrSn;
+        public String mbrId;
+        public String mbrPw;
+        public String mbrNm;
+
+        private Builder(String mbrId, String mbrPw) {
+            this.mbrId = mbrId;
+            this.mbrPw = mbrPw;
+        }
+
+        public Builder with(Consumer<Builder> consumer) {
+            consumer.accept(this);
+            return this;
+        }
+
+        public Member build() {
+            return new Member(this);
+        }
+    }
+    
+    /* getter 생략 */
+    ...
+}
+    
+```
+> 정적 맴버 클래스(`Builder`)는 다른 클래스 안에 선언되고, 바깥 클래스(`Member`)의 <br>
+> private 맴버에도 접근할 수 있다는 점만 제외하고는 일반 클래스와 똑같다.<br>
+> 정적 맴버 클래스와 비정적 맴버 클래스의 구문상 차이는 단지 static이 붙어 있고 없고 뿐이지만, 의미상 차이는 의외로 꽤 크다. <br>
+> 비정적 맴버 클래스의 인스턴스는 바깥 클래스의 인스턴스와 암묵적으로 연결된다. 그래서 비정적 맴버 클래스의 인스턴스 메서드에서 <br>
+> 정규화된 this를 사용해 바깥 인스턴스의 메서드를 호출하거나 바깥 인스턴스의 참조를 가져올 수 있다.
+
+⭐ 그렇다면 비정적 맴버 클래스는 어디에 쓰이나? - 비정적 맴버 클래스는 어댑터를 정의할 때 자주 쓰인다.<br>
+즉, 어떤 클래스의 인스턴스를 감싸 마치 다른 클래스의 인스턴스처럼 보이게하는 뷰로 사용하는 것이다.
+
+
+<br>
+
+* 비정적 맴버 클래스의 흔한 쓰임 - 자신의 반복자 구현
+
+```java
+public class MySet<E> extends AbstractSet<E> {
+    ... // 생략
+
+    @Override
+    public Iterator<E> iterator() {
+        return new MyIterator();
+    }
+
+    private class MyIterator implements Iterator<E> { ... }
+}
+```
+**_맴버 클래스에서 바깥 인스턴스에 접근할 일이 없다면 무조건 static을 붙여서 정적 맴버 클래스로 만들자._** <br>
+static을 생략하면 바깥 인스턴스로의 숨은 외부 참조를 갖게 된다. 이 참조를 저장하려면 시간과 공간이 소비된다. <br>
+더 심각한 문제는 가비지 컬렉션이 바깥 클래스의 인스턴스를 수거하는 메모리 누수가 생길 수 있다는 점이다.
+
+⭐ **핵심 정리** <br>
+> 중첩 클래스에는 네 가지가 있으며, 각각의 쓰임이 다르다. 메서드 밖에서도 사용해야 하거나 메서드 안에 정의하기엔 너무 <br>
+> 길다면 맴버 클래스로 만든다. 맴버 클래스의 인스턴스 각각이 바깥 인스턴스를 참조한다면 비정적으로, 그렇지 않으면 정적으로 <br>
+> 만들자. 중첩 클래스가 한 메서드 안에서만 쓰이면서 그 인스턴스를 생성하는 지점이 단 한 곳이고 해당 타입으로 쓰기에 <br>
+> 적합한 클래스나 인터페이스가 이미 있다면 익명 클래스로 만들고, 그렇지 않으면 지역 클래스로 만들자.
+
 
 ## 🎯  아이템 25. 톱레벨 클래스는 한 파일에 하나만 담으라.
 
