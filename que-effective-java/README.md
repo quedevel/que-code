@@ -9,3 +9,5 @@
 ### 🔥 [ Chapter3 ] 모든 객체의 공통 메서드 [click here.](https://github.com/quedevel/que-code/blob/main/que-effective-java/src/com/quecode/chapter3/CHAPTER3.md)
 
 ### 🔥 [ Chapter4 ] 클래스와 인터페이스 [click here.](https://github.com/quedevel/que-code/blob/main/que-effective-java/src/com/quecode/chapter4/CHAPTER4.md)
+
+### 🔥 [ Chapter5 ] 제네릭 [click here.](https://github.com/quedevel/que-code/blob/main/que-effective-java/src/com/quecode/chapter5/CHAPTER5.md)
