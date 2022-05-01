@@ -102,8 +102,117 @@ public class Item27 {
 ```
 ⭐ `@SuppressWarnings` 애너테이션을 사용할 때면 그 경고를 무시해도 안전한 이유를 항상 주석으로 남겨야 한다.
 
-## 🎯  아이템 28. 
+## 🎯  아이템 28. 배열보다는 리스트를 사용하라.
 
-## 🎯  아이템 29. 
+배열과 제네릭 타입에는 중요한 차이가 두 가지 있다.
+
+<br>
+
+#### 1️⃣ 배열은 공변이지만, 제네릭은 불공변이다.<br>
+`Sub`가 `Super`의 하위 타입이라면 배열 `Sub[]`는 배열 `Super[]`의 하위 타입이 된다. <br> 
+반면, 서로 다른 타입 `Type1`, `Type2`가 있을 때, `List<Type1>`은 `List<Type2>`의 하위 타입도 아니고 상위 타입도 아니다. <br>
+
+![캡처7](https://user-images.githubusercontent.com/55771326/166134253-7691cc3a-6272-4869-add6-6d0a508535e9.PNG)
+
+어느 쪽이든 `Long`용 저장소에 `String`을 넣을 수는 없다. 다만 배열에서는 그 실수를 런타임에야 알게 되지만, 리스트를 사용하면 컴파일할 때 바로 알 수 있다.
+
+<br>
+
+#### 2️⃣ 배열은 실체화(reify)된다. <br>
+배열은 런타임에도 자신이 담기로 한 원소의 타입을 인지하고 확인한다. 그래서 위 코드에 보듯 `Long`배열에 `String`을 넣으려 하면 `ArrayStoreException`이 발생한다. <br>
+반면, 제네릭은 타입 정보가 런타임에는 소거(erasure)된다.
+
+* Item28.java
+```java
+public class Item28 {
+    public static void main(String[] args) {
+        List<String> strings = new ArrayList<>();
+        strings.add("que");
+        strings.add("devel");
+    }
+}
+```
+* Item28.java를 컴파일한 Item28.class
+```java
+public class Item28 {
+    public Item28() {
+    }
+
+    public static void main(String[] var0) {
+        ArrayList var1 = new ArrayList();
+        var1.add("que");
+        var1.add("devel");
+    }
+}
+```
+이러한 소거는 제네릭이 지원되기 전에 레거시 코드와 제네릭 타입을 함께 사용할 수 있게 해주는 매커니즘으로, 자바5가 제네릭으로 순조롭게 전환될 수 있도록 해줬다.
+
+<br>
+
+#### 배열은 제네릭 타입, 매개변수화 타입, 타입 매개변수로 사용할 수 없다.
+즉, `new List<E>`, `new List<String>[]`, `new E[]` 식으로 작성하면 컴파일할 때 제네릭 배열 생성 오류를 일으킨다.<br>
+그 이유는 타입 안전하지 않기 때문이다. 이를 허용한다면 컴파일러가 자동 생성한 형변환 코드에서 런타임에 `ClassCastException`이 발생할 수 잇다.
+
+<br>
+
+* 제네릭 배열 생성을 허용하지 않는 이유 - 컴파일되지 않는다.
+```java
+List<String>[] stringLists = new List<String>[1];   // (1)
+List<Integer> intList = List.of(42);                // (2)
+Object[] objects = stringLists;                     // (3)
+objects[0] = intList;                               // (4)
+String s = stringLists[0].get(0);                   // (5)
+```
+🚩 **if. 제네릭 배열을 생성하는 (1)이 허용된다면?** <br>
+1️⃣ (2)는 원소가 하나인 `List<Integer>`를 생성한다.<br> 
+2️⃣ (3)은 (1)에서 생성한 `List<String>`의 배열을 `Object` 배열에 할당한다. 배열은 공변이니 아무 문제없다. <br>
+3️⃣ (4)는 (2)에서 생성한 `List<Integer>`의 인스턴스를 `Object` 배열의 첫 원소로 저장한다. 제네릭은 소거 방식으로 구현되어서 이 역시 성공한다. <br>
+( 즉, 런타임에는 `List<Integer>` 인스턴스의 타입은 단순히 `List`가 되고, `List<Integer>[]` 인스턴스의 타입은 `List[]`가 된다. 따라서 (4)에서도 `ArrayStoreException`을 일으키지 않는다.) <br>
+4️⃣ `List<String>` 인스턴스만 담겠다고 선언한 `stringLists`배열에는 지금 `List<Integer>` 인스턴스가 저장돼 있다. 그리고 (5)는 이 배열의 처음 리스트에서 첫 원소를 꺼내려 한다. <br>
+5️⃣ 컴파일러는 꺼낸 원소를 자동으로 `String`으로 형변환하는데, 이 원소는 `Integer`이므로 런타임에 `ClassCastException`이 발생한다.<br>
+
+**따라서, 이런 일을 방지하려면 (1)에서 컴파일 오류를 내야 한다.** <br>
+소거 매커니즘 때문에 매개변수화 타입 가운데 실체화될 수 있는 타입은 `List<?>`와 `Map<?,?>` 같은 비한정적 와일드 카드 타입뿐이다. <br>
+but, 배열을 비한정적 와일드카드 타입으로 만들 수는 있지만, 유용하게 쓰일 일은 거의 없다.
+
+* 생성자에서 컬렉션을 받는 Chooser 클래스
+```java
+public class Chooser {
+    
+    private final Object[] choiceArray;
+
+    public Chooser(Collection choiceArray) {
+        this.choiceArray = choiceArray.toArray();
+    }
+    
+    public Object choose(){
+        Random rnd = ThreadLocalRandom.current();
+        return choiceArray[rnd.nextInt(choiceArray.length)];
+    }
+}
+```
+* 리스트 기반 Chooser - 타입 안전성 확보!
+```java
+public class Chooser<T> {
+
+    private final List<T> choiceArray;
+
+    public Chooser(Collection<T> choiceArray) {
+        this.choiceArray = new ArrayList<>(choiceArray);
+    }
+
+    public T choose(){
+        Random rnd = ThreadLocalRandom.current();
+        return choiceArray.get(rnd.nextInt(choiceArray.size()));
+    }
+}
+```
+
+
+## 🎯  아이템 29. 이왕이면 제네릭 타입으로 만들라.
+## 🎯  아이템 30. 이왕이면 제네릭 메서드로 만들라.
+## 🎯  아이템 31. 한정적 와일드카드를 사용해 API 유연성을 높이라.
+## 🎯  아이템 32. 제네릭과 가변인수를 함께 쓸 때는 신중하라.
+## 🎯  아이템 33. 타입 안정 이종 컨테이너를 고려하라.
 
 ## ⭐ 결론
