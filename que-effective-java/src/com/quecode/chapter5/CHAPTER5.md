@@ -210,6 +210,98 @@ public class Chooser<T> {
 
 
 ## 🎯  아이템 29. 이왕이면 제네릭 타입으로 만들라.
+> 새로운 타입을 설계할 때는 형변환 없이도 사용할 수 있도록하라. 그렇게 하려면 제네릭 타입으로 만들어야 할 경우가 많다.<br>
+> 기존 타입 중 제네릭이었어야 하는 게 있다면 제네릭 타입으로 변경하자. 기존 클라이언트에는 아무 영향을 주지 않으면서, <br>
+> 새로운 사용자를 훨씬 편하게 해주는 길이다.
+
+<br>
+
+* Object 기반 스택 - 제네릭이 절실한 강력 후보!
+```java
+public class Stack {
+    private Object[] elements;
+    private int size = 0;
+    private static final int DEFAULT_INITIAL_CAPACITY = 16;
+
+    public Stack() {
+        elements = new Object[DEFAULT_INITIAL_CAPACITY];
+    }
+
+    public void push(Object e) {
+        ensureCapacity();
+        elements[size++] = e;
+    }
+
+    public Object pop() {
+        if (size == 0)
+            throw new EmptyStackException();
+        Object result = elements[--size];
+        elements[size] = null;
+        return result;
+    }
+
+    public boolean isEmpty() { 
+        return size == 0;
+    }
+
+    private void ensureCapacity() {
+        if (elements.length == size) 
+            elements = Arrays.copyOf(elements, 2 * size + 1);
+    }
+}
+```
+⭐ 지금 상태에서는 클라이언트가 스택에서 꺼낸 객체를 형변환해야 하는데, 이때 `런타임 오류`가 날 위험이 이다.
+
+<br>
+
+`일반 클래스`를 `제네릭 클래스`로 만드는 첫 단계는 클래스 선언에 타입 매개변수(**E**)를 추가하는 일이다.<br>
+```java
+public Stack() {
+    elements = new E[DEFAULT_INITIAL_CAPACITY];
+}
+```
+⭐ 하지만 **E**와 같은 실체화 불가 타입으로는 배열을 만들 수 없다. 
+
+<br>
+
+* **해결책 첫 번째** <br>
+제네릭 배열 생성을 금지하는 제약을 대놓고 우회하는 방법으로 Object 배열을 생성한 다음 제네릭 배열로 형변환 하자!
+```java
+// 배열 elements는 push(E)로 넘어온 E 인스턴스만 담는다.
+// 따라서 타입 안전성을 보장하지만,
+// 이 배열의 런타임 타입은 E[]가 아닌 Object[]다!
+@SuppressWarnings("unchecked")
+public Stack() {
+    elements = (E[]) new Object[DEFAULT_INITIAL_CAPACITY];
+}
+```
+⭐ `push 메서드`를 통해 배열에 저장되는 원소의 타입은 항상 **E**다. 따라서 이 비검사 형변환은 확실히 안전하기 때문에 `@SuppressWarnings`으로 경고를 숨긴다. 
+
+<br>
+
+* **해결책 두 번째** <br>
+elements 필드의 타입을 **E**[]에서 Object[]로 바꾸는 것이다. 이 또한 `push 메서드`를 통해 **E** 타입만 허용하므로 안전하다.
+```java
+// 비검사 경고를 적절히 숨긴다.
+public E pop() {
+    if (size == 0)
+        throw new EmptyStackException();
+
+    // push에서 E 타입만 허용하므로 이 형변환은 안전하다.
+    @SuppressWarnings("unchecked") E result = (E) elements[--size];
+    elements[size] = null; // 다 쓴 참조 해제
+    return result;
+}
+```
+
+<br>
+
+> 첫 번째 방식에는 형변환을 배열 생성 시 단 한 번만 해주면 되지만, 두 번째 방식에서는 배열에서 원소를 읽을 때마다 해줘야한다. <br>
+> 따라서 현업에서는 첫 번째 방식을 더 선호하며 자주 사용한다. 하지만 (**E**가 **Object**가 아닌 한) 배열의 런타임 타입이 컴파일타입과 <br>
+> 달라 **힙 오염**을 일으킨다.
+
+🚩 **힙 오염**(heap pollution)이란? [click here.](https://velog.io/@adduci/Java-%ED%9E%99-%ED%8E%84%EB%A3%A8%EC%85%98-Heap-pollution)
+
 ## 🎯  아이템 30. 이왕이면 제네릭 메서드로 만들라.
 ## 🎯  아이템 31. 한정적 와일드카드를 사용해 API 유연성을 높이라.
 ## 🎯  아이템 32. 제네릭과 가변인수를 함께 쓸 때는 신중하라.
