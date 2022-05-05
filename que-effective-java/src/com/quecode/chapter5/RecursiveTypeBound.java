@@ -8,8 +8,6 @@ public class RecursiveTypeBound {
     public static <E extends Comparable<E>> Optional<E> max(Collection<E> c) {
         if (c.isEmpty())
             return Optional.empty();
-            //throw new IllegalArgumentException("컬렉션이 비어 있습니다.");
-
         E result = null;
         for (E e : c)
             if (result == null || e.compareTo(result) > 0)
