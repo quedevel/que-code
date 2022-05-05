@@ -432,7 +432,72 @@ public static <E> Set<E> union(Set<? extends E> s1, Set<? extends E> s2)
 ⭐ 클래스 사용자가 와일드카드 타입을 신경 써야 한다면 그 API에 무슨 문제가 있을 가능성이 크다.
 
 ## 🎯  아이템 32. 제네릭과 가변인수를 함께 쓸 때는 신중하라.
+가변인수 메서드와 제네릭은 자바 5 때 함께 추가되었으니 서로 잘 어우러지리라 기대하겠지만, 슬프게도 그렇지 않다.<br>
+가변인수는 메서드에 넘기는 인수의 개수를 클라이언트가 조절할 수 있게 해주는데, 구현 방식에 허점이 있다.
 
+* 제네릭과 가변인수를 혼용하면 타입 안정성이 깨진다!
+```java
+static void dangerous(List<String>... stringLists) {
+    List<Integer> intList = List.of(42);
+    Object[] objects = stringLists;
+    objects[0] = intList; // 힙 오염 발생
+    String s = stringLists[0].get(0); // ClassCastException
+}
+```
+<img width="50%" src="https://user-images.githubusercontent.com/55771326/166879203-acb4d610-ae74-4897-b362-5ab90dff9039.png">
+
+**_위 처럼 타입 안전성이 깨지니 제네릭 가변인수 배열 매개변수에 값을 저장하는 것은 안전하지 않다._** <br>
+
+⭐ 그렇다면 제네릭 배열을 프로그래머가 직접 생성하는 건 허용하지 않으면서 제네릭 가변인수 매개변수를 받는 메서드를 선언할 수 있게 한 이유는 무엇일까? <br>
+
+⭐ 위 코드를 컴파일 에러가 아닌 비검사 경고로 끝내는 이유가 무엇일까?
+
+그 답은 제네릭이나 매개변수화 타입의 가변인수 매개변수를 받는 메서드가 실무에서 매우 유용하기 때문이다. <br>
+자바 라이브러리도 이런 메서드를 여럿 제공하는데, `Arrays.asList(T... a)`, `Collections.addAll(Collection<? superT> c, T... elements)`가 대표적이다.
+
+```java
+@SafeVarargs
+public static <T> boolean addAll(Collection<? super T> c, T... elements)
+```
+```java
+@SafeVarargs
+public static <T> List<T> asList(T... a)
+```
+
+⭐ @SafeVarargs 애너테이션은 메서드 작성자가 그 메서드가 타입 안전함을 보장하는 장치다. 컴파일러는 이 약속을 믿고 그 메서드가 안전하지 않을 수 있다는 경고를 더 이상 하지 않는다.<br>
+따라서, 가변인수 매개변수 배열이 호출자로부터 그 메서드로 순수하게 이수들을 전달하는 일만 한다면 그 메서드는 안전하다. <br>
+
+<br>
+
+⚠️ **but, 가변인수 매개변수 배열에 아무것도 저장하지 않고도 타입 안전성을 깰수도 있으니 주의해야한다.**
+
+* 자신의 제네릭 매개변수 배열의 참조를 노출한다. - 안전하지 않다!
+```java
+static <T> T[] toArray(T... args) {
+    return args;
+}
+
+static <T> T[] pickTwo(T a, T b, T c) {
+    switch(ThreadLocalRandom.current().nextInt(3)) {
+        case 0: return toArray(a, b);
+        case 1: return toArray(a, c);
+        case 2: return toArray(b, c);
+    }
+    throw new AssertionError(); // 도달할 수 없다.
+}
+
+public static void main(String[] args) { // (194쪽)
+    String[] attributes = pickTwo("좋은", "빠른", "저렴한");
+    System.out.println(Arrays.toString(attributes));
+}
+```
+위 코드는 아무런 문제가 없는 메서드이므로 별다른 경고 없이 컴파일이 된다. 하지만 실행하려 들면 `ClassCastException`을 던진다. <br>
+바로 pickTwo의 반환값을 attributes에 저장하기 위해 String[]로 현변하는 코드를 컴파일러가 자동 생성한다는 점을 놓쳤다. <br>
+Object[]는 String[]의 하위 타입이 아니므로 이 형변환은 실패한다. <br>
+
+<img width="50%" src="https://user-images.githubusercontent.com/55771326/166882774-6e43c32b-b754-416d-880d-b78b2c2da420.png">
+
+⭐ 위의 예는 제네릭이 가변인수 매개변수 배열에 다른 메서드가 접근하도록 허용하면 안전하지 않다는 점을 다시 한번 상기시킨다.
 
 ## 🎯  아이템 33. 타입 안정 이종 컨테이너를 고려하라.
 
