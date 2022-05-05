@@ -303,7 +303,42 @@ public E pop() {
 🚩 **힙 오염**(heap pollution)이란? [click here.](https://velog.io/@adduci/Java-%ED%9E%99-%ED%8E%84%EB%A3%A8%EC%85%98-Heap-pollution)
 
 ## 🎯  아이템 30. 이왕이면 제네릭 메서드로 만들라.
+> 제네릭 타입과 마찬가지로, 클라이언트에서 입력 매개변수와 반환값을 명시적으로 형변환해야 하는 메서드보다 <br>
+> 제네릭 메서드가 더 안전하며 사용하기도 쉽다.
+
+<br>
+
+* 로 타입 사용 - 수용 불가!
+```java
+public static Set union(Set s1, Set s2) {
+    Set result = new HashSet<>(s1);
+    result.addAll(s2);
+    return result;
+}
+```
+컴파일은 되지만 `Raw use of parameterized class 'Set' `, `Unchecked call to 'addAll(Collection<? extends E>)' as a member of raw type 'java.util.Set'`<br>
+이러한 비검사 경고를 보여준다. 실제 IntelliJ에서 소스를 확인해보면 노란줄이 벅벅 가있는걸 볼 수 있다. <br>
+<br>
+
+<img width="70%" src="https://user-images.githubusercontent.com/55771326/166870516-7acd8784-fa00-4b74-9e36-3c392e9f9394.PNG">
+
+<br>
+
+* 비검사 경고를 제거하기 위해 제네릭 메서드로 리펙토링
+
+```java
+public static <E> Set<E> union(Set<E> s1, Set<E> s2) {
+    Set<E> result = new HashSet<>(s1);
+    result.addAll(s2);
+    return result;
+}
+```
+메서드 선언에서의 세 집합의 원소 타입을 타입 매개변수로 명시하고, 메서드 안에서도 이 타입 매개변수만 사용하게 수정하면 된다.
+
+
 ## 🎯  아이템 31. 한정적 와일드카드를 사용해 API 유연성을 높이라.
+
+
 ## 🎯  아이템 32. 제네릭과 가변인수를 함께 쓸 때는 신중하라.
 ## 🎯  아이템 33. 타입 안정 이종 컨테이너를 고려하라.
 
