@@ -11,3 +11,5 @@
 ### 🔥 [ Chapter4 ] 클래스와 인터페이스 [click here.](https://github.com/quedevel/que-code/blob/main/que-effective-java/src/com/quecode/chapter4/CHAPTER4.md)
 
 ### 🔥 [ Chapter5 ] 제네릭 [click here.](https://github.com/quedevel/que-code/blob/main/que-effective-java/src/com/quecode/chapter5/CHAPTER5.md)
+
+### 🔥 [ Chapter6 ] 열거 타입과 애너테이션 [click here.](https://github.com/quedevel/que-code/blob/main/que-effective-java/src/com/quecode/chapter6/CHAPTER6.md)
