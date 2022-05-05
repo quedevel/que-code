@@ -501,4 +501,46 @@ Object[]는 String[]의 하위 타입이 아니므로 이 형변환은 실패한
 
 ## 🎯  아이템 33. 타입 안정 이종 컨테이너를 고려하라.
 
-## ⭐ 결론
+⭐ 이종 컨테이너 패턴(type safe heterogeneous container) [click here.](https://datacadamia.com/code/design_pattern/typesafe_heterogeneous_container) <br>
+
+<br>
+컬렉션 API로 대표되는 일반적인 제네릭 형태에서는 한 컨테이너가 다룰 수 있는 타입 매개변수의 수가 고정되어 있다. 하지만 컨테이너 자체가 아닌 키를 타입 매개변수로 바꾸면 <br>
+이런 제약이 없는 타입 안전 이종 컨테이너를 만들 수 있다. 타입 안전 이종 컨테이너는 Class를 키로 쓰며, 이런 식으로 Class 객체를 타입 토큰이라 한다. 또한, 직접 구현한 <br>
+키 타입도 쓸 수 있다. 예컨대 데이터베이스의 행을 표현한 DatabaseRow 타입에는 제네릭 타입인 Column<T>를 키로 사용할 수 있다.</T>
+
+```java
+public class Favorites {
+    // 코드 33-3 타입 안전 이종 컨테이너 패턴 - 구현 (200쪽)
+    private Map<Class<?>, Object> favorites = new HashMap<>();
+
+//    public <T> void putFavorite(Class<T> type, T instance) {
+//        favorites.put(Objects.requireNonNull(type), instance);
+//    }
+
+    public <T> T getFavorite(Class<T> type) {
+        return type.cast(favorites.get(type));
+    }
+
+    // 코드 33-4 동적 형변환으로 런타임 타입 안전성 확보 (202쪽)
+    public <T> void putFavorite(Class<T> type, T instance) {
+        favorites.put(Objects.requireNonNull(type), type.cast(instance));
+    }
+
+    // 코드 33-2 타입 안전 이종 컨테이너 패턴 - 클라이언트 (199쪽)
+    public static void main(String[] args) {
+        Favorites f = new Favorites();
+
+        f.putFavorite(String.class, "Java");
+        f.putFavorite(Integer.class, 0xcafebabe);
+        f.putFavorite(Class.class, Favorites.class);
+
+        String favoriteString = f.getFavorite(String.class);
+        int favoriteInteger = f.getFavorite(Integer.class);
+        Class<?> favoriteClass = f.getFavorite(Class.class);
+
+        System.out.printf("%s %x %s%n", favoriteString,
+                favoriteInteger, favoriteClass.getName());
+    }
+}
+
+```
