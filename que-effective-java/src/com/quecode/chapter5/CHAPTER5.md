@@ -338,8 +338,102 @@ public static <E> Set<E> union(Set<E> s1, Set<E> s2) {
 
 ## 🎯  아이템 31. 한정적 와일드카드를 사용해 API 유연성을 높이라.
 
+매개변수화 타입은 불공변이다. 즉 서로 다른 타입 Type1과 Type2가 있을 때 List<Type1>은 List<Type2>의 하위 타입도 상위 타입도 아니다. <br>
+즉, List<String>은 List<Object>가 하는 일을 제대로 수행하지 못하니 하위 타입이 될 수 없다. <br>
+( [리스코프 치환 원칙](https://ko.wikipedia.org/wiki/%EB%A6%AC%EC%8A%A4%EC%BD%94%ED%94%84_%EC%B9%98%ED%99%98_%EC%9B%90%EC%B9%99) 에 어긋난다. ) <br>
+
+* 와일드카드 타입을 사용하지 않은 pushAll 메서드 - 결함이 있다!
+```java
+// Stack의 public API
+public void pushAll(Iterable<E> src){
+    for (E e : src) {
+        push(e);
+    }
+}
+```
+언뜻보면 컴파일도 되고 완벽해 보이지만 결함이 있다.
+
+```java
+public final class Integer extends Number implements Comparable<Integer>{}
+```
+```java
+public static void main(String[] args) {
+    Stack<Number> stack = new Stack<>();
+    List<Integer> integers = List.of(1,2,3);
+    stack.pushAll(integers);
+}
+```
+Integer는 Number의 하위타입임에도 불구하고 위 코드는 오류가 발생한다.<br>
+<img src="https://user-images.githubusercontent.com/55771326/166873684-d306dc9d-77df-4452-87f3-68384a6adbca.PNG">
+
+<br>
+
+자바는 이런 상황에 대처할 수 있는 한정적 와일드카드 타입이라는 특별한 매개변수화 타입을 지원한다.
+
+* E 생산자 매개변수에 와일드카드 타입 적용
+```java
+public void pushAll(Iterable<? extends E> src){
+    for (E e : src) {
+        push(e);
+    }
+}
+```
+E 타입을 확장한 모든 타입을 받을 수 있게된다.
+
+<br>
+
+* 와일드카드 타입을 사용하지 않은 popAll 메서드 - 결함이 있다!
+```java
+public void popAll(Collection<E> dst){
+    while (!isEmpty())
+        dst.add(pop());
+}
+```
+이 또한 문제없이 완벽할거라 생각하지만 결함이 존재한다.
+
+```java
+public static void main(String[] args) {
+    Stack<Number> stack = new Stack<>();
+    List<Integer> integers = List.of(1,2,3);
+    stack.pushAll(integers); // 와일드 카드 적용
+
+    Collection<Object> objects = new ArrayList<>();
+    stack.popAll(objects);
+}
+```
+<img src="https://user-images.githubusercontent.com/55771326/166874612-0004595e-406c-406e-842c-d0c0957f28f4.png">
+
+위 처럼 Object는 Number의 하위타입이 아니라는 오류가 발생하게 된다.
+
+* E 소비자 매개변수에 와일드카드 타입 적용
+```java
+public void popAll(Collection<? super E> dst){
+    while (!isEmpty())
+        dst.add(pop());
+}
+```
+유연성을 극대화하려면 원소의 생산자나 소비자용 입력 매개변수에 와일드카드 타입을 사용하라. <br>
+
+* _**but. 입력 매개변수가 생산자와 소비자 역할을 동시에 한다면 와일드카드 타입을 써도 좋을 게 없다.**_
+> 펙스(PECS) : producer-extends, consumer-super <br>
+
+즉, 매개변수화 타입 T가 생산자라면 <? extends T>를 사용하고, 소비자라면 <? super T>를 사용하라.
+
+union 메서드
+```java
+public static <E> Set<E> union(Set<E> s1, Set<E> s2)
+```
+s1, s2가 모두 생산자이니 펙스공식에 따라
+```java
+public static <E> Set<E> union(Set<? extends E> s1, Set<? extends E> s2)
+```
+> ✅ 반환 타입에는 한정적 와일드카드 타입을 사용하면 안 된다. 유연성을 높여주기는커녕 클라이언트 코드에서도 와일드카드 타입을 써야 하기 때문이다.
+
+⭐ 클래스 사용자가 와일드카드 타입을 신경 써야 한다면 그 API에 무슨 문제가 있을 가능성이 크다.
 
 ## 🎯  아이템 32. 제네릭과 가변인수를 함께 쓸 때는 신중하라.
+
+
 ## 🎯  아이템 33. 타입 안정 이종 컨테이너를 고려하라.
 
 ## ⭐ 결론
