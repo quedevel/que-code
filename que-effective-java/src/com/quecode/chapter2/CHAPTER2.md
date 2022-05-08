@@ -319,3 +319,8 @@ static void copy(String src, String dst) throws IOException {
 
 ## ⭐ 결론
 불필요한 자원 생성을 피하고, 메모리 누수, 자원 회수 등에 대한 예방법을 활용하자!
+
+
+<br>
+
+> Joshua Bloch, 『Effective Java 3/E』, 개앞맵시 옮김, 프로그래밍인사이트(2018), p8-50.

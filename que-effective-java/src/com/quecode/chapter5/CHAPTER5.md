@@ -544,3 +544,8 @@ public class Favorites {
 }
 
 ```
+
+
+<br>
+
+> Joshua Bloch, 『Effective Java 3/E』, 개앞맵시 옮김, 프로그래밍인사이트(2018), p153-205.
