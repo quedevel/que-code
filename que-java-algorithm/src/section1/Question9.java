@@ -1,6 +1,8 @@
+package section1;
+
 import java.util.Scanner;
 
-public class Main {
+public class Question9 {
     public static int solution(String str){
         String result = "";
         for(char c : str.toCharArray()){
