@@ -1,6 +1,8 @@
+package section1;
+
 import java.util.Scanner;
 
-public class Main {
+public class Question8 {
     public static String solution(String str){
         String result = "";
         String onlyEng = "";
