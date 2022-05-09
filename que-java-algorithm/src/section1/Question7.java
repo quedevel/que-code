@@ -1,6 +1,8 @@
+package section1;
+
 import java.util.Scanner;
 
-public class Main {
+public class Question7 {
     public static String solution(String str){
         String result = "";
         StringBuffer sb = new StringBuffer(str);
