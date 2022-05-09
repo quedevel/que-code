@@ -1,6 +1,8 @@
+package section1;
+
 import java.util.Scanner;
 
-public class Main {
+public class Question4 {
     public static void solution(String str){
         StringBuffer sb = new StringBuffer(str);
         String s = sb.reverse().toString();
