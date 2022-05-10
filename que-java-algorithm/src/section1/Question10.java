@@ -1,10 +1,9 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Scanner;
+package section1;
+
+import java.util.*;
 import java.util.stream.Collectors;
 
-public class Main {
+public class Question10 {
     public static String solution(String s, String t){
         String result = "";
         String[] split = s.split("");
