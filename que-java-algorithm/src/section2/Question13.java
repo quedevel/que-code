@@ -1,8 +1,10 @@
+package section2;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Main {
+public class Question13 {
     public static void solution(List<Integer> list){
         String result = "";
         int prev = 0;
