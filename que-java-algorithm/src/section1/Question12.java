@@ -1,6 +1,9 @@
+package section1;
+
+import java.util.Arrays;
 import java.util.Scanner;
 
-public class Main {
+public class Question12 {
     public static void solution(int cnt, String str){
         String result = "";
         String[] sArr = new String[cnt];
