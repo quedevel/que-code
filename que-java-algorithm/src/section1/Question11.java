@@ -1,6 +1,8 @@
+package section1;
+
 import java.util.Scanner;
 
-public class Main {
+public class Question11 {
     public static void solution(String str){
         String result = "";
         int cnt = 0;
