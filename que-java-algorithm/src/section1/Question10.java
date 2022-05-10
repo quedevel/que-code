@@ -1,48 +1,32 @@
 package section1;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Question10 {
-    public static String solution(String s, String t){
-        String result = "";
-        String[] split = s.split("");
+    public static int[] solution(String s, char t){
+        int[] answer=new int[s.length()];
         int p = 1000;
-        int q = 1000;
-
-        List<Integer> sList1 = new ArrayList<>();
-        List<Integer> sList2 = new ArrayList<>();
-        List<Integer> sList3 = new ArrayList<>();
-        for (int i = 0; i < split.length; i++) {
-            if (split[i].equals(t)){
+        for (int i = 0; i < s.length(); i++) {
+            p = s.charAt(i) == t? 0 : p+1;
+            answer[i] = p;
+        }
+        p = 1000;
+        for (int i = s.length()-1; i >= 0; i--) {
+            if (s.charAt(i) == t){
                 p = 0;
-                sList1.add(0);
             } else {
                 p++;
-                sList1.add(p);
             }
+            answer[i] = Math.min(answer[i],p);
         }
-        for (int i = split.length-1; i >= 0; i--) {
-            if (split[i].equals(t)){
-                q = 0;
-                sList2.add(0);
-            } else {
-                q++;
-                sList2.add(q);
-            }
-        }
-        Collections.reverse(sList2);
-        for (int i = 0; i < sList1.size(); i++) {
-            if(sList1.get(i) >= sList2.get(i)) sList3.add(sList2.get(i));
-            else sList3.add(sList1.get(i));
-        }
-        result = sList3.stream().map(String::valueOf).collect(Collectors.joining(" "));
-        return result;
+        return answer;
     }
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        String str = sc.nextLine();
-        String[] sArr = str.split(" ");
-        System.out.println(solution(sArr[0],sArr[1]));
+        String str = sc.next();
+        char c = sc.next().charAt(0);
+        for (int i : solution(str, c)){
+            System.out.print(i+" ");
+        }
     }
 }
