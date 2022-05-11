@@ -1,8 +1,10 @@
+package section2;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Main {
+public class Question18 {
     public static void solution(List<Integer> list){
         list.forEach(num -> {
             StringBuffer sb = new StringBuffer(String.valueOf(num));
