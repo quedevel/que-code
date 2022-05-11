@@ -1,6 +1,8 @@
+package section2;
+
 import java.util.Scanner;
 
-public class Main {
+public class Question17 {
     public static void solution(int cnt){
         int result = 0;
         int[] iArr = new int[cnt+1];
@@ -8,6 +10,7 @@ public class Main {
             if (iArr[i] == 0){
                 result++;
                 for (int j = i; j <= cnt; j=j+i) {
+                    System.out.println(j);
                     iArr[j] = 1;
                 }
             }
