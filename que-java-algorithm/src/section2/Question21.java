@@ -1,9 +1,11 @@
+package section2;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
-public class Main {
+public class Question21 {
     public static void solution(int[][] iArr){
         List<Integer> sumList = new ArrayList<>();
         int leftDiagonal = 0;
