@@ -10,7 +10,6 @@ public class Question17 {
             if (iArr[i] == 0){
                 result++;
                 for (int j = i; j <= cnt; j=j+i) {
-                    System.out.println(j);
                     iArr[j] = 1;
                 }
             }
