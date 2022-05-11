@@ -1,7 +1,6 @@
 package section2;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Question20 {
     public static void solution(List<Integer> list){
