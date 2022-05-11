@@ -1,8 +1,9 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+package section2;
 
-public class Main {
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class Question20 {
     public static void solution(List<Integer> list){
         for (int i = 0; i < list.size(); i++) {
             int grade = 1;
