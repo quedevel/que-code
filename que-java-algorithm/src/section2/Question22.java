@@ -1,6 +1,8 @@
+package section2;
+
 import java.util.Scanner;
 
-public class Main {
+public class Question22 {
     public static void solution(int[][] iArr){
         int cnt = 0;
         int[][] temp = new int[iArr.length+2][iArr.length+2];
