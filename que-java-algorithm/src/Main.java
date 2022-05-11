@@ -3,19 +3,19 @@ import java.util.Scanner;
 public class Main {
     public static void solution(int[][] iArr){
         int cnt = 0;
-        int[][] temp = new int[iArr.length+2][iArr.length+2];
-        for (int i = 1; i < temp.length-1; i++) {
-            for (int j = 1; j < temp.length-1; j++) {
-                temp[i][j] = iArr[i-1][j-1];
-            }
-        }
-
-        for (int i = 1; i < temp.length-1; i++) {
-            for (int j = 1; j < temp.length-1; j++) {
-                if (temp[i][j] > temp[i+1][j]
-                        && temp[i][j] > temp[i][j+1]
-                        && temp[i][j] > temp[i-1][j]
-                        && temp[i][j] > temp[i][j-1]){
+        int[] x = {-1, 0, 1, 0};
+        int[] y = {0, 1, 0, -1};
+        for (int i = 0; i < iArr.length; i++) {
+            for (int j = 0; j < iArr.length; j++) {
+                boolean flag = true;
+                for (int k = 0; k < x.length; k++) {
+                    int dx = i+x[k];
+                    int dy = j+y[k];
+                    if (dx >= 0 && dx < iArr.length && dy >= 0 && dy < iArr.length && iArr[i][j] <= iArr[dx][dy]){
+                        flag = false;
+                    }
+                }
+                if (flag){
                     cnt++;
                 }
             }
