@@ -151,6 +151,44 @@ public enum RoleType {
 <br>
 
 ## 🎯  아이템 36. 비트 필드 대신 EnumSet을 사용하라.
+* 비트 필드 열거 상수 - 구닥다리 기법!
+```java
+public class Text {
+    public static final int STYLE_BOLD          = 1 << 0; // 1
+    public static final int STYLE_ITALIC        = 1 << 1; // 2
+    public static final int STYLE_UNDERLINE     = 1 << 2; // 4
+    public static final int STYLE_STRIKETHROUGH = 1 << 3; // 5
+    
+    public void applyStyles(int styles){ ... }
+}
+```
+다음과 가은 식으로 비트별 OR를 사용해 여러 상수를 하나의 집합으로 모을 수 있으며, 이렇게 만들어진 집합을 비트 필드라 한다. <br>
+```java
+text.applyStyles(STYLE_BOLD | STYLE_ITALIC);
+```
+하지만 비트 필드는 정수 열거 상수의 단점을 그대로 지니며, 추가로 다음과 같은 문제까지 있다. <br>
+비트 필드 값이 그대로 출력되면 단순한 정수 열거 상수를 출력할 때보다 해석하기가 어렵다.<br>
+
+<br>
+
+* EnumSet - 비트 필드를 대체하는 현대적 기법
+```java
+public class Text {
+    public enum Style {BOLD, ITALIC, UNDERLINE, STRIKETHROUGH}
+
+    // 어떤 Set을 넘겨도 되나, EnumSet이 가장 좋다.
+    public void applyStyles(Set<Style> styles) {
+        System.out.printf("Applying styles %s to text%n", Objects.requireNonNull(styles));
+    }
+
+    // 사용 예
+    public static void main(String[] args) {
+        Text text = new Text();
+        text.applyStyles(EnumSet.of(Style.BOLD, Style.ITALIC));
+    }
+}
+```
+**_EnumSet 클래스가 비트 필드 수준의 명료함과 성능을 제공하고 열거 타입의 장점까지 선사한다._**
 
 ## 🎯  아이템 37. ordinal 인덱싱 대신 EnumMap을 사용하라.
 
