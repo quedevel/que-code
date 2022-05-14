@@ -116,6 +116,39 @@ public enum Operation2 {
 <br>
 
 ## 🎯  아이템 35. ordinal 메서드 대신 인스턴스 필드를 사용하라.
+열거 타입은 해당 상수가 그 열거 타입에서 몇 번째 위치인지를 반환하는 `ordinal`이라는 메서드를 제공한다.
+```java
+public enum RoleType {
+    USER, ADMIN;
+}
+```
+```java
+@Entity
+public class Member {
+    @Id
+    private Long id;
+
+    @Column(name = "name")
+    private String username;
+
+    private Integer age;
+
+    @Enumerated(EnumType.ORDINAL)
+    private RoleType roleType;
+}    
+```
+위 처럼 `javax.persistence`에서 제공하는 타입을 enum으로 지정하는 `@Enumerated`을 제공해준다.<br>
+`@Enumerated` 애너테이션에는 두 가지 옵션이 있는데 `EnumType.ORDINAL`과 `EnumType.STRING`이 있는데 <br>
+`EnumType.ORDINAL`을 옵션으로 넣으면 내부적으로 `ordinal`함수를 사용하기 때문에 enum값을 순서로 저장하게 되는데<br>
+여기서 만약 `RoleType`에 추가가 된다면 `GUEST`라는 값이 앞에서 추가가 된다면 `USER`로 저장된 값은 `GUEST`로 되기 때문에 위험하다.<br>
+```java
+public enum RoleType {
+    GUEST, USER, ADMIN;
+}
+```
+따라서, 특별한 용도가 아니라면 `ordinal` 메서드는 절대 사용하지 말자
+
+<br>
 
 ## 🎯  아이템 36. 비트 필드 대신 EnumSet을 사용하라.
 
