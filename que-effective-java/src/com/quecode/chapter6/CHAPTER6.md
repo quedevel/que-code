@@ -191,6 +191,89 @@ public class Text {
 **_EnumSet 클래스가 비트 필드 수준의 명료함과 성능을 제공하고 열거 타입의 장점까지 선사한다._**
 
 ## 🎯  아이템 37. ordinal 인덱싱 대신 EnumMap을 사용하라.
+```java
+public class Plant {
+    enum LifeCycle { ANNUAL, PERENNIAL, BIENNIAL }
+
+    final String name;
+    final LifeCycle lifeCycle;
+
+    Plant(String name, LifeCycle lifeCycle) {
+        this.name = name;
+        this.lifeCycle = lifeCycle;
+    }
+
+    @Override public String toString() {
+        return name;
+    }
+}
+```
+* ordinal()을 배열 인덱스로 사용 - 따라 하지 말 것!
+```java
+public static void main(String[] args) {
+    Plant[] garden = {
+            new Plant("바질",    LifeCycle.ANNUAL),
+            new Plant("캐러웨이", LifeCycle.BIENNIAL),
+            new Plant("딜",      LifeCycle.ANNUAL),
+            new Plant("라벤더",   LifeCycle.PERENNIAL),
+            new Plant("파슬리",   LifeCycle.BIENNIAL),
+            new Plant("로즈마리", LifeCycle.PERENNIAL)
+    };
+
+    // 코드 37-1 ordinal()을 배열 인덱스로 사용 - 따라 하지 말 것! (226쪽)
+    Set<Plant>[] plantsByLifeCycleArr = (Set<Plant>[]) new Set[Plant.LifeCycle.values().length];
+    for (int i = 0; i < plantsByLifeCycleArr.length; i++){
+        plantsByLifeCycleArr[i] = new HashSet<>();
+    }
+    for (Plant p : garden) {
+        plantsByLifeCycleArr[p.lifeCycle.ordinal()].add(p);
+    }
+    // 결과 출력
+    for (int i = 0; i < plantsByLifeCycleArr.length; i++) {
+        System.out.printf("%s: %s%n", Plant.LifeCycle.values()[i], plantsByLifeCycleArr[i]);
+    }
+}
+```
+* 출력 결과
+<br>
+<img width="40%" src="https://user-images.githubusercontent.com/55771326/168415411-54f410ea-2a57-48f0-bdc7-7c618548bf1c.PNG">
+<br>
+
+동작은 하지만 문제가 한가득이다. 배열은 제네릭과 호환되지 않으니 비검사 형변환을 수행해야 하고 깔끔히 컴파일되지 않을 것이다.<br>
+따라서, 열거 타입을 키로 사용하도록 설계한 아주 빠른 Map 구현체가 존재하는데, 바로 EnumMap이다.<br>
+
+<br>
+
+* EnumMap을 사용해 데이터와 열거 타입을 매핑한다.
+```java
+Map<LifeCycle, Set<Plant>> plantsByLifeCycle = new EnumMap<>(Plant.LifeCycle.class);
+for (Plant.LifeCycle lc : Plant.LifeCycle.values()) {
+    plantsByLifeCycle.put(lc, new HashSet<>());
+}
+for (Plant p : garden) {
+    plantsByLifeCycle.get(p.lifeCycle).add(p);
+}
+System.out.println(plantsByLifeCycle);
+```
+* 출력 결과
+<br>
+<img width="40%" src="https://user-images.githubusercontent.com/55771326/168415762-8a62dfe8-67ec-4773-bf2b-b29d90aa554b.PNG">
+<br>
+
+더 짧고 명료하고 안전하고 성능도 원래 버전과 비등하다. 안전하지 않은 형변환은 쓰지 않고, <br>
+맵의 키인 열거 타입이 그 자체로 출력용 문자열을 제공하니 출력 관ㄹ에 직접 레이블을 달 일도 없다.<br>
+
+* 스트림을 사용한 코드
+```java
+System.out.println(Arrays.stream(garden).collect(groupingBy(p -> p.lifeCycle)));
+
+System.out.println(Arrays.stream(garden).collect(groupingBy(p -> p.lifeCycle, () -> new EnumMap<>(LifeCycle.class), toSet())));
+```
+배열의 인덱스를 얻기 위해 ordinal을 쓰는 것은 일반적으로 좋지 않으니, 대신 EnumMap을 사용하라.<br>
+다차원 관계는 EnumMap<...,EnumMap<...>>으로 표현하라. "애플리 케이션 프로그래머는 Enum.ordinal을 (웬만해서는) 사용하지 말아야한다."<br>
+
+<br>
+
 
 ## 🎯  아이템 38. 확장할 수 있는 열거 타입이 필요하면 인터페이스를 사용하라.
 
