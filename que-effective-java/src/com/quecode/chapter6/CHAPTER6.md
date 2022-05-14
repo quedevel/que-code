@@ -338,6 +338,75 @@ public enum ExtendedOperation implements Operation{
 <br>
 
 ## 🎯  아이템 39. 명명 패턴보다 애너테이션을 사용하라.
+명명 패턴의 이슈
+1. 오타가 나면 안된다.
+2. 올바른 프로그램 요소에서만 사용되리라 보증 할 방법이 없다.
+3. 프로그램 요소를 배개변수로 전달할 마땅한 방법이 없다.<br>
+
+<br>
+
+이러한 문제를 해결하기 위해 애너테이션을 사용하자!
+<br>
+
+```java
+@Aspect
+@Component
+public class SessionAspect {
+
+    private static final String VO_SETTING_EXPRESSION = "execution(* com.inno.backoffice..*Mapper.insert*(..))"
+                                                    + " || execution(* com.inno.backoffice..*Mapper.update*(..))"
+                                                    + " || execution(* com.inno.backoffice..*Mapper.delete*(..))"
+                                                    + " || execution(* com.inno.common..*Mapper.insert*(..))"
+                                                    + " || execution(* com.inno.common..*Mapper.update*(..))"
+                                                    + " || execution(* com.inno.common..*Mapper.delete*(..))";
+
+    @Before(VO_SETTING_EXPRESSION)
+    public void setVO(JoinPoint joinPoint) {
+        Object[] objects = joinPoint.getArgs();
+        if(SecurityContextHolder.getContext().getAuthentication()!= null) {
+            InnoUser user = (InnoUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            AdminVO vo = user.getAdminVO();
+            for (Object o : objects) {
+                Method[] methods = o.getClass().getMethods();
+                Optional<Method> setRegDtime = Arrays.stream(methods).filter(e -> e.getName().equals("setRegDate")).findFirst();
+                Optional<Method> setModDtime = Arrays.stream(methods).filter(e -> e.getName().equals("setModDate")).findFirst();
+                Optional<Method> setRegSn = Arrays.stream(methods).filter(e -> e.getName().equals("setRegSn")).findFirst();
+                Optional<Method> setModSn = Arrays.stream(methods).filter(e -> e.getName().equals("setModSn")).findFirst();
+                Optional<Method> getRegSn = Arrays.stream(methods).filter(e -> e.getName().equals("getRegSn")).findFirst();
+                Optional<Method> getModSn = Arrays.stream(methods).filter(e -> e.getName().equals("getModSn")).findFirst();
+                Date now = new Date();
+                try {
+                    if (joinPoint.getSignature().getName().startsWith("insert")) {
+                        if (setRegDtime.isPresent()) {
+                            setRegDtime.get().invoke(o, now);
+                        }
+                        if (setRegSn.isPresent()) {
+                            if (CommonConstants.EMPTY.getValue().equals(StringUtil.null2void((String) getRegSn.get().invoke(o)))) {
+                                setRegSn.get().invoke(o, vo.getAdminSn());
+                            }
+                        }
+                    }
+                    if (setModDtime.isPresent()) {
+                        setModDtime.get().invoke(o, now);
+                    }
+                    if (setModSn.isPresent()) {
+                        if (CommonConstants.EMPTY.getValue().equals(StringUtil.null2void((String) getModSn.get().invoke(o)))) {
+                            setModSn.get().invoke(o, vo.getAdminSn());
+                        }
+                    }
+                } catch (Exception e) {
+                    //todo
+                }
+            }
+        }
+    }
+}
+```
+위 소스는 내가 AOP를 활용하여 등록자, 등록날짜, 수정자, 수정날짜를 set해주는 기능이다.<br>
+하지만 위 소스의 `VO_SETTING_EXPRESSION`을 통해 명명 패턴을 사용하였기 때문에 앞에 설명한 이슈들을 갖고 있다.<br>
+따라서, ` @Before("@annotation(커스텀 애너테이션)")`을 사용하여 명명패턴을 회피해야 될 것 같다.
+
+<br>
 
 ## 🎯  아이템 40. @Override 애너테이션을 일관되게 사요하라.
 
