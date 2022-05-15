@@ -1,6 +1,8 @@
+package section3;
+
 import java.util.*;
 
-public class Main {
+public class Question26 {
     public static void solution(Set<Integer> firstList, Set<Integer> secondList){
         for (Integer integer : firstList) {
             if (secondList.contains(integer)){
