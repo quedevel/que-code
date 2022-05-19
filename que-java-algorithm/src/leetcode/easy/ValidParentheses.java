@@ -3,7 +3,6 @@ package leetcode.easy;
 import java.util.Stack;
 
 public class ValidParentheses {
-
     public static boolean isValid(String s) {
         if(s.length()%2 != 0) return false;
         String[] sArr = s.split("");
