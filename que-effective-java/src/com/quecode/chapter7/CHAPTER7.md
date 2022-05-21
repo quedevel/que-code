@@ -209,10 +209,101 @@ public class Item44 {
 3. 그 결과 유지보수 과정에서 누군가 실수로 메서드를 추가하지 못하게 막아준다.
 
 ## 🎯  아이템 45. 스트림은 주의해서 사용하라.
+스트림 API는 다재다능하여 사실상 어떠한 계산이라도 해낼 수 있다. 하지만 할 수 있다는 뜻이지, 해야 한다는 뜻은 아니다!!<br>
+스트림을 제대로 사용하면 프로그램이 짧고 깔금해지지만, 잘못 사용하면 읽기 어렵고 유지보수도 힘들어진다.<br>
+
+<br>
+
+* 사전 하나를 훑어 원소 수가 많은 아나그램 그룹들을 출력한다.
+```java
+public class IterativeAnagrams {
+    public static void main(String[] args) throws IOException {
+        String[] sArr = new String[]{"abc","euq","test","zzfq","que","acb"};
+        int minGroupSize = Integer.parseInt("1");
+
+        Map<String, Set<String>> groups = new HashMap<>();
+
+        for (String s : sArr) {
+            String word = s;
+            groups.computeIfAbsent(alphabetize(word),
+                    (unused) -> new TreeSet<>()).add(word);
+        }
+
+        for (Set<String> group : groups.values())
+            if (group.size() >= minGroupSize)
+                System.out.println(group.size() + ": " + group);
+    }
+
+    private static String alphabetize(String s) {
+        char[] a = s.toCharArray();
+        Arrays.sort(a);
+        return new String(a);
+    }
+}
+```
+
+<br>
+
+* 스트림을 과하게 사용했다.
+```java
+public class StreamAnagrams {
+    public static void main(String[] args) throws IOException {
+        int minGroupSize = Integer.parseInt("1");
+        Stream<String> words = Stream.of("abc","euq","test","zzfq","que","acb");
+
+        words.collect(
+                        groupingBy(word -> word.chars().sorted()
+                                .collect(StringBuilder::new,
+                                        (sb, c) -> sb.append((char) c),
+                                        StringBuilder::append).toString()))
+                .values().stream()
+                .filter(group -> group.size() >= minGroupSize)
+                .map(group -> group.size() + ": " + group)
+                .forEach(System.out::println);
+    }
+}
+```
+**_스트림을 과용하면 프로그램이 읽거나 유지보수하기 어려워진다._**<br>
+
+<br>
+
+* 스트림을 적절히 활용하면 깔끔하고 명료해진다.
+```java
+public class HybridAnagrams {
+    public static void main(String[] args) throws IOException {
+        Stream<String> words = Stream.of("abc","euq","test","zzfq","que","acb");
+        int minGroupSize = Integer.parseInt("1");
+
+        words.collect(groupingBy(word -> alphabetize(word)))
+                .values().stream()
+                .filter(group -> group.size() >= minGroupSize)
+                .forEach(g -> System.out.println(g.size() + ": " + g));
+    }
+
+    private static String alphabetize(String s) {
+        char[] a = s.toCharArray();
+        Arrays.sort(a);
+        return new String(a);
+    }
+}
+```
+
+<br>
+
+기존 코드는 스트림을 사용하도록 리팩터링하되, 새 코드가 더 나아 보일 때만 반영하자.<br>
+스트림이 아주 안성맞춤인 조건
+1. 원소들의 시퀀스를 일관되게 변환한다.
+2. 원소들의 시퀀스를 필터링한다.
+3. 원소들의 시퀀스를 하나의 연산을 사용해 결합한다.
+4. 원소들의 시퀀스를 컬렉션에 모은다.
+5. 원소들의 시퀀스에서 특정 조건을 만족하는 원소를 찾는다.
+
+<br>
+
 ## 🎯  아이템 46. 스트림에서는 부작용 없는 함수를 사용하라.
 ## 🎯  아이템 47. 반환 타입으로는 스트림보다 컬렉션이 낫다.
 ## 🎯  아이템 48. 스트림 병렬화는 주의해서 적용하라.
 
 <br>
 
-> Joshua Bloch, 『Effective Java 3/E』, 개앞맵시 옮김, 프로그래밍인사이트(2018), p207-251.
+> Joshua Bloch, 『Effective Java 3/E』, 개앞맵시 옮김, 프로그래밍인사이트(2018), p253-296.
