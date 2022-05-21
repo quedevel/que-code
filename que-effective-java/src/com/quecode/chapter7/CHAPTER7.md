@@ -301,6 +301,64 @@ public class HybridAnagrams {
 <br>
 
 ## 🎯  아이템 46. 스트림에서는 부작용 없는 함수를 사용하라.
+스트림 파이프라인 프로그래밍의 핵심은 부작용 없는 함수 객체에 있다. 스트림뿐 아니라 스트림 관련 객체에 건네지는 <br>
+모든 함수 객체가 부작용이 없어야 한다. 종단 연산 중 `forEach`는 스트림이 수행한 계산 결과를 보고할 때만 이용해야 한다. <br>
+계신 자체에는 이용하지 말자. 스트림을 올바로 사용하려면 수집기를 잘 알아둬야 한다. 가장 중요한 수집기 팩터리는 <br>
+`toList`, `toSet`, `toMap`, `groupingBy`, `joining`이다.<br>
+
+<br>
+
+* Collectors
+```java
+/**
+ * Collectors
+ */
+List<Integer> integerList = Stream.of(3, 5, -3, 3, 4, 5).collect(java.util.stream.Collectors.toList());
+System.out.println("integerList = " + integerList);
+
+Set<Integer> integerSet = Stream.of(3, 5, -3, 3, 4, 5).collect(java.util.stream.Collectors.toSet());
+System.out.println("integerSet = " + integerSet);
+
+List<Integer> integerList1 = Stream.of(3, 5, -3, 3, 4, 5).collect(java.util.stream.Collectors.mapping(x -> Math.abs(x), java.util.stream.Collectors.toList()));
+System.out.println("integerList1 = " + integerList1);
+
+Set<Integer> integerSet1 = Stream.of(3, 5, -3, 3, 4, 5).collect(java.util.stream.Collectors.mapping(x -> Math.abs(x), java.util.stream.Collectors.toSet()));
+System.out.println("integerSet1 = " + integerSet1);
+
+int sum = Stream.of(3, 5, -3, 3, 4, 5).collect(java.util.stream.Collectors.reducing(0, (x,y)->x+y));
+System.out.println("sum = " + sum);
+```
+
+<br>
+
+* groupingBy
+```java
+/**
+ * Grouping By
+ */
+List<Integer> integerList = Arrays.asList(13, 2, 101, 203, 304, 402, 305, 349, 2312, 203, 70);
+Map<Integer, List<Integer>> integerListMap = integerList.stream().collect(Collectors.groupingBy(n -> n % 10));
+System.out.println("integerListMap = " + integerListMap);
+
+Map<Integer, List<String>> integerListMap1 = integerList.stream()
+        .collect(Collectors.groupingBy(n -> n % 10, Collectors.mapping(n -> "unit digit is " + n, Collectors.toList())));
+System.out.println("integerListMap1 = " + integerListMap1);
+```
+
+<br>
+
+* PartitioningBy
+```java
+/**
+ * Partitioning By
+ */
+List<Integer> integerList = Arrays.asList(13, 2, 101, 203, 304, 402, 305, 349, 2312, 203, 70);
+Map<Boolean, List<Integer>> booleanListMap = integerList.stream()
+        .collect(Collectors.partitioningBy(n -> n % 2 == 0));
+System.out.println("booleanListMap = " + booleanListMap);
+```
+
+
 ## 🎯  아이템 47. 반환 타입으로는 스트림보다 컬렉션이 낫다.
 ## 🎯  아이템 48. 스트림 병렬화는 주의해서 적용하라.
 
