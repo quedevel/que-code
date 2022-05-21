@@ -14,4 +14,6 @@
 
 ### 🔥 [ Chapter6 ] 열거 타입과 애너테이션 [click here.](https://github.com/quedevel/que-code/blob/main/que-effective-java/src/com/quecode/chapter6/CHAPTER6.md)
 
-### 🔥 [ Chapter6 ] 람다와 스트림 [click here.](https://github.com/quedevel/que-code/blob/main/que-effective-java/src/com/quecode/chapter7/CHAPTER7.md)
+### 🔥 [ Chapter7 ] 람다와 스트림 [click here.](https://github.com/quedevel/que-code/blob/main/que-effective-java/src/com/quecode/chapter7/CHAPTER7.md)
+
+### 🔥 [ Chapter8 ] 메서드 [click here.](https://github.com/quedevel/que-code/blob/main/que-effective-java/src/com/quecode/chapter8/CHAPTER8.md)
