@@ -85,6 +85,129 @@ List<Long> sortedOrders = orders.stream()
 좀 더 짧고 명확한 소스가 되었다. 하지만, 클래스명이 너무 길거나 더 명확하다고 판단되지 않는다면 람다를 사용하자.
 
 ## 🎯  아이템 44. 표준 함수형 인터페이스를 사용하라.
+**_필요한 용도에 맞는 게 있다면, 직접 구현하지 말고 표준 함수형 인터페이스를 활용하라._**<br>
+```java
+public class Item44 {
+    public static void main(String[] args) {
+
+        /**
+         * 1 Supplier
+         */
+        Supplier<String> supplier = () -> "hello world";
+        System.out.println("supplier = " + supplier.get());
+
+        Supplier<Double> doubleSupplier = () -> Math.random();
+        System.out.println("doubleSupplier = " + doubleSupplier.get());
+
+        printRandomDoubles(doubleSupplier, 5);
+
+        System.out.println();
+
+        /**
+         * 2 Consumer
+         */
+        Consumer<String> stringConsumer = str -> System.out.println(str);
+        stringConsumer.accept("Hell World");
+
+        Consumer<Integer> integerConsumer = x -> System.out.println("Processing Integer " + x);
+        List<Integer> integerList = Arrays.asList(4,2,3);
+
+        process(integerList, integerConsumer);
+        System.out.println();
+
+        /**
+         * 3 BiConsumer
+         */
+        BiConsumer<Integer, Double> doubleBiConsumer = (index, input) -> System.out.println("Processing " + input+" at index "+index);
+        List<Double> doubleList = Arrays.asList(4.1,2.2,3.3);
+
+        process(doubleList, doubleBiConsumer);
+        System.out.println();
+
+        /**
+         * 4 Predicate
+         */
+        Predicate<Integer> integerPredicate = x -> x>0;
+        System.out.println(integerPredicate.test(2));
+
+        List<Integer> inputs = Arrays.asList(10,-5,-2,0,3);
+        System.out.println("filter(inputs, integerPredicate) = " + filter(inputs, integerPredicate));
+        System.out.println("filter(inputs, integerPredicate.negate()) = " + filter(inputs, integerPredicate.negate()));
+        System.out.println("filter(inputs, integerPredicate.or(x-> x==0)) = " + filter(inputs, integerPredicate.or(x-> x==0)));
+        System.out.println("filter(inputs, integerPredicate.and(x-> x%2 == 0)) = " + filter(inputs, integerPredicate.and(x-> x%2 == 0)));
+        System.out.println();
+
+        /**
+         * 5 Comparator
+         */
+        List<User> users = new ArrayList<>();
+        users.add(new User(3, "Alice"));
+        users.add(new User(1, "Charlie"));
+        users.add(new User(5, "Bob"));
+        System.out.println("users = " + users);
+
+        Comparator<User> idComparator = Comparator.comparingInt(User::getId);
+        Collections.sort(users, idComparator);
+        System.out.println("users = " + users);
+
+        Collections.sort(users, Comparator.comparing(User::getName));
+        System.out.println("users = " + users);
+    }
+
+    public static void printRandomDoubles(Supplier<Double> randomSupplier, int count){
+        for (int i = 0; i < count; i++){
+            System.out.println(randomSupplier.get());
+        }
+    }
+
+    public static <T> void process(List<T> inputs, Consumer<T> processor){
+        for (T input : inputs){
+            processor.accept(input);
+        }
+    }
+
+    public static <T> void process(List<T> inputs, BiConsumer<Integer, T> processor){
+        for (int i = 0; i < inputs.size(); i++) {
+            processor.accept(i, inputs.get(i));
+        }
+    }
+
+    public static <T> List<T> filter(List<T> inputs, Predicate<T> condition){
+        List<T> output = new ArrayList<>();
+        for (T t : inputs) {
+            if(condition.test(t)){
+                output.add(t);
+            }
+        }
+        return output;
+    }
+
+    static class User {
+        private int id;
+        private String name;
+        public User(int id, String name) {
+            this.id = id;
+            this.name = name;
+        }
+        public int getId() {return id;}
+        public void setId(int id) {this.id = id;}
+        public String getName() {return name;}
+        public void setName(String name) {this.name = name;}
+        @Override
+        public String toString() {return "User{" + "id=" + id + ", name='" + name + '\'' + '}';}
+    }
+}
+```
+위는 표준 함수형 인터페이스를 활용한 간단한 예제이다. <br>
+
+<br>
+
+하지만, 표준 함수형 인터페이스가 지원하지 않는 기능을 만들고자 한다면 반드시 `@FuntionalInterface`를 사용하자. <br>
+이 애너테이션을 사용하는 이유는 `@Override`를 사용하는 이유와 비슷하다.
+1. 해당 클래스의 코드나 설명 문서를 읽을 이에게 그 인터페이스가 람다용으로 설계된 것임을 알려준다.
+2. 해당 인터페이스가 추상 메서드를 오직 하나만 가지고 있어야 컴파일되게 해준다.
+3. 그 결과 유지보수 과정에서 누군가 실수로 메서드를 추가하지 못하게 막아준다.
+
 ## 🎯  아이템 45. 스트림은 주의해서 사용하라.
 ## 🎯  아이템 46. 스트림에서는 부작용 없는 함수를 사용하라.
 ## 🎯  아이템 47. 반환 타입으로는 스트림보다 컬렉션이 낫다.
