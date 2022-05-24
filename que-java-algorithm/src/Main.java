@@ -1,33 +1,26 @@
 import java.util.*;
 
 public class Main {
-    public static void solution(int cnt, int[][] iArr){
-        int result = 0, max = Integer.MIN_VALUE;
-        for (int i = 1; i <= cnt; i++) {
-            int count = 0;
-            for (int j = 1; j <= cnt; j++) {
-                for (int k = 1; k < 6; k++) {
-                    if (iArr[i][k] == iArr[j][k]){
-                        count++;
-                        break;
-                    }
+    public static void solution(int cnt, int[] iArr){
+        int max = 0;
+        for (int i = 0; i < iArr.length; i++) {
+            int sum = 0;
+            for (int j = 0; j < cnt; j++) {
+                if (i+j < iArr.length){
+                    sum += iArr[i+j];
                 }
             }
-            if (count > max){
-                max = count;
-                result = i;
-            }
+            if (sum > max) max = sum;
         }
-        System.out.println(result);
+        System.out.println(max);
     }
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+        int total = sc.nextInt();
         int cnt = sc.nextInt();
-        int[][] iArr = new int[cnt+1][6];
-        for (int i = 1; i <= cnt; i++) {
-            for (int j = 1; j <= 5; j++) {
-                iArr[i][j] = sc.nextInt();
-            }
+        int[] iArr = new int[total];
+        for (int i = 0; i < total; i++) {
+            iArr[i] = sc.nextInt();
         }
         solution(cnt, iArr);
     }
