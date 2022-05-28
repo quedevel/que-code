@@ -170,6 +170,64 @@ public Date end() {
 <br>
 
 ## 🎯  아이템 52. 다중정의는 신중히 사용하라.
+* 컬렉션 분류기 - 오류! 이 프로그램은 무엇을 출력할까?<br>
+```java
+public class CollectionClassifier {
+    public static String classify(Set<?> s) {
+        return "집합";
+    }
+
+    public static String classify(List<?> lst) {
+        return "리스트";
+    }
+
+    public static String classify(Collection<?> c) {
+        return "그 외";
+    }
+
+    public static void main(String[] args) {
+        Collection<?>[] collections = {
+                new HashSet<String>(),
+                new ArrayList<BigInteger>(),
+                new HashMap<String, String>().values()
+        };
+
+        for (Collection<?> c : collections)
+            System.out.println(classify(c));
+    }
+}
+```
+"집합","리스트","그 외"를 차례로 출력할 것 같지만, 실제로 수행해보면 "그 외"만 세 번 연달아 출력한다.<br>
+그 이유는 다중정의(overloading, 오버로딩)된 세 classify 중 어느 메서드를 호출할지가 컴파일타입에<br>
+정해지기 때문이다. 따라서, 컴파일타입의 매개변수 타입을 기준으로 항상 세 번째 메서드만 호출하는 것이다.<br>
+<br>
+
+이러한 문제는 CollectionClassifier의 모든 classify메서드를 하나로 합친 후 instanceof로 명시적으로 검사하면 말끔히 해결된다.<br>
+```java
+public class FixedCollectionClassifier {
+    public static String classify(Collection<?> c) {
+        return c instanceof Set ? "집합" :
+                c instanceof List ? "리스트" : "그 외";
+    }
+
+    public static void main(String[] args) {
+        Collection<?>[] collections = {
+                new HashSet<String>(),
+                new ArrayList<BigInteger>(),
+                new HashMap<String, String>().values()
+        };
+
+        for (Collection<?> c : collections)
+            System.out.println(classify(c));
+    }
+}
+```
+<br>
+
+프로그매이 언어가 다중정의를 허용한다고 해서 다중정의를 꼭 활용하란 뜻은 아니다. 일반적으로 매개변수 수가 같은 때는 <br>
+다중정의를 피하는 게 좋다. 상황에 따라, 특히 생성자라면 이 조언을 따르기가 불가능할 수 있다. 그럴 때는 헷갈릴 만한<br>
+매개변수는 형변환하여 정확한 다중정의 메서드가 선택되도록 해야 한다. <br>
+
 ## 🎯  아이템 53. 가변인수는 신중히 사용하라.
 ## 🎯  아이템 54. null이 아닌, 빈 컬렉션이나 배열을 반환하라.
 ## 🎯  아이템 55. 옵셔널 반환은 신중히 하라.
