@@ -276,6 +276,59 @@ public List<Cheese> getCheeses(){
 <br>
 
 ## 🎯  아이템 55. 옵셔널 반환은 신중히 하라.
+값을 반환하지 못할 가능성이 있고, 호출할 때마다 반환값이 없을 가능성을 염두에 둬야 하는 메서드라면<br>
+옵셔널을 반환해야 할 상황일 수 있다. 하지만 옵셔널 반환에는 성능 저하가 뒤따르니, 성능에 민감한 메서드라면 <br>
+null을 반환하거나 예외를 던지는 편이 나을 수 있다. 그리고 옵셔널을 반환값 이외의 용도로 쓰는 경우는 매우 드믈다.<br>
+
+<br>
+
+#### 옵셔널은 원소를 최대 1개 가질 수 있는 '불변'컬렉션이다.
+보통은 T를 반환해야 하지만 특정 조건에서는 아무것도 반환하지 않아야 할때 T 대신 Optional<T>를 반환하도록 선언하면 된다.<br>
+<br>
+* 컬렉션에서 최댓값을 구한다(컬렉션이 비었으면 예외를 던진다).<br>
+```java
+public static <E extends Comparable<E>> E max(Collection<E> c) {
+    if (c.isEmpty())
+        throw new IllegalArgumentException("빈 컬렉션");
+
+    E result = null;
+    for (E e : c)
+        if (result == null || e.compareTo(result) > 0)
+            result = Objects.requireNonNull(e);
+
+    return result;
+}
+```
+이 메서드에서 빈 컬렉션을 건네면 `IllegalArgumentException`을 던진다. 이전에도 Optional<E>를 반환하는 편이<br>
+더 낫다고 이야기 했는데, 그렇게 수정한 모습은 다음과 같다.<br>
+<br>
+* 컬렉션에서 최댓값을 구해 Optional<E>로 반환한다.
+```java
+public static <E extends Comparable<E>> Optional<E> max(Collection<E> c) {
+    if (c.isEmpty())
+        return Optional.empty();
+
+    E result = null;
+    for (E e : c)
+        if (result == null || e.compareTo(result) > 0)
+            result = Objects.requireNonNull(e);
+
+    return Optional.of(result);
+}
+```
+
+<br>
+
+* 컬렉션에서 최댓값을 구해 Optional<E>로 반환한다. - 스트림 버전
+```java
+public static <E extends Comparable<E>> Optional<E> max(Collection<E> c) {
+    return c.stream().max(Comparator.naturalOrder());
+}
+```
+
+<br>
+
+
 ## 🎯  아이템 56. 공개된 API 요소에는 항상 문서화 주석을 작성하라.
 
 <br>
