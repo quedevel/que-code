@@ -75,7 +75,88 @@ public class Item49 {
 그 제약들을 문서화하고 메서드 코드 시작 부분에서 명시적으로 검사해야한다.<br>
 
 ## 🎯  아이템 50. 적시에 방어적 복사본을 만들라.
+#### 클라이언트가 여러분의 불변식을 깨뜨리려 혈안이 되어 있다고 가정하고 방어적으로 프로그래밍해야 한다.
+<br>
+* 기간을 표현하는 클래스 - 불변식을 지키지 못했다.<br>
+
+```java
+public final class Period {
+    private final Date start;
+    private final Date end;
+
+    /**
+     * @param  start 시작 시각
+     * @param  end 종료 시각. 시작 시각보다 뒤여야 한다.
+     * @throws IllegalArgumentException 시작 시각이 종료 시각보다 늦을 때 발생한다.
+     * @throws NullPointerException start나 end가 null이면 발생한다.
+     */
+    public Period(Date start, Date end) {
+        if (start.compareTo(end) > 0)
+            throw new IllegalArgumentException(
+                    start + "가 " + end + "보다 늦다.");
+        this.start = start;
+        this.end = end;
+    }
+
+    public Date start() {
+        return start;
+    }
+
+    public Date end() {
+        return end;
+    }
+
+    public String toString() {
+        return start + " - " + end;
+    }
+}    
+```
+얼핏 이 클래스는 불변처럼 보이고, 시작 시각이 종료 시각보다 늦을 수 없다는 불변식이 무리 없이 지켜질 것 같다. <br>
+하지만 Date가 가변이라는 사실을 이용하면 어렵지 않게 그 불변식을 깨뜨릴 수 있다.<br>
+<br>
+* Period 인스턴스의 내부를 공격해보자.<br>
+```java
+Date start = new Date();
+Date end = new Date();
+Period p = new Period(start,end);
+end.setYear(78); // p의 내부를 수정했다.
+```
+**Date는 낡은 API이니 새로운 코드를 작성할 때는 더 이상 사용하면 안된다.**<br>
+<br>
+외부 공격으로부터 Period 인스턴스의 내부를 보호하려면 **생성자에서 받은 가변 매개변수 각각을 방어적으로 복사해야한다.**<br>
+* 수정한 생성자 - 매개변수의 방어적 복사본을 만든다.<br>
+```java
+public Period(Date start, Date end) {
+    this.start = new Date(start.getTime());
+    this.end   = new Date(end.getTime());
+
+    if (this.start.compareTo(this.end) > 0)
+        throw new IllegalArgumentException(
+                this.start + "가 " + this.end + "보다 늦다.");
+}
+```
+매개변수의 유효성을 검사하기 전에 방어적 복사본을 만들고, 이 본사본으로 유효성을 검사한 점을 주목하자.<br>
+<br>
+
+생성자를 수정하면 앞서의 공격은 막아낼 수 있지만, Period 인스턴스는 아직도 변경이 가능하다.<br>
+접근자 메서드가 내부의 가변 정보를 직접 드러내기 때문이다.<br>
+* 수정한 접근자 - 필드의 방어적 복사본을 반환한다.<br>
+```java
+public Date start() {
+    return new Date(start.getTime());
+}
+
+public Date end() {
+    return new Date(end.getTime());
+}
+```
+<br>
+클래스가 클라이언트로부터 받는 혹은 클라이언트로 반환하는 구성요소가 가변이라면<br>
+그 요소는 반드시 방어적으로 복사해야한다.<br>
+
 ## 🎯  아이템 51. 메서드 시그니처를 신중히 설계하라.
+
+
 ## 🎯  아이템 52. 다중정의는 신중히 사용하라.
 ## 🎯  아이템 53. 가변인수는 신중히 사용하라.
 ## 🎯  아이템 54. null이 아닌, 빈 컬렉션이나 배열을 반환하라.
