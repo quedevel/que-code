@@ -330,6 +330,15 @@ public static <E extends Comparable<E>> Optional<E> max(Collection<E> c) {
 
 
 ## 🎯  아이템 56. 공개된 API 요소에는 항상 문서화 주석을 작성하라.
+문서화 주석은 API를 문서화하는 가장 훌륭하고 효과적인 방법이다. 공개 API라면 빠짐없이 설명을 달아야 한다.<br>
+표준 규약을 일관되게 지키자. 문서화 주석에 임의의 HTML 태그를 사용할 수 있음을 기억하라. 단, HTML 메타문자는 <br>
+특변하게 취급해야 한다.<br>
+
+<br>
+
+#### javadoc [click here.](https://docs.oracle.com/javase/8/docs/technotes/tools/windows/javadoc.html)
+자바독은 소스코드 파일에서 문서화 주석이라는 특수한 형태로 기술된 설명을 추려 API문서로 변환해준다.<br>
+
 
 <br>
 
