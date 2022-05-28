@@ -229,6 +229,36 @@ public class FixedCollectionClassifier {
 매개변수는 형변환하여 정확한 다중정의 메서드가 선택되도록 해야 한다. <br>
 
 ## 🎯  아이템 53. 가변인수는 신중히 사용하라.
+인수 개수가 일정하지 않은 메서드를 정의해야 한다면 가변인수가 반드시 필요하다. 메서드를 정의할 때 필수 매개변수는<br>
+가변인수 앞에 두고, 가변인수를 사용할 때는 성능 문제까지 고려하자.<br>
+* 인수가 1개 이상이어야 하는 가변인수 메서드 - 잘못 구현한 예!<br>
+```java
+static int min(int... args) {
+    if (args.length == 0)
+        throw new IllegalArgumentException("인수가 1개 이상 필요합니다.");
+    int min = args[0];
+    for (int i = 1; i < args.length; i++)
+        if (args[i] < min)
+            min = args[i];
+    return min;
+}
+```
+이 방식에는 문제가 몇 개 있다. 가장 심각한 문제는 인수를 0개만 넣어 호출하면 런타임에 실패한다는 점이다. 코드도 지저분하다.<br>
+<br>
+* 인수가 1개 이상이어야 할 때 가변인수를 제대로 사용하는 방법<br>
+```java
+static int min(int firstArg, int... remainingArgs) {
+    int min = firstArg;
+    for (int arg : remainingArgs)
+        if (arg < min)
+            min = arg;
+    return min;
+}
+```
+첫 번째로는 평범한 매개변수를 받고, 가변인수는 두 번재로 받으면 앞서의 문제가 말끔히 사라진다.<br>
+<img width="40%" src="https://user-images.githubusercontent.com/55771326/170811106-1a15c5b5-dbbd-41d9-aa1b-5857a2bb5aad.png">
+<br>
+
 ## 🎯  아이템 54. null이 아닌, 빈 컬렉션이나 배열을 반환하라.
 ## 🎯  아이템 55. 옵셔널 반환은 신중히 하라.
 ## 🎯  아이템 56. 공개된 API 요소에는 항상 문서화 주석을 작성하라.
