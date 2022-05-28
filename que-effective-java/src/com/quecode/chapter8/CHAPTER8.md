@@ -260,6 +260,21 @@ static int min(int firstArg, int... remainingArgs) {
 <br>
 
 ## 🎯  아이템 54. null이 아닌, 빈 컬렉션이나 배열을 반환하라.
+#### null을 반환하는 API는 사용하기 어렵고 오류 처리 코드도 늘어난다. 그렇다고 성능이 좋은 것도 아니다.
+컬렉션이나 배열 같은 컨테이너가 비었을 때 null을 반환하는 메서드를 사용할 때면 항시 방어 코드를 넣어줘야 한다.<br>
+클라이언트에서 방어 코드를 빼먹으면 오류가 발생할 수 있다. 실제로 객체가 0개일 가능성이 거의 없는 상황에서는 <br>
+수년 뒤에야 오류가 발생하기도 한다.<br>
+* 빈 컬렉션을 반환하는 올바른 예
+```java
+public List<Cheese> getCheeses(){
+    return new ArrayList<>(cheesesInStock);    
+}
+```
+대부분의 상황에서는 이렇게 하면 된다. 가능성은 작지만, 사용 패턴에 따라 빈 컬렉션 할당이 성능을 눈에 띄게 떨어 뜨릴 수도 있다.<br>
+다행히 해법은 간단하다. 매번 똑같은 빈 '불변'컬렉션을 반환하는 것이다. ex) `Collections.emptyList`, `Collections.emptySet`, `Collections.emptyMap`<br>
+
+<br>
+
 ## 🎯  아이템 55. 옵셔널 반환은 신중히 하라.
 ## 🎯  아이템 56. 공개된 API 요소에는 항상 문서화 주석을 작성하라.
 
