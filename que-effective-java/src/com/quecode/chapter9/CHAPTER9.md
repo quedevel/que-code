@@ -224,6 +224,27 @@ public class OrderServiceImpl implements OrderService{
 <br>
 
 ## 🎯  아이템 65. 리플렉션보다는 인터페이스를 사용하라.
+리플렉션은 복잡한 특수 시스템을 개발할 때 필요한 강력한 기능이지만, 단점도 많다.<br>
+컴파일타임에는 알 수 없는 클래스를 사용하는 프로그램을 작성한다면 리플렉션을 사용해야 할 것이다.<br>
+단, 되도록 객체 생성에만 사용하고, 생성한 객체를 이용할 때는 적절한 인터페이스나 컴파일타임에 <br>
+알 수 있는 상위 클래스로 형변환해 사용해야 한다.<br>
+```java
+@Before(VO_SETTING_EXPRESSION)
+public void setVO(JoinPoint joinPoint) {
+    Object[] objects = joinPoint.getArgs();
+    if(SecurityContextHolder.getContext().getAuthentication()!= null) {
+        InnoUser user = (InnoUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        AdminVO vo = user.getAdminVO();
+        for (Object o : objects){
+            Method[] methods = o.getClass().getMethods(); // 리플랙션
+            Optional<Method> setRegDtime = Arrays.stream(methods).filter(e->e.getName().equals("setRegDate")).findFirst();
+            Optional<Method> setModDtime = Arrays.stream(methods).filter(e->e.getName().equals("setModDate")).findFirst();
+            // ... 생략
+        }
+    }
+}
+```
+
 ## 🎯  아이템 66. 네이티브 메서드는 신중히 사용하라.
 ## 🎯  아이템 67. 최적화는 신중히 하라.
 ## 🎯  아이템 68. 일반적으로 통용되는 명명 규칙을 따르라.
