@@ -85,7 +85,11 @@ public static List<CodeVO> getCodeChildren(String supiCdId) throws Exception {
 <br>
 
 ## 🎯  아이템 60. 정확한 답이 필요하다면 float와 double은 피하라.
-
+`float`와 `double` 타입은 과학과 공학 계산용으로 설계되었다. 이진 부동소수점 연산에 쓰이며,<br>
+넓은 범위의 수를 빠르게 정밀한 '근사치'로 계산하도록 세심하게 설계되었다. 따라서, 정확한<br>
+결과가 필요할 때는 사용하면 안 된다.<br>
+`float`와 `double` 타입은 특히 금융 관련 계산과는 맞지 않는다.<br>
+따라서, 금융 계산에는 `BigDecimal`, `int` 혹은 `long`을 사용해야 한다.<br>
 
 ## 🎯  아이템 61. 박싱된 기본 타입보다는 기본 타입을 사용하라.
 ## 🎯  아이템 62. 다른 타입이 적절하다면 문자열 사용을 피하라.
