@@ -1,9 +1,56 @@
 # 🔥 [ Chapter9 ] 일반적인 프로그래밍 원칙
 
 ## 🎯  아이템 57. 지역변수의 범위를 최소화하라.
+지역변수의 유효 범위를 최소로 줄이면 코드 가독성과 유지보수성이 높아지고 오류 가능성은 낮아진다.
+
+### ⭐ 지역변수의 범위를 줄이는 가장 강력한 기법 <br>
+
+####1️⃣ 가장 처음 쓰일 때 선언하기<br>
+```java
+public class Main {
+    public static void main(String[] args) {
+        int scope = 0;
+
+        /* main메서드가 완료될 때까지 scope변수는 살아있다. */
+    }
+}
+```
+변수를 항상 최상단에 선언하는 버릇을 가진 개발자가 존재한다. <br>
+하지만 그건 변수의 범위를 메소드의 모든 범위에 속하게 하며 가독성마저 떨어지게 만드는 행위다.<br>
+<br>
+
+####2️⃣ 거의 모든 지역변수는 선언과 동시에 초기화해야 한다.<br>
+초기화할 정보가 부족하다면 정보가 충분해질때까지 `선언`을 미루자. <br>
+하지만 `try-catch`문의 경우 초기화시 예외가 발생할 경우는 블록 안에서 초기화 하자<br>
+```java
+/**
+ * 코드 children 조회
+ * @param supiCdId
+ * @return
+ */
+public static List<CodeVO> getCodeChildren(String supiCdId) throws Exception {
+    List<CodeVO> result = new ArrayList<>();
+    CodeService codeService = null;
+    try {
+        codeService = (CodeService) ApplicationContextProvider.getContext().getBean("codeService");
+        result = codeService.getCodeChildren(supiCdId);
+        return result;
+    } catch (Exception e){
+        return result;
+   }
+}
+```
+<br>
+
+####3️⃣ 메서드를 작게 유지하고 한 가지 기능에 집중하는 것이다.<br>
+
 ## 🎯  아이템 58. 전통적인 for 문보다는 for-each 문을 사용하라.
+
 ## 🎯  아이템 59. 라이브러리를 익히고 사용하라.
+
 ## 🎯  아이템 60. 정확한 답이 필요하다면 float와 double은 피하라.
+
+
 ## 🎯  아이템 61. 박싱된 기본 타입보다는 기본 타입을 사용하라.
 ## 🎯  아이템 62. 다른 타입이 적절하다면 문자열 사용을 피하라.
 ## 🎯  아이템 63. 문자열 연결은 느리니 주의하라.
