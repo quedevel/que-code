@@ -1,11 +1,10 @@
 package com.quecode;
 
-import com.quecode.chapter2.Discount;
-
 public class Main {
+    static int a;
+    static Integer i;
     public static void main(String[] args) {
-        Discount instance = Discount.getInstance("1");
-        //com.quecode.chapter2.RateDiscount@2133c8f8
-        System.out.println(instance);
+        if (a < 1) System.out.println(a);
+        if (i < 1) System.out.println(i);
     }
 }

@@ -19,3 +19,5 @@
 ### 🔥 [ Chapter8 ] 메서드 [click here.](https://github.com/quedevel/que-code/blob/main/que-effective-java/src/com/quecode/chapter8/CHAPTER8.md)
 
 ### 🔥 [ Chapter9 ] 일반적인 프로그래밍 원칙 [click here.](https://github.com/quedevel/que-code/blob/main/que-effective-java/src/com/quecode/chapter9/CHAPTER9.md)
+
+### 🔥 [ Chapter10 ] 예외 [click here.](https://github.com/quedevel/que-code/blob/main/que-effective-java/src/com/quecode/chapter10/CHAPTER10.md)
