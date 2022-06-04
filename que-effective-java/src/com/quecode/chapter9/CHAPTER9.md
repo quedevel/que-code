@@ -128,6 +128,41 @@ public class Main {
 3️⃣  기본 타입이 박싱된 기본 타입보다 시간과 메모리 사용면에서 더 효율적이다. <br>
 
 ## 🎯  아이템 62. 다른 타입이 적절하다면 문자열 사용을 피하라.
+1️⃣ 문자열은 다른 값 타입을 대신하기에 적합하지 않다. <br>
+받는 데이터가 수치형이라면 int, float, BigInteger 등 적당한 수치 타입으로 변한해야한다.<br>
+'예/아니오' 질문의 답이라면 적절한 열거 타입이나 boolean으로 변환해야 한다.<br>
+
+2️⃣ 문자열은 열거 타입을 대신하기에 적합하지 않다. <br>
+
+3️⃣ 문자열은 혼합 타입을 대신하기에 적합하지 않다. <br>
+* 혼합 타입을 문자열로 처리한 부적절한 예 <br>
+```java
+String compoundKey = className + "#" + i.next();
+```
+
+4️⃣ 문자열은 권한을 표현하기에 적합하지 않다. <br>
+```java
+@Entity
+public class Member {
+    @Id
+    private Long id;
+
+    @Column(name = "name")
+    private String username;
+
+    private Integer age;
+
+    @Enumerated(EnumType.ORDINAL)
+    private RoleType roleType;
+}
+public enum RoleType {
+    USER, ADMIN;
+}
+```
+~~private String roleType~~ 은 권한에 적합하지 않다. <br>
+
+<br>
+
 ## 🎯  아이템 63. 문자열 연결은 느리니 주의하라.
 ## 🎯  아이템 64. 객체는 인터페이스를 사용해 참조하라.
 ## 🎯  아이템 65. 리플렉션보다는 인터페이스를 사용하라.
