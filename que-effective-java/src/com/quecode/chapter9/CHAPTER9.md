@@ -92,6 +92,41 @@ public static List<CodeVO> getCodeChildren(String supiCdId) throws Exception {
 따라서, 금융 계산에는 `BigDecimal`, `int` 혹은 `long`을 사용해야 한다.<br>
 
 ## 🎯  아이템 61. 박싱된 기본 타입보다는 기본 타입을 사용하라.
+### 기본 타입 vs 박싱된 기본 타입
+1️⃣ 기본 타입은 값만 가지고 있으나, 박싱된 기본 타입은 값에 더해 식별성이란 속성을 갖는다.<br>
+```java
+public class Main {
+    public static void main(String[] args) {
+        int a = 1;
+        int b = 1;
+        System.out.println("(b == a) : " + (b == a)); // (b == a) : true
+        Integer boxedIntegerA = new Integer(1);
+        Integer boxedIntegerB = new Integer(1);
+        System.out.println("(boxedIntegerB == boxedIntegerA) : " + (boxedIntegerB == boxedIntegerA)); // (boxedIntegerB == boxedIntegerA) : false
+        System.out.println("boxedIntegerB.equals(boxedIntegerA) : " + boxedIntegerB.equals(boxedIntegerA)); // boxedIntegerB.equals(boxedIntegerA) : true
+    }
+}
+```
+<br>
+
+2️⃣  기본 타입의 값은 언제나 유효하나, 박싱된 기본 타입은 유효하지 않은 값, 즉 null을 가질 수 있다.<br>
+```java
+public class Main {
+    static int a;
+    static Integer i;
+    public static void main(String[] args) {
+        if (a < 1) System.out.println(a);
+        if (i < 1) System.out.println(i);
+    }
+}
+```
+<br>
+<img width="40%" src="https://user-images.githubusercontent.com/55771326/171981822-83965121-0557-4805-929d-7331583f2c36.png" >
+
+<br>
+
+3️⃣  기본 타입이 박싱된 기본 타입보다 시간과 메모리 사용면에서 더 효율적이다. <br>
+
 ## 🎯  아이템 62. 다른 타입이 적절하다면 문자열 사용을 피하라.
 ## 🎯  아이템 63. 문자열 연결은 느리니 주의하라.
 ## 🎯  아이템 64. 객체는 인터페이스를 사용해 참조하라.
