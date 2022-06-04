@@ -272,6 +272,19 @@ public 타입을 가변으로 만들면, 즉 내부 데이터를 변경할 수 �
 물론 성능에 만족하지 못할 경우에 한정된다.<br>
 
 ## 🎯  아이템 68. 일반적으로 통용되는 명명 규칙을 따르라.
+표준 명명 규칙을 체화하여 자연스럽게 베어 나오도록 하자. <br>
+철자 규칙은 직관적이라 모호한 부분이 적은 데 반해, 문법 규칙은 더 복잡하고 느슨하다. <br>
+자바 언어 면세의 말을 인용하자면 "오랫동안 따라온 규칙과 충동한다면 그 규칙을 맹종해서는 안 된다." <br>
+
+| 식별자 타입     | 예                                                |
+|------------|--------------------------------------------------|
+| 패키지와 모듈    | org.junit.jupiter.api, com.google.common.collect |
+| 클래스와 인터페이스 | Stream, FutureTask, LinkedHashMap, HttpClient    |
+| 메서드와 필드    | remove, groupingBy, getCrc                       |
+| 상수 필드      | MIN_VALUE, NEGATIVE_INFINITY                     |
+| 지역변수       | i, denom, houseNum                               |
+| 타입 매개변수    | T, E, K, V, X, R, U, V, T1, T2                   |
+
 
 <br>
 
