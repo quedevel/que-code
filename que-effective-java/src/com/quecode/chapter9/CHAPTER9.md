@@ -187,7 +187,42 @@ public String statement2(){
 }
 ```
 
+<br>
+
 ## 🎯  아이템 64. 객체는 인터페이스를 사용해 참조하라.
+**적합한 인터페이스만 있다면 매개변수뿐 아니라 반환값, 변수, 필드를 전부 인터페이스 타입으로 선언하라.** <br>
+```java
+/* 할인 정책 인터페이스 */
+public interface DiscountPolicy {
+    int discount(Member member, int price);
+}
+/* 정액 할인 클래스 */
+public class FixDiscountPolicy implements DiscountPolicy{
+    
+    private int discountFixAmount = 1000; // 1000원 할인
+    
+    @Override
+    public int discount(Member member, int price) { ... }
+}
+/* 정률 할인 클래스 */
+public class RateDiscountPolicy implements DiscountPolicy{
+
+    private int discountPercent = 10;
+
+    @Override
+    public int discount(Member member, int price) { ... }
+}
+/* 주문 비지니스 로직 */
+public class OrderServiceImpl implements OrderService{
+    private final MemberRepository memberRepository;
+    private final DiscountPolicy discountPolicy;
+}
+```
+위 처럼 정액 할인에서 정률 할인으로 정책이 변경될 때 인터페이스로 선언하게되면 <br>
+정률 할인 클래스를 주입해주면 정상 동작하게되어 훨씬 유연해질 수 있다.<br>
+
+<br>
+
 ## 🎯  아이템 65. 리플렉션보다는 인터페이스를 사용하라.
 ## 🎯  아이템 66. 네이티브 메서드는 신중히 사용하라.
 ## 🎯  아이템 67. 최적화는 신중히 하라.
