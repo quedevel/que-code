@@ -104,6 +104,20 @@ public class Main {
 비검사 예외로 바꿀 수 있다. 하지만 이것 또한 모든 상황에 적용할 수는 없다. 그래도 적용할 수만 있다면 더 쓰기 편한 API를 제공할 수 있다.<br>
 
 ## 🎯  아이템 72. 표준 예외를 사용하라.
+숙련된 프로그래머는 그렇지 못한 프로그래머보다 더 많은 코드를 재사용한다. 예외도 마찬가지로 재사용하는 것이 좋으며, <br>
+자바 라이브러리는 대부분 API에서 쓰기에 충분한 수의 예외를 제공한다. 하지만 어떤 예외를 사용해야할지 모른다고하여 <br>
+`Exception`, `RuntimeException`, `Throwable`, `Error`는 직접 재사용하지는 말자.<br>
+
+| 예외                              | 주요 쓰임                          |
+|---------------------------------|--------------------------------             |
+| IllegalArgumentException        | 허용하지 않는 값이 인수로 건네졌을 때          |
+| IllegalStateException           | 객체가 메서드를 수행하기에 적절하지 않은 상태일 때   |
+| NullPointerException            | null을 허용하지 않는 메서드에 null을 건넸을 때 |
+| IndexOutOfBoundsException       | 인덱스가 범위를 넘어섰을 때                |
+| ConcurrentModificationException | 허용하지 않는 동시 수정이 발견됐을 때          |
+| UnsupportedOperationException   | 호출한 메서드를 지원하지 않을 때             |
+
+
 ## 🎯  아이템 73. 추상화 수준에 맞는 예외를 던지라.
 ## 🎯  아이템 74. 메서드가 던지는 모든 예외를 문서화하라.
 ## 🎯  아이템 75. 예외의 상세 메시지에 실패 관련 정보를 담으라.
