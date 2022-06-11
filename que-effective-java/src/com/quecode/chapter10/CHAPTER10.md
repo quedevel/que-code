@@ -127,6 +127,25 @@ public class Main {
 <img width="40%" src="https://user-images.githubusercontent.com/55771326/173171823-4abba268-2d9a-43f0-b245-c7280c2594dd.png">
 
 ## 🎯  아이템 74. 메서드가 던지는 모든 예외를 문서화하라.
+메서드가 던지는 예외는 그 메서드를 올바로 사용하는 데 아주 중요한 정보다. 따라서 각 메서드가 던지는 예외 하나하나를 문서화하는 데 <br>
+충분한 시간을 쏟아야 한다. <span style="color: red;">검사 예외는 항상 따로따로 선언하고, 각 예외가 발생하는 상황을 자바독의 `@throws` 태그를 사용하여 정확히 문서화하자.</span><br>
+
+```java
+/**
+ * ... 생략
+ *
+ * @throws  SecurityException if a security manager exists and its
+ *          <code>checkPermission</code> method denies enabling
+ *          subclassing.
+ * @throws  IOException if an I/O error occurs while creating this stream
+ *
+ */
+protected ObjectInputStream() throws IOException, SecurityException { ... }
+```
+검사 예외만 메서드 선언의 throws 문에 일일이 선언하고, 비검사 예외는 메서드 선언에는 기입하지 말자. <br>
+발생 가능한 예외를 문서로 남기지 않으면 다른 사람이 그 클래스나 인터페이스를 효과적으로 사용하기 어렵거나 <br>
+심지어 불가능할 수도 있다. <br>
+
 ## 🎯  아이템 75. 예외의 상세 메시지에 실패 관련 정보를 담으라.
 ## 🎯  아이템 76. 가능한 한 실패 원자적으로 만들라.
 ## 🎯  아이템 77. 예외를 무시하지 말라.
