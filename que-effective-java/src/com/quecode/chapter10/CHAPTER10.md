@@ -147,6 +147,33 @@ protected ObjectInputStream() throws IOException, SecurityException { ... }
 심지어 불가능할 수도 있다. <br>
 
 ## 🎯  아이템 75. 예외의 상세 메시지에 실패 관련 정보를 담으라.
+```java
+@Override
+public Object invoke(Object target, Object... parameters) {
+    try {
+        return ( (Method) getMember() ).invoke( target, parameters );
+    }
+    catch (NullPointerException e) {
+        throw new IllegalArgumentException( "Invoking " + getName() + " on a  null object", e );
+    }
+    catch (IllegalArgumentException e) {
+        throw new IllegalArgumentException( "Invoking " + getName() + " with wrong parameters", e );
+    }
+    catch (Exception e) {
+        throw new IllegalStateException( "Unable to invoke " + getName(), e );
+    }
+}
+```
+사후 분석을 위해 실패 순간의 상황을 정확히 포착해 예외의 상세 메시지에 담아야 한다. <br>
+**실패 순간을 포착하려면 발생한 예외에 관여된 모든 매개변수와 필드의 값을 실패 메시지에 담아야 한다.**<br>
+
+<br>
+
+**예외는 실패 관련 정보를 접근자 메서드를 적절히 제공하는게 좋다.** <br>
+예외의 목적을 다시 말하자면 개발자에게 포착한 실패 정보를 잘 전달해 예외 상황을 복구하는데 있다.<br>
+그렇기에 적절한 접근자 메서드를 이용해 예외 내용을 전달할 수 있다면 더욱 좋다. <br>
+그리고 이런 실패 정보는 비검사 예외(Unchecked Exception)보다는 검사 예외(Checked Exception)에서 더욱이 유용하게 사용될 것이다. <br>
+
 ## 🎯  아이템 76. 가능한 한 실패 원자적으로 만들라.
 ## 🎯  아이템 77. 예외를 무시하지 말라.
 
