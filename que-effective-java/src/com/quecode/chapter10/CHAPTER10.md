@@ -75,6 +75,34 @@ private void validateDuplicateMember(Member member) {
 검사 예외라면 복구에 필요한 정보를 알려주는 메서드도 제공하자.<br>
 
 ## 🎯  아이템 71. 필요 없는 검사 예외 사용은 피하라.
+결과를 코드로 반환하거나 비검사 예외를 던지는것과 달리, 검사 예외는 발생한 문제를 프로그래머가 처리하여 안전성을 높이게끔 해준다.<br>
+물론, 검사 예외를 과하게 사용하면 오히려 쓰기 불편한 API가 된다. 어떤 메서드가 검사 예외를 던질 수 있다고 선언됐다면,<br> 
+<span style="color: red;">이를 호출하는  코드에서는 `catch` 블록을 두어 그 예외를 붙잡아 처리하거나 더 바깥으로 던져 문제를 전파해야만 한다.</span><br> 
+어느 쪽이든 API 사용자에게 부담을 준다. <span style="color: red;">더구나 검사 예외를 던지는 메서드는 스트림 안에서 직접 사용할 수 없기 때문에 자바 8부터는 부담이 더욱 커졌다.</span><br>
+```java
+public class Main {
+    public static void main(String[] args) {
+        try {
+            extracted();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private static void extracted() throws IOException {
+        byte[] bytes = {'a','b','c'};
+        System.out.write(bytes);
+    }
+}
+```
+<br>
+<img width="40%" src="https://user-images.githubusercontent.com/55771326/173170964-51ee6b5c-6690-4b2c-869b-e4647d4a4c40.png">
+<br>
+<img width="40%" src="https://user-images.githubusercontent.com/55771326/173171121-6b8ecebd-4db8-40d6-82df-654333e669a8.png">
+<br>
+검사 예외를 회피하는 가장 쉬운 방법은 적절한 결과 타입을 담은 옵셔널을 반환하는 것이다. 이 방식의 단점이라면 <br>
+예외가 발생한 이유를 알려주는 부가 정보를 담을 수 없다는 것이다. 또 다른 방법으로, 검사 예외를 던지는 메서드를 2개로 쪼개 <br>
+비검사 예외로 바꿀 수 있다. 하지만 이것 또한 모든 상황에 적용할 수는 없다. 그래도 적용할 수만 있다면 더 쓰기 편한 API를 제공할 수 있다.<br>
+
 ## 🎯  아이템 72. 표준 예외를 사용하라.
 ## 🎯  아이템 73. 추상화 수준에 맞는 예외를 던지라.
 ## 🎯  아이템 74. 메서드가 던지는 모든 예외를 문서화하라.

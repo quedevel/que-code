@@ -1,10 +1,18 @@
 package com.quecode;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main {
-    static int a;
-    static Integer i;
     public static void main(String[] args) {
-        if (a < 1) System.out.println(a);
-        if (i < 1) System.out.println(i);
+        List<Byte> list = new ArrayList<>();
+        list.add((byte) 'a');
+        list.add((byte) 'b');
+        list.add((byte) 'c');
+
+    }
+    private static void extracted(byte b) throws IOException {
+        System.out.write(b);
     }
 }
