@@ -208,6 +208,13 @@ private final List<SetObserver<E>> observers = new CopyOnWriteArrayList<>();
 3️⃣ 비차단 동시성 제어(nonblocking concurrency control) <br>
 
 ## 🎯  아이템 80. 스레드보다는 실행자, 태스크, 스트림을 애용하라.
+`java.util.concurrent` 두둥등장<br>
+* 실행자 프레임워크라고 하는 인터페이스 기반의 유연한 태스크 실행 기능을 담고 있음
+```java
+ExecutorService exec = Executors.newSingleThreadExecutor();
+exec.execute(runnable);
+exec.shutdown();
+```
 
 ## 🎯  아이템 81. wait와 notify보다는 동시성 유틸리티를 애용하라.
 
