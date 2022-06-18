@@ -23,3 +23,5 @@
 ### 🔥 [ Chapter10 ] 예외 [click here.](https://github.com/quedevel/que-code/blob/main/que-effective-java/src/com/quecode/chapter10/CHAPTER10.md)
 
 ### 🔥 [ Chapter11 ] 동시성 [click here.](https://github.com/quedevel/que-code/blob/main/que-effective-java/src/com/quecode/chapter11/CHAPTER11.md)
+
+### 🔥 [ Chapter12 ] 직렬화 [click here.](https://github.com/quedevel/que-code/blob/main/que-effective-java/src/com/quecode/chapter12/CHAPTER12.md)
