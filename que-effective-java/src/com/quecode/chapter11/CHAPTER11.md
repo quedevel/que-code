@@ -248,8 +248,58 @@ exec.shutdown();
    이 수준의 클래스는 일반적으로 정적 데이터를 아무 동기화 없이 수정한다. ex) generateSerialNumber
 
 ## 🎯  아이템 83. 지연 초기화는 신중히 사용하라.
+지연 초기화는 주로 최적화 용도로 쓰이지만, 클래스와 인스턴스 초기화 때 발생하는 위험한 순환 문제를 해결하는 효과도 있다.<br>
+하지만, 지연초기화는 양날의 검이다. 클래스 혹은 인스턴스 생성 시의 초기화 비용은 줄지만 그 대신 지연 초기화하는 필드에 접근하는 <br>
+비용은 커진다. 지연 초기화하려는 필드들 중 결국 초기화가 이뤄지는 비율에 다라, 실제 초기화에 드는 비용에 따라, 초기화된 각 필드를 <br>
+얼마나 빈번히 호출하느냐에 따라 지연 초기화가 실제로는 성능을 느려지게 할 수 있다. <br>
 
-## 🎯  아이템 84. 프로그램의 동작을 스레드 스케줄러에 기대지 말라.6
+<br>
+
+#### 대부분의 상황에서 일반적인 초기화가 지연 초기화보다 낫다.
+지연 초기화가 초기화 순환성을 깨뜨릴 것 같으면 synchronized를 단 접근자를 사용하자.<br>
+* 인스턴스 필드의 지연 초기화 - synchronized
+```java
+private FieldType field;
+
+private synchronized FieldType getField(){
+    if(field == null)
+        field = computeFieldValue();
+    return field;
+}
+```
+**성능 때문에 정적 필드를 지연 초기화해야 한다면 지연 초기화 홀더 클래스 관용구를 사용하자.**<br>
+* 정적 필드용 지연 초기화 홀더 클래스 관용구
+```java
+private static class FieldHolder {
+	static final FieldType field = computeFieldValue();
+}
+private static FieldType getField() {
+	return FieldHolder.field;
+}
+```
+**_성능 때문에 인스턴스 필드를 지연 초기화해야 한다면 이중검사 관용구를 사용하라._**<br>
+* 인스턴스 필드 지연 초기화용 이중검사 관용구
+```java
+private volatile FieldType field;
+
+private FieldType getField() {
+	FieldType result = field;
+	if(result != null) {
+		return result;
+	}
+
+	synchronized(this) {
+		if(field == null) {
+			field = computeFieldValue();
+		}
+		return field;
+	}
+}
+```
+
+
+
+## 🎯  아이템 84. 프로그램의 동작을 스레드 스케줄러에 기대지 말라.
 
 <br>
 
