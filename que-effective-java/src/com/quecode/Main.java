@@ -1,18 +1,34 @@
 package com.quecode;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import com.quecode.chapter11.ObservableSet;
+import com.quecode.chapter11.SetObserver;
+
+import java.util.HashSet;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Main {
     public static void main(String[] args) {
-        List<Byte> list = new ArrayList<>();
-        list.add((byte) 'a');
-        list.add((byte) 'b');
-        list.add((byte) 'c');
+        ObservableSet<Integer> set = new ObservableSet<>(new HashSet<>());
 
-    }
-    private static void extracted(byte b) throws IOException {
-        System.out.write(b);
+        set.addObserver(new SetObserver<>() {
+            public void added(ObservableSet<Integer> s, Integer e) {
+                System.out.println(e);
+                if (e == 23) {
+                    ExecutorService exec = Executors.newSingleThreadExecutor();
+                    try {
+                        exec.submit(() -> s.removeObserver(this)).get();
+                    } catch (ExecutionException | InterruptedException ex) {
+                        throw new AssertionError(ex);
+                    } finally {
+                        exec.shutdown();
+                    }
+                }
+            }
+        });
+
+        for (int i = 0; i < 100; i++)
+            set.add(i);
     }
 }
