@@ -158,6 +158,89 @@ public final class StringList implements Serializable {
 
 
 ## 🎯  아이템 88. readObject 메서드는 방어적으로 작성하라.
+`readObject` 메서드가 실질적으로 또 다른 public 생성자이기 때문에 다른 생성자와 똑같은 수준으로 주의를 기울여야 한다. <br>
+보통의 생성자처럼 `readObject` 메서드에서도 인수가 유효한지 검사해야 하고 필요하다면 매개변수를 방어적으로 복사해야 한다. <br>
+`readObject`가 이 작업을 제대로 수행하지 못하면 공격자는 아주 손쉽게 해당 클래스의 불변식을 깰 수 있다. <br>
+
+<br>
+
+* 가변 공격의 예
+```java
+public class MutablePeriod {
+    public final Period period;
+    public final Date start;
+    public final Date end;
+
+    public MutablePeriod() {
+        try{
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ObjectOutputStream out = new ObjectOutputStream(bos);
+
+            out.writeObject(new Period(new Date(), new Date()));
+
+            byte[] ref = {0x71, 0, 0x7e, 0, 5};
+            bos.write(ref);
+            ref[4] = 4;
+            bos.write(ref);
+
+            ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(bos.toByteArray()));
+            this.period = (Period) in.readObject();
+            this.start = (Date) in.readObject();
+            this.end = (Date) in.readObject();
+        } catch (IOException | ClassNotFoundException e){
+            throw new AssertionError(e);
+        }
+    }
+
+    public static void main(String[] args) {
+        MutablePeriod mp = new MutablePeriod();
+        Period p = mp.period;
+        Date pEnd = mp.end;
+
+        pEnd.setYear(78);
+        System.out.println("p = " + p);
+
+        pEnd.setTime(69);
+        System.out.println("p = " + p);
+    }
+}
+```
+```
+Sun Jun 26 18:24:20 KST 2022 - Mon Jun 26 18:24:20 KST 1978
+Sun Jun 26 18:24:20 KST 2022 - Thu Jan 01 09:00:00 KST 1970
+```
+이 예에서 `Period` 인스턴스는 불변식을 유지한 채 생성됐지만, 의도적으로 내부의 값을 수정할 수 있었다.<br>
+이처럼 변경할 수 있는 `Period` 인스턴스를 획득한 공격자는 이 인스턴스가 불변이라고 가정하는 클래스에 <br>
+넘겨 엄청난 보안 문제를 일으킬 수 있다.<br>
+
+<br>
+
+**객체를 역질렬화할 때는 클라이언트가 소유해서는 안되는 객체 참조를 갖는 필드를 모두 반드시 방어적으로 복사해야 한다.**<br>
+* 방어적 복사와 유효성 검사를 수행하는 readObject 메서드
+```java
+private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException {
+    s.defaultReadObject();
+    this.start = new Date(start.getTime());
+    this.end = new Date(end.getTime());
+    if (start.compareTo(end)>0){
+        throw new InvalidObjectException(start + "가 " + end + "보다 늦다.");
+    }
+}
+```
+```
+Sun Jun 26 18:31:31 KST 2022 - Sun Jun 26 18:31:31 KST 2022
+Sun Jun 26 18:31:31 KST 2022 - Sun Jun 26 18:31:31 KST 2022
+```
+
+* readObject 메서드를 작성하는 지침
+1. private이어야 하는 객체 참조 필드는 각 필드가 가리키는 객체를 방어적으로 복사하라.
+2. 모든 불변식을 검사하여 어글나는 게 발견되면 InvalidObjectException을 던진다.
+3. 역질렬화 후 객체 그래프 전체의 유효성을 검사해야 한다면 ObjectInputValidation 인터페이스를 사용하라
+4. 직접적이든 간접적이든, 재정의할 수 있는 메서드는 호출하지 말자.
+
+<br>
+
+
 ## 🎯  아이템 89. 인스턴스 수를 통제해야 한다면 readResolve보다는 열거 타입을 사용하라.
 ## 🎯  아이템 90. 직렬화된 인스턴스 대신 직렬화 프록시 사용을 검토하라.
 

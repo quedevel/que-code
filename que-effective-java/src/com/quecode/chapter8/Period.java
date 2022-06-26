@@ -1,10 +1,14 @@
 package com.quecode.chapter8;
 
+import java.io.IOException;
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
 import java.util.Date;
 
-public final class Period {
-    private final Date start;
-    private final Date end;
+public final class Period implements Serializable {
+    private Date start;
+    private Date end;
 
     /**
      * @param  start 시작 시각
@@ -29,6 +33,15 @@ public final class Period {
 
     public String toString() {
         return start + " - " + end;
+    }
+
+    private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException {
+        s.defaultReadObject();
+        this.start = new Date(start.getTime());
+        this.end = new Date(end.getTime());
+        if (start.compareTo(end)>0){
+            throw new InvalidObjectException(start + "가 " + end + "보다 늦다.");
+        }
     }
 
 //    // 코드 50-3 수정한 생성자 - 매개변수의 방어적 복사본을 만든다. (304쪽)
