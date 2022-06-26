@@ -318,6 +318,48 @@ public enum Elvis {
 <br>
 
 ## 🎯  아이템 90. 직렬화된 인스턴스 대신 직렬화 프록시 사용을 검토하라.
+`Serializable`을 구현하기로 결정한 순간 언어의 정상 매커니즘인 생성자 이외의 방법으로 인스턴스를 생성할 수 있게 된다.<br>
+버그와 보안 문제가 일어날 가능성이 커진다는 뜻이다. 하지만 이 위험을 크게 줄여줄 기법이 하나 있다. <br>
+바로 `직렬화 프록시 패턴`이다. <br>
+
+<br>
+
+#### 직렬화 프록시 패턴
+먼저, 바깥 클래스의 논리적 상태를 정밀하게 표현하는 중첩 클래스를 설계해 `private static` 으로 선언한다. <br>
+이 중첩 클래스가 바로 바깥 클래스의 직렬화 프록시다. 중첩 클래스의 생성자는 단 하나여야 하며, 바깥 클래스를 <br>
+매개변수로 받아야 한다. 이 생성자는 단순히 인수로 넘어온 인스터스의 데이터를 복사한다. <br>
+
+* Period 클래스용 직렬화 프록시
+```java
+private static class SerializationProxy implements Serializable {
+    private final Date start;
+    private final Date end;
+
+    SerializationProxy(Period p) {
+        this.start = p.start;
+        this.end = p.end;
+    }
+
+    private static final long serialVersionUID = 234098243823485285L; 
+}
+```
+다음으로, 바깥 클래스에 다음의 `writeReplace` 메서드를 추가한다. <br>
+```java
+private Object writeReplace() {
+    return new SerializationProxy(this);
+}
+```
+이 메서드는 자바의 직렬화 시스템이 바깥 클래스의 인스턴스 대신 `SerializationProxy`의 인스턴스를 반화하게하는 역할을 한다.<br>
+마지막으로, 바깥 클래스와 논리적으로 동일한 인스턴스를 반환하는 `readResolve` 메서드를 `SerializationProxy` 클래스에 추가한다. <br>
+```java
+private Object readResolve(){
+    return new Period(start, end);
+}
+```
+방어적 복사처럼, 직렬화 프록시 패턴은 가짜 바이트 스트림 공격과 내부 필드 탈취 공격을 프록시 수준에서 차단해준다. <br>
+
+**_제3자가 확장할 수 없는 캘래스라면 가능한 한 직렬화 프록시 패턴을 사용하자._** <br>
+**_이 패턴이 아마도 중요한 불변식을 안정적으로 직렬화해주는 가장 쉬운 방법일 것이다._** <br>
 
 <br>
 
