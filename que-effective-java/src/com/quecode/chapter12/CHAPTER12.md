@@ -240,8 +240,83 @@ Sun Jun 26 18:31:31 KST 2022 - Sun Jun 26 18:31:31 KST 2022
 
 <br>
 
-
 ## 🎯  아이템 89. 인스턴스 수를 통제해야 한다면 readResolve보다는 열거 타입을 사용하라.
+* 잘못된 싱글턴 - transient가 아닌 참조 필드를 가지고 있다!
+```java
+public class Elvis implements Serializable {
+    public static final Elvis INSTANCE = new Elvis();
+    private Elvis(){}
+    private Object readResolve() { return INSTANCE; }
+    private String[] favoriteSongs = {"Gimme Gimme", "Bad"};
+    public void print(){
+        System.out.println(Arrays.toString(favoriteSongs));
+    }
+}
+```
+* 도둑 클래스
+```java
+public class ElvisStealer implements Serializable {
+    static Elvis impersonator;
+    private Elvis payload;
+    private Object readResolve(){
+        impersonator = payload;
+        return new String[]{"A Fool Such as I"};
+    }
+}
+```
+* 직렬화의 허점을 이용해 싱글턴 객체를 2개 생성한다.
+```java
+public class ElvisImpersonator {
+    private static final byte[] serializedForm = {
+        -84, -19, 0, 5, 115, 114, 0, 27, 99, 111, 109, 46,
+        113, 117, 101, 99, 111, 100, 101, 46, 99, 104, 97,
+        112, 116, 101, 114, 49, 50, 46, 69, 108, 118, 105,
+        115, -12, 65, 67, 5, -113, -25, -60, -79, 2, 0, 1,
+        91, 0, 13, 102, 97, 118, 111, 114, 105, 116, 101,
+        83, 111, 110, 103, 115, 116, 0, 19, 91, 76, 106, 97,
+        118, 97, 47, 108, 97, 110, 103, 47, 83, 116, 114, 105,
+        110, 103, 59, 120, 112, 117, 114, 0, 19, 91, 76,
+        106, 97, 118, 97, 46, 108, 97, 110, 103, 46, 83, 116,
+        114, 105, 110, 103, 59, -83, -46, 86, -25, -23, 29,
+        123, 71, 2, 0, 0, 120, 112, 0, 0, 0, 2, 116, 0, 11,
+        71, 105, 109, 109, 101, 32, 71, 105, 109, 109, 101,
+        116, 0, 3, 66, 97, 100
+    };
+
+    public static void main(String[] args) {
+        Elvis elvis = (Elvis) deserialize(serializedForm);
+        Elvis impersonator = ElvisStealer.impersonator;
+        elvis.print();
+        impersonator.print();
+    }
+
+    public static Object deserialize(byte[] bytes) {
+        try {
+            return new ObjectInputStream(
+                    new ByteArrayInputStream(bytes)).readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+}
+```
+`favoriteSongs` 필드를 `transient`로 선언하여 이 문제를 고칠 수 있지만 <br>
+`Elvis`를 원소 하나짜리 열거 타입으로 바꾸는 편이 더 나은 선택이다.
+
+* 열거 타입 싱글턴 - 전통적인 싱글턴보다 우수하다.
+```java
+public enum Elvis {
+    INSTANCE;
+    private String[] favoriteSongs =
+        { "Hound Dog", "Heartbreak Hotel" };
+    public void printFavorites() {
+        System.out.println(Arrays.toString(favoriteSongs));
+    }
+}
+```
+
+<br>
+
 ## 🎯  아이템 90. 직렬화된 인스턴스 대신 직렬화 프록시 사용을 검토하라.
 
 <br>
