@@ -62,7 +62,7 @@ static byte[] bomb() {
 <br>
 
 3️⃣ 해당 클래스의 신버전을 릴리스할 때 테스트할 것이 늘어난다.<br>
-직렬화 가능 클래스가 수정되면 신버전 인스ㅓㄴ스를 직렬화한 후 구버전으로 역직렬화할 수 있는지,<br>
+직렬화 가능 클래스가 수정되면 신버전 인스턴스를 직렬화한 후 구버전으로 역직렬화할 수 있는지,<br>
 그리고 그 반대도 가능한지를 검사해야 한다. 따라서 테스트해야 할 양이 직렬화 가능 클래스의 수와 릴리스 횟수에 비례해 증가한다.
 <br>
 
@@ -71,6 +71,92 @@ static byte[] bomb() {
 신중하게 이뤄져야 한다. 상속할 수 있는 클래스라면 주의사항이 더욱 많아진다. <br>
 
 ## 🎯  아이템 87. 커스텀 직렬화 형태를 고려해보라.
+
+객체의 물리적 표현과 논리적 내용이 같다면 기본 직렬화 형태라도 무방하다.
+* 기본 직렬화 형태에 적합한 후보
+
+```java
+public class Name implements Serializable {
+    private final String lastName;
+    private final String firstName;
+    private final String middleName;
+    ... // 나머지 코드 생략
+}
+```
+성명은 논리적으로 이름, 성, 중간이름이라는 3개의 문자열로 구성되며, 앞 코드의 인스턴스 필드들은 이 논리적 구성요소를 정확히 반영했다.<br>
+하지만, 기본 직렬화 형태가 적합하다고 결정했더라도 불변식 보장과 보안을 위해 `readObject` 메서드를 제공해야 할 때가 많다. <br>
+앞의 `Name` 클래스의 경우에는 `readObject` 메서드가 `lastName`과 `firstName` 필드가 `null`이 아님을 보장해야 한다.<br>
+
+* 기본 직렬화 형태에 적합하지 않은 클래스
+```java
+public final class StringList implements Serializable {
+    private int size = 0;
+    private Entry head = null;
+
+    // 이제는 직렬화되지 않는다.
+    private static class Entry implements Serializable {
+        String data;
+        Entry next;
+        Entry previous;
+    }
+    ... // 나머지 코드 생략
+}
+```
+
+논리적으로 이 클래스는 일련의 문자열을 표현한다. 물리적으로는 문자열들을 이중 연결 리스트로 연결했다. <br>
+이 클래스에 기본 직렬화 형태를 사용하면 각 노드의 양방향 연결 정보를 포함해 모든 엔트리(Entry)를 철두철미하게 기록한다. <br>
+<br>
+**즉, 객체의 물리적 표현과 논리적 표현의 차이가 클 때 기본 직렬화 형태를 사용하면 크게 네 가지 면에서 문제가 생긴다.**<br>
+1️⃣ 공개 API가 현재의 내부 표현 방식에 영구히 묶인다. <br>
+2️⃣ 너무 많은 공간을 차지할 수 있다. <br>
+3️⃣ 시간이 너무 많이 걸릴 수 있다. <br>
+4️⃣ 스택 오버플로를 일으킬 수 있다. <br>
+
+<br>
+
+그렇다면 `StringList`를 위한 합리적인 직렬화 형태는 무엇일가? <br>
+단순히 리스트가 포함한 문자열의 개수를 적은 다음, 그 뒤로 문자열들을 나열하는 수준이면 될 것이다. <br>
+
+* 합리적인 커스텀 직렬화 형태를 갖춘 StringList
+```java
+public final class StringList implements Serializable {
+    private transient int size   = 0;
+    private transient Entry head = null;
+    
+    private static class Entry {
+        String data;
+        Entry  next;
+        Entry  previous;
+    }
+
+    public final void add(String s) {  }
+
+    private void writeObject(ObjectOutputStream s) throws IOException {
+        s.defaultWriteObject();
+        s.writeInt(size);
+
+        // 모든 원소를 올바른 순서로 기록한다.
+        for (Entry e = head; e != null; e = e.next)
+            s.writeObject(e.data);
+    }
+
+    private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException {
+        s.defaultReadObject();
+        int numElements = s.readInt();
+
+        for (int i = 0; i < numElements; i++)
+            add((String) s.readObject());
+    }
+    ... // 나머지 코드는 생략
+}
+```
+
+자바의 기본 직렬화 형태는 객체를 직렬화한 결과가 해당 객체의 논리적 표현에 부합할 때만 사용하고,<br>
+그렇지 않으면 객체를 적절히 설명하는 커스텀 직렬화 형태를 고안하라. 직렬화 형태도 공개 메서드를 <br>
+설계할 때에 준하는 시간을 들여 설계 해야 한다. 한번 공개된 메서드는 향후 릴리스에서 제거할 수 없듯이, <br>
+직렬화 형태에 포함된 필드도 마음대로 제거할 수 없다. 직렬화 호환성을 유지하기 위해서 영원히 지원해야 하는 것이다. <br>
+
+
 ## 🎯  아이템 88. readObject 메서드는 방어적으로 작성하라.
 ## 🎯  아이템 89. 인스턴스 수를 통제해야 한다면 readResolve보다는 열거 타입을 사용하라.
 ## 🎯  아이템 90. 직렬화된 인스턴스 대신 직렬화 프록시 사용을 검토하라.
