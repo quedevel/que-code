@@ -22,11 +22,13 @@ public class MainTest {
     void testMultiplication() {
         //given
         Dollar five = new Dollar(5);
-
         //when
-        five.times(2);
-
+        Dollar product = five.times(2);
         //then
-        assertThat(10).isEqualTo(five.amount);
+        assertThat(10).isEqualTo(product.amount);
+        //when
+        product = five.times(3);
+        //then
+        assertThat(15).isEqualTo(product.amount);
     }
 }
