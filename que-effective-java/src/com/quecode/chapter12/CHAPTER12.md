@@ -1,13 +1,13 @@
 # 🔥 [ Chapter12 ] 직렬화
 
 ## 🎯  아이템 85. 자바 직렬화의 대안을 찾으라.
-직렬화의 근본적인 문제는 고역ㄱ 범위가 너무 넓고 지속적으로 더 넓어져 방어하기 어렵다는 점이다.<br>
-`ObjectInputStream`의 `readObject` 메서드를 호출하면서 객체 그래프가 역질렬화되기 때문이다.<br>
+직렬화의 근본적인 문제는 공격 범위가 너무 넓고 지속적으로 더 넓어져 방어하기 어렵다는 점이다.<br>
+`ObjectInputStream`의 `readObject` 메서드를 호출하면서 객체 그래프가 역직렬화되기 때문이다.<br>
 `readObject` 메서드는 클래스패스 안의 거의 모든 타입의 객체를 만들어 낼 수 있는, 마법같은 생성자다.<br>
-바이트 스트림을 역질렬화하는 과정에서 이 메서드는 그 타입들 안의 모든 코드를 수행 할 수 있다. 이 말인 즉슨, <br>
+바이트 스트림을 역직렬화하는 과정에서 이 메서드는 그 타입들 안의 모든 코드를 수행 할 수 있다. 이 말인 즉슨, <br>
 그 타입들의 코드 전체가 공격 범위에 들어간다는 뜻이다. <br>
 
-* 역직렬화 폭탄 - 이 스트림의 역질렬화는 영원히 계속된다. <br>
+* 역직렬화 폭탄 - 이 스트림의 역직렬화는 영원히 계속된다. <br>
 ```java
 public static void main(String[] args) throws Exception {
     byte[] bomb = bomb();
@@ -215,7 +215,7 @@ Sun Jun 26 18:24:20 KST 2022 - Thu Jan 01 09:00:00 KST 1970
 
 <br>
 
-**객체를 역질렬화할 때는 클라이언트가 소유해서는 안되는 객체 참조를 갖는 필드를 모두 반드시 방어적으로 복사해야 한다.**<br>
+**객체를 역직렬화할 때는 클라이언트가 소유해서는 안되는 객체 참조를 갖는 필드를 모두 반드시 방어적으로 복사해야 한다.**<br>
 * 방어적 복사와 유효성 검사를 수행하는 readObject 메서드
 ```java
 private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException {
@@ -235,7 +235,7 @@ Sun Jun 26 18:31:31 KST 2022 - Sun Jun 26 18:31:31 KST 2022
 * readObject 메서드를 작성하는 지침
 1. private이어야 하는 객체 참조 필드는 각 필드가 가리키는 객체를 방어적으로 복사하라.
 2. 모든 불변식을 검사하여 어글나는 게 발견되면 InvalidObjectException을 던진다.
-3. 역질렬화 후 객체 그래프 전체의 유효성을 검사해야 한다면 ObjectInputValidation 인터페이스를 사용하라
+3. 역직렬화 후 객체 그래프 전체의 유효성을 검사해야 한다면 ObjectInputValidation 인터페이스를 사용하라
 4. 직접적이든 간접적이든, 재정의할 수 있는 메서드는 호출하지 말자.
 
 <br>
