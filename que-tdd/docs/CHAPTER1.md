@@ -1,0 +1,86 @@
+## 화폐 예제
+* 테스트 주도 개발의 리듬
+1. 재빨리 테스트를 하나 추가한다.
+2. 모든 테스트를 실행하고 새로 추가한 것이 실패하는지 확인한다.
+3. 코드를 조금 바꾼다.
+4. 모든 테스트를 실행하고 전부 성공하는지 확인한다.
+5. 리팩토링을 통해 중복을 제거한다.
+
+#### 1. 다중 통화를 지원하는 Money객체
+
+> $5 + 10CHF = $10 (환율이 2:1일 경우) <br>
+> ~~$5 * 2 = $10~~ <br>
+> amount를 private으로 만들기 <br>
+> Dollar 부작용? <br>
+> Money 반올림? <br>
+
+```java
+@Test
+void testMultiplication() {
+    //given
+    Dollar five = new Dollar(5);
+
+    //when
+    five.times(2);
+
+    //then
+    assertThat(10).isEqualTo(five.amount);
+}
+```
+
+#### 작업 목록
+* 테스트 목록 생성
+* 외부에서 어떻게 보이길 원하는지 코드로 표현
+* 스텁 구현을 통해 테스트를 컴파일
+* 끔찍한 죄악을 범하여 테스트 통과
+* 상수를 변수로 변경하여 점진적으로 일반화
+* 한번에 처리 보다는 할일 목록에 추가하고 넘어감
+
+
+#### 2. 타락한 객체
+테스트를 하나 통과했지만 `Dollar`에 대해 연산을 수행한 후에 <br>
+해당 `Dollar`의 값이 바뀌는 점이다.<br>
+
+> $5 + 10CHF = $10 (환율이 2:1일 경우) <br>
+> ~~$5 * 2 = $10~~ <br>
+> amount를 private으로 만들기 <br>
+> ~~Dollar 부작용?~~ <br>
+> Money 반올림? <br>
+
+```java
+@Test
+void testMultiplication() {
+    //given
+    Dollar five = new Dollar(5);
+    //when
+    Dollar product = five.times(2);
+    //then
+    assertThat(10).isEqualTo(product.amount);
+    //when
+    product = five.times(3);
+    //then
+    assertThat(15).isEqualTo(product.amount);
+}
+```
+```java
+public class Dollar {
+
+    int amount;
+
+    Dollar(int amount){
+        this.amount = amount;
+    }
+
+    Dollar times(int multiplier){ 
+        return new Dollar(amount * multiplier); 
+    }
+}
+```
+
+#### 작업 목록
+* 설계상의 결함(Dollar 부작용)을 그 결함으로 인해 실패하는 테스트로 변환.
+* 스텁 구현으로 빠르게 컴파일을 통과
+* 올바르다고 생각하는 코드를 입력
+
+
+#### 3. 모두를 위한 평등
