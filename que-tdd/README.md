@@ -1,4 +1,7 @@
 # Test-Driven Development: By Example - Kent Beck
+
+<img width="40%" src="https://user-images.githubusercontent.com/55771326/175861913-0e333521-2717-4c91-816f-c567b305a789.jpg">
+
 * 저자 소개
 > Kent Beck ( on the WikiWikiWeb ) <br>
 > 패턴(Pattern), 테스트 주도 개발(Test Driven Development), 익스트림 프로그래밍(Extreme Programming) 같은 <br>
