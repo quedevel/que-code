@@ -192,3 +192,44 @@ public class Franc {
 > ~~공용 equals~~
 > 공용 times
 > Franc과 Dollar 비교하기
+
+
+#### 7. 사과와 오렌지
+```java
+@Test
+void testEquality() {
+    assertThat(new Dollar(5).equals(new Dollar(5))).isTrue();
+    assertThat(new Dollar(5).equals(new Dollar(6))).isFalse();
+    assertThat(new Franc(5).equals(new Franc(5))).isTrue();
+    assertThat(new Franc(5).equals(new Franc(6))).isFalse();
+
+    // Franc Dollar 비교
+    assertThat(new Franc(5).equals(new Dollar(5))).isFalse();
+}
+```
+테스트를 진행해보면 `Franc`이 `Dollar`라는 결과가 나오게 된다. <br>
+동치성 코드에서는 `Dollar`가 `Franc`과 비교되지 않는지 검사해야한다.<br>
+```java
+public boolean equals(Object o) {
+    Money money = (Money) o;
+    return amount == money.amount &&
+            getClass().equals(money.getClass());
+}
+```
+> $5 + 10CHF = $10 (환율이 2:1일 경우) <br>
+> ~~$5 * 2 = $10~~ <br>
+> ~~amount를 private으로 만들기~~ <br>
+> ~~Dollar 부작용?~~ <br>
+> Money 반올림? <br>
+> ~~equals()~~ <br>
+> hashCode() <br>
+> Equal null <br>
+> Equal object <br>
+> ~~5CHF * 2 = 10CHF~~
+> Dollar/Franc 중복
+> ~~공용 equals~~
+> 공용 times
+> ~~Franc과 Dollar 비교하기~~
+> 통화?
+
+#### 8. 객체 만들기

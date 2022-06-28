@@ -9,10 +9,4 @@ public class Franc extends Money{
     Franc times(int multiplier){
         return new Franc(amount * multiplier);
     }
-
-    public boolean equals(Object o) {
-        Money money = (Money) o;
-        return amount == money.amount;
-    }
-
 }

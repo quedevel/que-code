@@ -31,6 +31,9 @@ public class MainTest {
         assertThat(new Dollar(5).equals(new Dollar(6))).isFalse();
         assertThat(new Franc(5).equals(new Franc(5))).isTrue();
         assertThat(new Franc(5).equals(new Franc(6))).isFalse();
+
+        // Franc Dollar 비교
+        assertThat(new Franc(5).equals(new Dollar(5))).isFalse();
     }
 
     @Test
