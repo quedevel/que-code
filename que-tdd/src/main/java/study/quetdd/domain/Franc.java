@@ -1,8 +1,6 @@
 package study.quetdd.domain;
 
-public class Franc {
-
-    private int amount;
+public class Franc extends Money{
 
     Franc(int amount){
         this.amount = amount;
@@ -13,8 +11,8 @@ public class Franc {
     }
 
     public boolean equals(Object o) {
-        Franc franc = (Franc) o;
-        return amount == franc.amount;
+        Money money = (Money) o;
+        return amount == money.amount;
     }
 
 }

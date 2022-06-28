@@ -174,3 +174,21 @@ public class Franc {
 
 중복이 엄청나게 많기 때문에 다음 테스트를 작성하기 전에 이것들을 제거해야한다.<br>
 `equals()`를 일반화하는 것부터 시작!<br>
+
+#### 6. 돌아온 '모두를 위한 평등'
+테스트를 빨리 통과하기 위해 몇 톤이나 되는 코드를 복사해서 붙이는 엄청난 죄를 저질렀다.<br>
+두 클래스의 공통 상위 클래스 `Money`를 생성하여 `Money` 클래스가 공통의 `equals` 코드를 갖게하자.<br>
+> $5 + 10CHF = $10 (환율이 2:1일 경우) <br>
+> ~~$5 * 2 = $10~~ <br>
+> ~~amount를 private으로 만들기~~ <br>
+> ~~Dollar 부작용?~~ <br>
+> Money 반올림? <br>
+> ~~equals()~~ <br>
+> hashCode() <br>
+> Equal null <br>
+> Equal object <br>
+> ~~5CHF * 2 = 10CHF~~
+> Dollar/Franc 중복
+> ~~공용 equals~~
+> 공용 times
+> Franc과 Dollar 비교하기
