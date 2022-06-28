@@ -29,4 +29,11 @@ public class MainTest {
     void testEquality() {
         assertThat(new Dollar(5).equals(new Dollar(5))).isTrue();
     }
+
+    @Test
+    void testFrancMultiplication() {
+        Dollar five = new Dollar(5);
+        assertThat(new Dollar(10)).isEqualTo(five.times(2));
+        assertThat(new Dollar(15)).isEqualTo(five.times(3));
+    }
 }
