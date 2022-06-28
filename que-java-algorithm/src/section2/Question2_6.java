@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Question18 {
+public class Question2_6 {
     public static void solution(List<Integer> list){
         list.forEach(num -> {
             StringBuffer sb = new StringBuffer(String.valueOf(num));

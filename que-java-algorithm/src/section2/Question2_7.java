@@ -1,20 +1,22 @@
 package section2;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
-public class Question20 {
+public class Question2_7 {
     public static void solution(List<Integer> list){
-        for (int i = 0; i < list.size(); i++) {
-            int grade = 1;
-            for (int j = 0; j < list.size(); j++) {
-                if (list.get(i) < list.get(j)){
-                    grade++;
-                }
+        int point = 0;
+        int sum = 0;
+        for (int num : list) {
+            if (num == 1){
+                point++;
+            } else {
+                point = 0;
             }
-            System.out.print(grade+" ");
-            grade = 1;
+            sum += point;
         }
-
+        System.out.println(sum);
     }
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);

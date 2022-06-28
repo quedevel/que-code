@@ -2,7 +2,7 @@ package section2;
 
 import java.util.Scanner;
 
-public class Question23 {
+public class Question2_11 {
     public static void solution(int cnt, int[][] iArr){
         int result = 0, max = Integer.MIN_VALUE;
         for (int i = 1; i <= cnt; i++) {

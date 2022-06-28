@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
-public class Question6 {
+public class Question1_6 {
     public static String solution(String str){
         String result = "";
         String[] sArr = str.split("");

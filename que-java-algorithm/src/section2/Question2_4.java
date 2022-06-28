@@ -2,7 +2,7 @@ package section2;
 
 import java.util.Scanner;
 
-public class Question16 {
+public class Question2_4 {
     public static void solution(int cnt){
         String result = "";
         int prev = 1;

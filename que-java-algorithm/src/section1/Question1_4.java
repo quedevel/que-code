@@ -2,7 +2,7 @@ package section1;
 
 import java.util.Scanner;
 
-public class Question4 {
+public class Question1_4 {
     public static void solution(String str){
         StringBuffer sb = new StringBuffer(str);
         String s = sb.reverse().toString();

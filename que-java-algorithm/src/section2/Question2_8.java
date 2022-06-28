@@ -1,20 +1,20 @@
 package section2;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
-public class Question13 {
+public class Question2_8 {
     public static void solution(List<Integer> list){
-        String result = "";
-        int prev = 0;
-        for (int num : list) {
-            if (num > prev){
-                result += num+" ";
+        for (int i = 0; i < list.size(); i++) {
+            int grade = 1;
+            for (int j = 0; j < list.size(); j++) {
+                if (list.get(i) < list.get(j)){
+                    grade++;
+                }
             }
-            prev = num;
+            System.out.print(grade+" ");
+            grade = 1;
         }
-        System.out.print(result);
+
     }
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);

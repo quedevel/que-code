@@ -4,19 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Question19 {
+public class Question2_1 {
     public static void solution(List<Integer> list){
-        int point = 0;
-        int sum = 0;
+        String result = "";
+        int prev = 0;
         for (int num : list) {
-            if (num == 1){
-                point++;
-            } else {
-                point = 0;
+            if (num > prev){
+                result += num+" ";
             }
-            sum += point;
+            prev = num;
         }
-        System.out.println(sum);
+        System.out.print(result);
     }
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);

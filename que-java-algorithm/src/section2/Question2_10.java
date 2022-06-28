@@ -2,7 +2,7 @@ package section2;
 
 import java.util.Scanner;
 
-public class Question22 {
+public class Question2_10 {
     public static void solution(int[][] iArr){
         int cnt = 0;
         int[] x = {-1, 0, 1, 0};

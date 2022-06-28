@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Question15 {
+public class Question2_3 {
     public static void solution(List<Integer> list, int cnt){
         String result = "";
 

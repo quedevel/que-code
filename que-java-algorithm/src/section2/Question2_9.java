@@ -5,7 +5,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
-public class Question21 {
+public class Question2_9 {
     public static void solution(int[][] iArr){
         List<Integer> sumList = new ArrayList<>();
         int leftDiagonal = 0;

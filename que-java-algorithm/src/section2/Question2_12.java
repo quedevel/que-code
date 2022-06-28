@@ -3,7 +3,7 @@ package section2;
 
 import java.util.Scanner;
 
-public class Question24 {
+public class Question2_12 {
     public static void solution(){
         int cnt = 0;
         System.out.println(cnt);

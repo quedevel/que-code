@@ -6,7 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
-public class Question25 {
+public class Question3_1 {
     public static void solution(List<Integer> firstList, List<Integer> secondList){
         firstList.addAll(secondList);
         firstList.sort(Comparator.comparing(Integer::intValue));

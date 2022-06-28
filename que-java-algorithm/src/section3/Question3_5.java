@@ -6,7 +6,7 @@ import java.util.Scanner;
  * 03-05
  * 5. 연속된 자연수의 합
  */
-public class Question29 {
+public class Question3_5 {
     public static void solution(int cnt, int[] iArr){
         int max = 0;
 

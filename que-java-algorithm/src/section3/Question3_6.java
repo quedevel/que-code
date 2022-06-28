@@ -6,7 +6,7 @@ import java.util.Scanner;
  * 03-06
  * 6. 최대 길이 연속부분수열
  */
-public class Question30 {
+public class Question3_6 {
     public static void solution(int cnt, int[] iArr){
         int max = 0;
 

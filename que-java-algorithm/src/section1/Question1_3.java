@@ -3,7 +3,7 @@ package section1;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class Question3 {
+public class Question1_3 {
     public static String solution(String str){
         String answer = "";
         String[] sArr = str.split(" ");

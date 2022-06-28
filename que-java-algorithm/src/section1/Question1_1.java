@@ -2,7 +2,7 @@ package section1;
 
 import java.util.Scanner;
 
-public class Question1 {
+public class Question1_1 {
     public static int solution(String str, char c){
         int answer = 0;
         char[] cArr = str.toLowerCase().toCharArray();

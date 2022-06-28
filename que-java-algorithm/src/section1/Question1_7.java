@@ -2,16 +2,12 @@ package section1;
 
 import java.util.Scanner;
 
-public class Question8 {
+public class Question1_7 {
     public static String solution(String str){
         String result = "";
-        String onlyEng = "";
-        for(char c : str.toCharArray()){
-            if (Character.isAlphabetic(c)) onlyEng += c;
-        }
-        StringBuffer sb = new StringBuffer(onlyEng);
+        StringBuffer sb = new StringBuffer(str);
         String temp = sb.reverse().toString();
-        result = onlyEng.equals(temp)? "YES" : "NO";
+        result = str.equals(temp)? "YES" : "NO";
         return result;
     }
     public static void main(String[] args) {

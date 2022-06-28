@@ -2,7 +2,7 @@ package section1;
 
 import java.util.*;
 
-public class Question10 {
+public class Question1_10 {
     public static int[] solution(String s, char t){
         int[] answer=new int[s.length()];
         int p = 1000;
