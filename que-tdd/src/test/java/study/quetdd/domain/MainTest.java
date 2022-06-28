@@ -20,15 +20,13 @@ public class MainTest {
      */
     @Test
     void testMultiplication() {
-        //given
         Dollar five = new Dollar(5);
-        //when
-        Dollar product = five.times(2);
-        //then
-        assertThat(10).isEqualTo(product.amount);
-        //when
-        product = five.times(3);
-        //then
-        assertThat(15).isEqualTo(product.amount);
+        assertThat(new Dollar(10)).isEqualTo(five.times(2));
+        assertThat(new Dollar(15)).isEqualTo(five.times(3));
+    }
+
+    @Test
+    void testEquality() {
+        assertThat(new Dollar(5).equals(new Dollar(5))).isTrue();
     }
 }

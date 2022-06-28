@@ -84,3 +84,24 @@ public class Dollar {
 
 
 #### 3. 모두를 위한 평등
+지금의 `Dollar` 객체같이 객체를 값처럼 쓸 수 있는데 이것을 값 객체 패턴(value object pattern)이라고 한다.<br>
+값 객체에 대한 제약사항 중 하나는 객체의 인스턴스 변수가 생성자를 통해서 일단 설정된 후에는 결코 변하지 않는다.<br>
+> $5 + 10CHF = $10 (환율이 2:1일 경우) <br>
+> ~~$5 * 2 = $10~~ <br>
+> amount를 private으로 만들기 <br>
+> ~~Dollar 부작용?~~ <br>
+> Money 반올림? <br>
+> ~~equals()~~ <br>
+> hashCode() <br>
+> Equal null <br>
+> Equal object <br>
+
+* 동치성의 일반화
+```java
+public boolean equals(Object o) {
+    Dollar dollar = (Dollar) o;
+    return amount == dollar.amount;
+}
+```
+
+
