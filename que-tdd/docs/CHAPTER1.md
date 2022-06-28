@@ -233,3 +233,44 @@ public boolean equals(Object o) {
 > 통화?
 
 #### 8. 객체 만들기
+`Money`에 `Dollar`와 `Franc` 반환하는 팩토리 메서드 도입<br>
+```java
+static Money dollar(int amount){
+    return new Dollar(amount);
+}
+
+static Money franc(int amount){
+    return new Franc(amount);
+}
+```
+`Money`를 추상 클래스로 변경한 후 `Money.times()` 선언<br>
+```java
+abstract Money times(int multiplier);
+```
+```java
+@Test
+void testMultiplication() {
+    Money five = Money.dollar(5);
+    assertThat(Money.dollar(10)).isEqualTo(five.times(2));
+    assertThat(Money.dollar(15)).isEqualTo(five.times(3));
+}
+```
+어떤 클라이언트 코드도 `Dollar`라는 이름의 하위 클래스가 있다는 사실을 알지 못한다. <br>
+하위 클래스의 존재 테스트에서 분리함으로써 어떤 모델 코드에도 영향을 주지 않고 상속 구조를 마음대로 변경할 수 있게 됐다.<br>
+> $5 + 10CHF = $10 (환율이 2:1일 경우) <br>
+> ~~$5 * 2 = $10~~ <br>
+> ~~amount를 private으로 만들기~~ <br>
+> ~~Dollar 부작용?~~ <br>
+> Money 반올림? <br>
+> ~~equals()~~ <br>
+> hashCode() <br>
+> Equal null <br>
+> Equal object <br>
+> ~~5CHF * 2 = 10CHF~~
+> Dollar/Franc 중복
+> ~~공용 equals~~
+> 공용 times
+> ~~Franc과 Dollar 비교하기~~
+> 통화?
+> testFrancMultiplication을 지워야 할까?
+
