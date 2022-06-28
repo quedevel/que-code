@@ -104,4 +104,28 @@ public boolean equals(Object o) {
 }
 ```
 
+#### 4. 프라이버시
+```java
+@Test
+void testMultiplication() {
+    Dollar five = new Dollar(5);
+    assertThat(new Dollar(10)).isEqualTo(five.times(2));
+    assertThat(new Dollar(15)).isEqualTo(five.times(3));
+}
+```
+이 테스트는 일련의 오퍼레이션이 아니라 참인 명제에 대한 단언들이므로 우리의 의도를 더 명확하게 이야기 해준다. <br>
+테스트를 고치고 나니 이제 `Dollar`의 `amount` 인스턴스 변수를 사용하는 코드는 `Dollar` 자신밖에 없으므로 <br>
+변수를 `private`으로 변경 할 수 있다.<br>
+```java
+private int amount;
+```
+> $5 + 10CHF = $10 (환율이 2:1일 경우) <br>
+> ~~$5 * 2 = $10~~ <br>
+> ~~amount를 private으로 만들기~~ <br>
+> ~~Dollar 부작용?~~ <br>
+> Money 반올림? <br>
+> ~~equals()~~ <br>
+> hashCode() <br>
+> Equal null <br>
+> Equal object <br>
 
