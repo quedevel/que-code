@@ -28,10 +28,6 @@ public class MainTest {
     void testEquality() {
         assertThat(Money.dollar(5).equals(Money.dollar(5))).isTrue();
         assertThat(Money.dollar(5).equals(Money.dollar(6))).isFalse();
-        assertThat(Money.franc(5).equals(Money.franc(5))).isTrue();
-        assertThat(Money.franc(5).equals(Money.franc(6))).isFalse();
-
-        // Franc Dollar 비교
         assertThat(Money.franc(5).equals(Money.dollar(5))).isFalse();
     }
 
@@ -48,7 +44,7 @@ public class MainTest {
         assertThat("CHF").isEqualTo(Money.franc(1).currency());
     }
 
-    @Test
+    @Deprecated
     void testDifferentClassEquality() {
         assertThat(new Money(10,"CHF")).isEqualTo(new Franc(10,"CHF"));
     }

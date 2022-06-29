@@ -1,5 +1,6 @@
 package study.quetdd.domain;
 
+@Deprecated
 public class Dollar extends Money {
 
     Dollar(int amount, String currency){

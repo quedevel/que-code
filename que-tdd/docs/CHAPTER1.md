@@ -167,10 +167,10 @@ public class Franc {
 > hashCode() <br>
 > Equal null <br>
 > Equal object <br>
-> ~~5CHF * 2 = 10CHF~~
-> Dollar/Franc 중복
-> 공용 equals
-> 공용 times
+> ~~5CHF * 2 = 10CHF~~ <br>
+> Dollar/Franc 중복 <br>
+> 공용 equals <br>
+> 공용 times <br>
 
 중복이 엄청나게 많기 때문에 다음 테스트를 작성하기 전에 이것들을 제거해야한다.<br>
 `equals()`를 일반화하는 것부터 시작!<br>
@@ -187,11 +187,11 @@ public class Franc {
 > hashCode() <br>
 > Equal null <br>
 > Equal object <br>
-> ~~5CHF * 2 = 10CHF~~
-> Dollar/Franc 중복
-> ~~공용 equals~~
-> 공용 times
-> Franc과 Dollar 비교하기
+> ~~5CHF * 2 = 10CHF~~ <br>
+> Dollar/Franc 중복 <br>
+> ~~공용 equals~~ <br>
+> 공용 times <br>
+> Franc과 Dollar 비교하기 <br>
 
 
 #### 7. 사과와 오렌지
@@ -225,12 +225,12 @@ public boolean equals(Object o) {
 > hashCode() <br>
 > Equal null <br>
 > Equal object <br>
-> ~~5CHF * 2 = 10CHF~~
-> Dollar/Franc 중복
-> ~~공용 equals~~
-> 공용 times
-> ~~Franc과 Dollar 비교하기~~
-> 통화?
+> ~~5CHF * 2 = 10CHF~~ <br>
+> Dollar/Franc 중복 <br>
+> ~~공용 equals~~ <br>
+> 공용 times <br>
+> ~~Franc과 Dollar 비교하기~~ <br>
+> 통화? <br>
 
 #### 8. 객체 만들기
 `Money`에 `Dollar`와 `Franc` 반환하는 팩토리 메서드 도입<br>
@@ -266,13 +266,13 @@ void testMultiplication() {
 > hashCode() <br>
 > Equal null <br>
 > Equal object <br>
-> ~~5CHF * 2 = 10CHF~~
-> Dollar/Franc 중복
-> ~~공용 equals~~
-> 공용 times
-> ~~Franc과 Dollar 비교하기~~
-> 통화?
-> testFrancMultiplication을 지워야 할까?
+> ~~5CHF * 2 = 10CHF~~ <br>
+> Dollar/Franc 중복 <br>
+> ~~공용 equals~~ <br>
+> 공용 times <br>
+> ~~Franc과 Dollar 비교하기~~ <br>
+> 통화? <br>
+> testFrancMultiplication을 지워야 할까? <br>
 
 #### 9. 우리가 사는 시간
 통화를 표현하기 위한 복잡한 객체들을 원할 수 있다. 그리고 그 객체들이 필요한 만큼만 <br>
@@ -306,13 +306,13 @@ static Money franc(int amount){
 > hashCode() <br>
 > Equal null <br>
 > Equal object <br>
-> ~~5CHF * 2 = 10CHF~~
-> Dollar/Franc 중복
-> ~~공용 equals~~
-> 공용 times
-> ~~Franc과 Dollar 비교하기~~
-> ~~통화?~~
-> testFrancMultiplication 제거
+> ~~5CHF * 2 = 10CHF~~ <br>
+> Dollar/Franc 중복 <br>
+> ~~공용 equals~~ <br>
+> 공용 times <br>
+> ~~Franc과 Dollar 비교하기~~ <br>
+> ~~통화?~~ <br>
+> testFrancMultiplication 제거 <br>
 
 #### 10. 흥미로운 시간
 더 이상 `Money`클래스의 `times`는 추상 메서드가 아닌 공용 `times`로 만든다.<br>
@@ -348,10 +348,31 @@ public boolean equals(Object o) {
 > hashCode() <br>
 > Equal null <br>
 > Equal object <br>
-> ~~5CHF * 2 = 10CHF~~
-> Dollar/Franc 중복
-> ~~공용 equals~~
-> ~~공용 times~~
-> ~~Franc과 Dollar 비교하기~~
-> ~~통화?~~
-> testFrancMultiplication 제거
+> ~~5CHF * 2 = 10CHF~~ <br>
+> Dollar/Franc 중복 <br>
+> ~~공용 equals~~ <br>
+> ~~공용 times~~ <br>
+> ~~Franc과 Dollar 비교하기~~ <br>
+> ~~통화?~~ <br>
+> testFrancMultiplication 제거 <br>
+
+#### 11. 모든 악의 근원
+두 하위 클래스인 `Dollar`, `Franc`는 이제 생성자밖에 남지 않았다. <br>
+단지 생성자 때문에 하위 클래스가 있을 필요는 없기 때문에 제거하도록 한다. <br>
+기존소스에서는 필요했지만 새로운 소스에선 필요없는 테스트는 제거한다. <br>
+> $5 + 10CHF = $10 (환율이 2:1일 경우) <br>
+> ~~$5 * 2 = $10~~ <br>
+> ~~amount를 private으로 만들기~~ <br>
+> ~~Dollar 부작용?~~ <br>
+> Money 반올림? <br>
+> ~~equals()~~ <br>
+> hashCode() <br>
+> Equal null <br>
+> Equal object <br>
+> ~~5CHF * 2 = 10CHF~~ <br>
+> ~~Dollar/Franc 중복~~ <br>
+> ~~공용 equals~~ <br>
+> ~~공용 times~~ <br>
+> ~~Franc과 Dollar 비교하기~~ <br>
+> ~~통화?~~ <br>
+> testFrancMultiplication 제거 <br>
