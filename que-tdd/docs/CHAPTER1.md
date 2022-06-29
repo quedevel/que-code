@@ -313,3 +313,45 @@ static Money franc(int amount){
 > ~~Franc과 Dollar 비교하기~~
 > ~~통화?~~
 > testFrancMultiplication 제거
+
+#### 10. 흥미로운 시간
+더 이상 `Money`클래스의 `times`는 추상 메서드가 아닌 공용 `times`로 만든다.<br>
+```java
+Money times(int multiplier){
+    return new Money(amount*multiplier, currency);
+}
+```
+`Money` 클래스를 생성하기 위해서 `Money` 클래스도 콘크리트 클래스로 변경되어야 한다.<br>
+```java
+public class Money { ... }
+```
+```java
+@Test
+void testDifferentClassEquality() {
+    assertThat(new Money(10,"CHF")).isEqualTo(new Franc(10,"CHF"));
+}
+```
+위 테스트에 두 클래스가 다른 클래스임에도 테스트가 통과하려면 `equals`를 변경해야한다.<br>
+```java
+public boolean equals(Object o) {
+    Money money = (Money) o;
+    return amount == money.amount &&
+            currency().equals(money.currency());
+}
+```
+> $5 + 10CHF = $10 (환율이 2:1일 경우) <br>
+> ~~$5 * 2 = $10~~ <br>
+> ~~amount를 private으로 만들기~~ <br>
+> ~~Dollar 부작용?~~ <br>
+> Money 반올림? <br>
+> ~~equals()~~ <br>
+> hashCode() <br>
+> Equal null <br>
+> Equal object <br>
+> ~~5CHF * 2 = 10CHF~~
+> Dollar/Franc 중복
+> ~~공용 equals~~
+> ~~공용 times~~
+> ~~Franc과 Dollar 비교하기~~
+> ~~통화?~~
+> testFrancMultiplication 제거

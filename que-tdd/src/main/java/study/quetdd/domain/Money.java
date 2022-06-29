@@ -1,6 +1,6 @@
 package study.quetdd.domain;
 
-public abstract class Money {
+public class Money {
 
     protected int amount;
     protected String currency;
@@ -10,7 +10,9 @@ public abstract class Money {
         this.currency = currency;
     }
 
-    abstract Money times(int multiplier);
+    Money times(int multiplier){
+        return new Money(amount*multiplier, currency);
+    }
 
     String currency(){
         return currency;
@@ -19,7 +21,7 @@ public abstract class Money {
     public boolean equals(Object o) {
         Money money = (Money) o;
         return amount == money.amount &&
-                getClass().equals(money.getClass());
+                currency().equals(money.currency());
     }
 
     static Money dollar(int amount){
@@ -28,5 +30,11 @@ public abstract class Money {
 
     static Money franc(int amount){
         return new Franc(amount, "CHF");
+    }
+
+    @Override
+    public String toString() {
+        return "amount=" + amount +
+                ", currency='" + currency;
     }
 }
