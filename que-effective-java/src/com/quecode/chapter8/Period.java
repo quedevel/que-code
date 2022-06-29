@@ -43,6 +43,18 @@ public final class Period implements Serializable {
             throw new InvalidObjectException(start + "가 " + end + "보다 늦다.");
         }
     }
+    private static class SerializationProxy implements Serializable {
+        private final Date start;
+        private final Date end;
+
+        SerializationProxy(Period p) {
+            this.start = p.start;
+            this.end = p.end;
+        }
+
+        private static final long serialVersionUID = 234098243823485285L;
+    }
+
 
 //    // 코드 50-3 수정한 생성자 - 매개변수의 방어적 복사본을 만든다. (304쪽)
 //    public Period(Date start, Date end) {
