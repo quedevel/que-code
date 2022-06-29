@@ -274,3 +274,42 @@ void testMultiplication() {
 > 통화?
 > testFrancMultiplication을 지워야 할까?
 
+#### 9. 우리가 사는 시간
+통화를 표현하기 위한 복잡한 객체들을 원할 수 있다. 그리고 그 객체들이 필요한 만큼만 <br>
+만들어지도록 하기 위해 경량 팩토리를 사용할 수 있을 것이다. 하지만 일단 문자열을 사용하자.<br>
+```java
+@Test
+void testCurrency() {
+    assertThat("USD").isEqualTo(Money.dollar(1).currency());
+    assertThat("CHF").isEqualTo(Money.franc(1).currency());
+}
+```
+```java
+protected String currency;
+```
+통화를 구분하기 위한 문자열 변수를 생성하고
+```java
+Franc(int amount, String currency){...}
+```
+생성자에 통화를 입력해주고 문자열은 정적 팩토리 메서드로 옴긴다.
+```java
+static Money franc(int amount){
+    return new Franc(amount, "CHF");
+}
+```
+> $5 + 10CHF = $10 (환율이 2:1일 경우) <br>
+> ~~$5 * 2 = $10~~ <br>
+> ~~amount를 private으로 만들기~~ <br>
+> ~~Dollar 부작용?~~ <br>
+> Money 반올림? <br>
+> ~~equals()~~ <br>
+> hashCode() <br>
+> Equal null <br>
+> Equal object <br>
+> ~~5CHF * 2 = 10CHF~~
+> Dollar/Franc 중복
+> ~~공용 equals~~
+> 공용 times
+> ~~Franc과 Dollar 비교하기~~
+> ~~통화?~~
+> testFrancMultiplication 제거

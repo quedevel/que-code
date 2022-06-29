@@ -1,10 +1,9 @@
 package study.quetdd.domain;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 public class MainTest {
@@ -41,5 +40,11 @@ public class MainTest {
         Money five = Money.franc(5);
         assertThat(Money.franc(10)).isEqualTo(five.times(2));
         assertThat(Money.franc(15)).isEqualTo(five.times(3));
+    }
+
+    @Test
+    void testCurrency() {
+        assertThat("USD").isEqualTo(Money.dollar(1).currency());
+        assertThat("CHF").isEqualTo(Money.franc(1).currency());
     }
 }
