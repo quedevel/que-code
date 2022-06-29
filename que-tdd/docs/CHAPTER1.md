@@ -376,3 +376,7 @@ public boolean equals(Object o) {
 > ~~Franc과 Dollar 비교하기~~ <br>
 > ~~통화?~~ <br>
 > testFrancMultiplication 제거 <br>
+
+#### 12. 드디어, 더하기
+큰 테스트를 작은 테스트($5 + 10CHF -> $5 + $5)로 줄여서 발전을 나타낼 수 있도록 했다. <br>
+우리에게 필요한 계산에 대한 가능한 메타포들을 기반하여 테스트를 재작성했다. <br>
