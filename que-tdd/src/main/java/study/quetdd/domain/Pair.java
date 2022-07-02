@@ -1,6 +1,7 @@
 package study.quetdd.domain;
 
 public class Pair {
+
     private String from;
     private String to;
 

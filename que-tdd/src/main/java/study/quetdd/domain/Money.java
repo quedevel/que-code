@@ -2,8 +2,8 @@ package study.quetdd.domain;
 
 public class Money implements Expression {
 
-    protected int amount;
-    protected String currency;
+    private int amount;
+    private String currency;
 
     public Money(int amount, String currency) {
         this.amount = amount;
@@ -14,14 +14,13 @@ public class Money implements Expression {
         return new Money(amount*multiplier, currency);
     }
 
-    String currency(){
+    public String currency(){
         return currency;
     }
 
     public boolean equals(Object o) {
         Money money = (Money) o;
-        return amount == money.amount &&
-                currency().equals(money.currency());
+        return amount == money.amount && currency().equals(money.currency());
     }
 
     static Money dollar(int amount){
@@ -34,8 +33,7 @@ public class Money implements Expression {
 
     @Override
     public String toString() {
-        return "amount=" + amount +
-                ", currency='" + currency;
+        return "amount=" + amount + ", currency='" + currency;
     }
 
     public Expression plus(Expression addend) {
