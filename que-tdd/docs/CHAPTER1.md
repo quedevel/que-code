@@ -408,3 +408,28 @@ void testReduceMoneyDifferentCurrency() {
 > ~~Bank.reduce(Money)~~ <br>
 > ~~Money에 대한 통화 변환을 수행하는 Reduce~~ <br>
 > ~~Reduce(Bank, String)~~ <br>
+
+#### 15. 서로 다른 통화 더하기
+드디어 이 모든 작업의 시초인 `$5 + 10CHF` 에 대한 테스트를 추가할 준비가 됐다.<br>
+```java
+@Test
+void testMixedAddition() {
+    Expression fiveBucks = Money.dollar(5);
+    Expression tenFrances = Money.franc(10);
+    Bank bank = new Bank();
+    bank.addRate("CHF","USD", 2);
+    Money result = bank.reduce(fiveBucks.plus(tenFrances), "USD");
+    assertThat(Money.dollar(10)).isEqualTo(result);
+}
+```
+> $5 + 10CHF = $10(환율이 2:1일 경우) <br>
+> ~~$5 + $5 = $10~~ <br>
+> $5 + $5에서 Money 반환하기 <br>
+> ~~Bank.reduce(Money)~~ <br>
+> ~~Money에 대한 통화 변환을 수행하는 Reduce~~ <br>
+> ~~Reduce(Bank, String)~~ <br>
+> Sum.plus <br>
+> Expression.times <br>
+
+좀더 추상적인 선언을 통해 가지에서 뿌리로 일반화했다.<br>
+변경후 (Expression fiveBucks), 그 영향을 받은 다른 부분들을 변경하기 위해 컴파일러의 지시를 따랐다.<br>
