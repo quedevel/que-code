@@ -44,4 +44,12 @@ public class Money implements Expression {
         int rate = bank.rate(currency, to);
         return new Money(amount/rate,to);
     }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
 }

@@ -11,7 +11,7 @@ public class Sum implements Expression {
     }
 
     public Money reduce(Bank bank, String to) {
-        int amount = augend.reduce(bank, to).amount + addend.reduce(bank, to).amount;
+        int amount = augend.reduce(bank, to).getAmount() + addend.reduce(bank, to).getAmount();
         return new Money(amount, to);
     }
 
