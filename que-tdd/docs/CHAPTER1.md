@@ -389,3 +389,22 @@ public boolean equals(Object o) {
 > ~~Bank.reduce(Money)~~ <br>
 > Money에 대한 통화 변환을 수행하는 Reduce <br>
 > Reduce(Bank, String) <br>
+
+
+#### 14. 바꾸기
+2프랑이 있는데 이걸 달러로 바꾸고 싶다.<br>
+```java
+@Test
+void testReduceMoneyDifferentCurrency() {
+    Bank bank = new Bank();
+    bank.addRate("CHF", "USD", 2);
+    Money result = bank.reduce(Money.franc(2), "USD");
+    assertThat(Money.dollar(1)).isEqualTo(result);
+}
+```
+> $5 + 10CHF = $10(환율이 2:1일 경우) <br>
+> ~~$5 + $5 = $10~~ <br>
+> $5 + $5에서 Money 반환하기 <br>
+> ~~Bank.reduce(Money)~~ <br>
+> ~~Money에 대한 통화 변환을 수행하는 Reduce~~ <br>
+> ~~Reduce(Bank, String)~~ <br>
