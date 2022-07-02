@@ -2,8 +2,8 @@ package study.quetdd.domain;
 
 public class Sum implements Expression {
 
-    Expression augend;
-    Expression addend;
+    private Expression augend;
+    private Expression addend;
 
     public Sum(Expression augend, Expression addend) {
         this.augend = augend;
@@ -22,5 +22,13 @@ public class Sum implements Expression {
 
     public Expression times(int multiplier) {
         return new Sum(augend.times(multiplier), addend.times(multiplier));
+    }
+
+    public Expression getAugend() {
+        return augend;
+    }
+
+    public Expression getAddend() {
+        return addend;
     }
 }
