@@ -1,6 +1,6 @@
 # Test-Driven Development: By Example - Kent Beck
 
-<img width="40%" src="https://user-images.githubusercontent.com/55771326/175861913-0e333521-2717-4c91-816f-c567b305a789.jpg">
+<img width="20%" src="https://user-images.githubusercontent.com/55771326/175861913-0e333521-2717-4c91-816f-c567b305a789.jpg">
 
 * 저자 소개
 > Kent Beck ( on the WikiWikiWeb ) <br>
