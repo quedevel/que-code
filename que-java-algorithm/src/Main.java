@@ -1,27 +1,17 @@
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Main {
-    public static void solution(int cnt, int[] iArr){
-        int max = 0;
-        for (int i = 0; i < iArr.length; i++) {
-            int sum = 0;
-            for (int j = 0; j < cnt; j++) {
-                if (i+j < iArr.length){
-                    sum += iArr[i+j];
-                }
-            }
-            if (sum > max) max = sum;
-        }
-        System.out.println(max);
+    public static void solution(String s1, String s2){
+        String sortedS1 = Stream.of(s1.split("")).sorted().collect(Collectors.joining());
+        String sortedS2 = Stream.of(s2.split("")).sorted().collect(Collectors.joining());
+        System.out.println(sortedS1.equals(sortedS2)? "YES": "NO");
     }
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int total = sc.nextInt();
-        int cnt = sc.nextInt();
-        int[] iArr = new int[total];
-        for (int i = 0; i < total; i++) {
-            iArr[i] = sc.nextInt();
-        }
-        solution(cnt, iArr);
+        String s1 = sc.nextLine();
+        String s2 = sc.nextLine();
+        solution(s1, s2);
     }
 }
