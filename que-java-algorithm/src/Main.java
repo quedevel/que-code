@@ -1,17 +1,32 @@
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Main {
-    public static void solution(String s1, String s2){
-        String sortedS1 = Stream.of(s1.split("")).sorted().collect(Collectors.joining());
-        String sortedS2 = Stream.of(s2.split("")).sorted().collect(Collectors.joining());
-        System.out.println(sortedS1.equals(sortedS2)? "YES": "NO");
+    public static void solution(int l, int k, int[] arr){
+        List<String> answer = new ArrayList<>();
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < k - 1; i++) {
+            map.put(arr[i], map.getOrDefault(arr[i],0)+1);
+        }
+        int lt = 0;
+        for (int rt = k - 1; rt < l; rt++) {
+            map.put(arr[rt], map.getOrDefault(arr[rt],0 )+1);
+            answer.add(String.valueOf(map.size()));
+            map.put(arr[lt], map.get(arr[lt])-1);
+            if (map.get(arr[lt]) == 0){
+                map.remove(arr[lt]);
+            }
+            lt++;
+        }
+        System.out.println(String.join(" ", answer));
     }
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        String s1 = sc.nextLine();
-        String s2 = sc.nextLine();
-        solution(s1, s2);
+        int l = sc.nextInt();
+        int k = sc.nextInt();
+        int[] arr = new int[l];
+        for (int i = 0; i < l; i++) {
+            arr[i] = sc.nextInt();
+        }
+        solution(l, k, arr);
     }
 }
