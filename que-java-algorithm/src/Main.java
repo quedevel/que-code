@@ -1,32 +1,27 @@
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Main {
-    public static void solution(int l, int k, int[] arr){
-        List<String> answer = new ArrayList<>();
-        Map<Integer, Integer> map = new HashMap<>();
-        for (int i = 0; i < k - 1; i++) {
-            map.put(arr[i], map.getOrDefault(arr[i],0)+1);
-        }
-        int lt = 0;
-        for (int rt = k - 1; rt < l; rt++) {
-            map.put(arr[rt], map.getOrDefault(arr[rt],0 )+1);
-            answer.add(String.valueOf(map.size()));
-            map.put(arr[lt], map.get(arr[lt])-1);
-            if (map.get(arr[lt]) == 0){
-                map.remove(arr[lt]);
+    public static void solution(String S, String T){
+        int result = 0;
+        int sLength = S.length();
+        int tLength = T.length();
+        String[] arr = S.split("");
+        String standard = Arrays.stream(T.split("")).sorted().collect(Collectors.joining());
+        for (int i = 0; i <= sLength - tLength; i++) {
+            List<String> list = new ArrayList<>();
+            for (int j = i; j < i+tLength; j++) {
+                list.add(arr[j]);
             }
-            lt++;
+            String temp = list.stream().sorted().collect(Collectors.joining());
+            if (standard.equals(temp)) result++;
         }
-        System.out.println(String.join(" ", answer));
+        System.out.println(result);
     }
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int l = sc.nextInt();
-        int k = sc.nextInt();
-        int[] arr = new int[l];
-        for (int i = 0; i < l; i++) {
-            arr[i] = sc.nextInt();
-        }
-        solution(l, k, arr);
+        String S = sc.nextLine();
+        String T = sc.nextLine();
+        solution(S, T);
     }
 }
