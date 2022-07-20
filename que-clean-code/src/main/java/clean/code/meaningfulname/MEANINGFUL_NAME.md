@@ -169,3 +169,5 @@ private void thereAreManyLetters(int count) {
 ```
 
 <br>
+
+> Robert C. Martin, 『Clean Code』, 박재호 * 이해영 옮김, 인사이트(2013), p22-38.
