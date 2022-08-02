@@ -1,4 +1,4 @@
-package codility.lesson.stacksandqueues;
+package codility.lesson.stacks_and_queues;
 
 import java.util.Stack;
 

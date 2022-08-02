@@ -1,4 +1,4 @@
-package codility.lesson.prefixsums;
+package codility.lesson.prefix_sums;
 
 public class CountDiv {
 //    A and B are integers within the range [0..2,000,000,000];

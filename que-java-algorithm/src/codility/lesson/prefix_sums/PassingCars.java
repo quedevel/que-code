@@ -1,4 +1,4 @@
-package codility.lesson.prefixsums;
+package codility.lesson.prefix_sums;
 
 
 public class PassingCars {

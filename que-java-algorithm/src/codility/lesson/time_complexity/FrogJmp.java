@@ -1,4 +1,4 @@
-package codility.lesson.timecomplexity;
+package codility.lesson.time_complexity;
 
 public class FrogJmp {
     public static int solution(int X, int Y, int D) {

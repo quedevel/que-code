@@ -1,4 +1,4 @@
-package codility.lesson.countingelements;
+package codility.lesson.counting_elements;
 
 public class MaxCounters {
 //  if A[K] = X, such that 1 ≤ X ≤ N, then operation K is increase(X),

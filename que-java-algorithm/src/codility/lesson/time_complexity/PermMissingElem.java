@@ -1,4 +1,4 @@
-package codility.lesson.timecomplexity;
+package codility.lesson.time_complexity;
 
 import java.util.Arrays;
 
