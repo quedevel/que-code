@@ -1,4 +1,4 @@
-package computer.science.chapter1.designpattern.observer;
+package computer.science.chapter1.design_pattern.observer;
 
 public interface Subject {
     void register(Observer obj);

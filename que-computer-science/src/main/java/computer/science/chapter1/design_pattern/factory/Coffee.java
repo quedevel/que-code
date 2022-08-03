@@ -1,4 +1,4 @@
-package computer.science.chapter1.designpattern.factory;
+package computer.science.chapter1.design_pattern.factory;
 
 public abstract class Coffee {
     public abstract int getPrice();

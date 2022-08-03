@@ -1,4 +1,4 @@
-package computer.science.chapter1.designpattern.factory;
+package computer.science.chapter1.design_pattern.factory;
 
 public class CoffeeFactory {
     public static Coffee getCoffee(String type, int price){

@@ -1,4 +1,4 @@
-package computer.science.chapter1.designpattern.singleton;
+package computer.science.chapter1.design_pattern.singleton;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

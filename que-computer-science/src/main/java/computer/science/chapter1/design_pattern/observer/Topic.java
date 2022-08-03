@@ -1,4 +1,4 @@
-package computer.science.chapter1.designpattern.observer;
+package computer.science.chapter1.design_pattern.observer;
 
 import java.util.ArrayList;
 import java.util.List;

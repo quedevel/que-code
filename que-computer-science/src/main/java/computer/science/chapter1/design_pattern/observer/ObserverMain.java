@@ -1,4 +1,4 @@
-package computer.science.chapter1.designpattern.observer;
+package computer.science.chapter1.design_pattern.observer;
 
 public class ObserverMain {
     public static void main(String[] args) {
