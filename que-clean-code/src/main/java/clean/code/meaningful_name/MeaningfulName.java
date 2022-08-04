@@ -1,4 +1,4 @@
-package clean.code.meaningfulname;
+package clean.code.meaningful_name;
 
 import java.util.Date;
 
