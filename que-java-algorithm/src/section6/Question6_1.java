@@ -1,7 +1,13 @@
+package section6;
+
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class Main {
+/**
+ * 06-01
+ * 1. 선택 정렬
+ */
+public class Question6_1 {
     public static int[] solution(int[] arr){
         int[] result = Arrays.stream(arr).sorted().toArray();
         return result;

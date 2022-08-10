@@ -1,5 +1,7 @@
 package codility.lesson.counting_elements;
 
+import java.util.Arrays;
+
 public class MaxCounters {
 //  if A[K] = X, such that 1 ≤ X ≤ N, then operation K is increase(X),
 //  if A[K] = N + 1 then operation K is max counter.
@@ -25,6 +27,7 @@ public class MaxCounters {
                 counter[i] = prevMax;
             }
         }
+        System.out.println("counter = " + Arrays.toString(counter));
         return counter;
     }
 

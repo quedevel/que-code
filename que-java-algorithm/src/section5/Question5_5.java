@@ -3,8 +3,8 @@ package section5;
 import java.util.Scanner;
 
 /**
- * 05-01
- * 1. 올바른 괄호
+ * 05-05
+ * 5. 쇠막대기
  */
 public class Question5_5 {
     public static void solution(String votedStr){
