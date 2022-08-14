@@ -1,6 +1,13 @@
+package section6;
+
+import java.util.Arrays;
 import java.util.Scanner;
 
-public class Main {
+/**
+ * 06-03
+ * 3. 삽입 정렬
+ */
+public class Question6_3 {
     public static int[] solution(int[] arr){
         for (int i = 1; i < arr.length; i++) {
             int temp = arr[i];
