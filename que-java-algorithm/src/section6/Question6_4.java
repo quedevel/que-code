@@ -1,6 +1,12 @@
+package section6;
+
 import java.util.Scanner;
 
-public class Main {
+/**
+ * 06-034
+ * 4. LRU(Least Recently Used)
+ */
+public class Question6_4 {
     public static int[] solution(int size, int n, int[] arr){
         int[] cache = new int[size];
         for (int x : arr) {
