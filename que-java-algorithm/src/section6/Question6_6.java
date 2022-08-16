@@ -1,7 +1,16 @@
-import java.util.*;
+package section6;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
-public class Main {
+/**
+ * 06-06
+ * 6. 장난꾸러기
+ */
+public class Question6_6 {
     public static List<Integer> solution(int[] arr){
         List<Integer> result = new ArrayList<>();
         List<Integer> list = Arrays.stream(arr).boxed().sorted().collect(Collectors.toList());
