@@ -3,7 +3,7 @@ package section6;
 import java.util.Scanner;
 
 /**
- * 06-034
+ * 06-04
  * 4. LRU(Least Recently Used)
  */
 public class Question6_4 {

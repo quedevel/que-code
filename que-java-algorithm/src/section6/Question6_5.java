@@ -1,8 +1,14 @@
+package section6;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-public class Main {
+/**
+ * 06-05
+ * 5. 중복 확인
+ */
+public class Question6_5 {
     public static String solution(int[] arr){
         String result = "U";
         Map<Integer, Integer> map = new HashMap<>();
