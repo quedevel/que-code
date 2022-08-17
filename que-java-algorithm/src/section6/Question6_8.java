@@ -1,6 +1,12 @@
+package section6;
+
 import java.util.Scanner;
 
-public class Main {
+/**
+ * 06-08
+ * 8. 이분 검색
+ */
+public class Question6_8 {
     public static int solution(int[] arr, int n){
         selectionSort(arr);
         return binarySearch(arr, n)+1;
