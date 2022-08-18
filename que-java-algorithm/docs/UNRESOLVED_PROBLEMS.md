@@ -6,3 +6,5 @@
 4. Question3_6
 5. Question4_5
 6. Question5_4
+7. Question6_9
+8. Question6_10
