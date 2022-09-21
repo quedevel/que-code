@@ -1,5 +1,6 @@
 package hello.nowonjpa.entity.complex_key.id_class.primary_key;
 
+import hello.nowonjpa.entity.complex_key.id_class.ChildV3;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -12,6 +13,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class GrandChildId implements Serializable {
 
-    private ChildIdV3 childIdV3;
+    private ChildV3 childV3;
     private String id;
 }
