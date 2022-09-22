@@ -1,5 +1,7 @@
 package hello.nowonjpa.week4;
 
+import hello.nowonjpa.entity.Locker;
+import hello.nowonjpa.entity.Member;
 import hello.nowonjpa.entity.embedded_id.primary_key.ParentIdV2;
 import hello.nowonjpa.entity.embedded_id.ParentV2;
 import hello.nowonjpa.entity.id_class.Parent;
@@ -11,6 +13,8 @@ import org.springframework.test.annotation.Commit;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+
+import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -54,5 +58,16 @@ public class CompositeKeyTests {
 
         // then
         assertThat(parentV2).isEqualTo(findParentV2);
+    }
+    @Test
+    void lazyLoadingTest(){
+        Member member = em.find(Member.class, 1L);
+        assertThat(member).isNull();
+    }
+
+    @Test
+    void lazyLoadingTest2(){
+        Locker locker = em.find(Locker.class, 1L);
+        assertThat(locker).isNull();
     }
 }
