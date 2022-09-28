@@ -1,6 +1,5 @@
 package hello.nowonjpa;
 
-import hello.nowonjpa.entity.Member;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
