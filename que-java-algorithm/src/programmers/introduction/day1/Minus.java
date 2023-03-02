@@ -1,4 +1,4 @@
-package programmers.day1;
+package programmers.introduction.day1;
 
 public class Minus {
 

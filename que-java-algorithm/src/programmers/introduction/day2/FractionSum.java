@@ -1,4 +1,4 @@
-package programmers.day2;
+package programmers.introduction.day2;
 
 import java.util.Arrays;
 
