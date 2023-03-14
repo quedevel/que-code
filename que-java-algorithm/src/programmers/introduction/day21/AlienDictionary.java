@@ -1,4 +1,4 @@
-package programmers.introduction.etc;
+package programmers.introduction.day21;
 
 import java.util.HashMap;
 import java.util.Map;

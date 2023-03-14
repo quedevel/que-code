@@ -1,4 +1,4 @@
-package programmers.introduction.etc;
+package programmers.introduction.day21;
 
 import java.util.ArrayList;
 import java.util.List;

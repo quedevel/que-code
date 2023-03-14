@@ -1,4 +1,4 @@
-package programmers.introduction.etc;
+package programmers.introduction.day20;
 
 public class MaxValueMaker2 {
     public static void main(String[] args) {

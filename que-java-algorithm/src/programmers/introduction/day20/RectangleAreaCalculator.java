@@ -1,4 +1,4 @@
-package programmers.introduction.etc;
+package programmers.introduction.day20;
 
 import java.util.Arrays;
 
