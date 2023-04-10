@@ -21,6 +21,15 @@ public class TargetNumber {
         return answer;
     }
 
+    /**
+     * 깊이 우선 탐색
+     * 모든 경우의 수 탐색
+     * 느릴 수 있으나 구현은 더 쉬움
+     * @param numbers
+     * @param dept
+     * @param target
+     * @param sum
+     */
     private void dfs(int[] numbers, int dept, int target, int sum){
         if (numbers.length == dept){
             if(target == sum) this.count++;
