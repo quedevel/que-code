@@ -10,6 +10,9 @@ public class BOJ_10026 {
     private static int[] dy = {0,0,1,-1};
     private static int M;
 
+    // R: Red
+    // G: Green
+    // B: Blue
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
@@ -53,9 +56,7 @@ public class BOJ_10026 {
         }
         System.out.println(normal + " " + abnormal);
     }
-    // R: Red
-    // G: Green
-    // B: Blue
+
     private static void dfs(int x, int y){
         isVisited[x][y] = true;
         String color = colors[x][y];

@@ -8,12 +8,9 @@ import java.util.Scanner;
 public class BOJ_2667 {
     private static int[] dx = {0,0,1,-1};
     private static int[] dy = {1,-1,0,0};
-
     private static int[][] area;
     private static boolean[][] isVisited;
-
     private static int N;
-
     private static int count = 0, number = 0;
 
     public static void main(String[] args) {
@@ -54,6 +51,7 @@ public class BOJ_2667 {
         isVisited[x][y] = true;
         count++;
         for (int i = 0; i < dx.length; i++) {
+            // 한칸씩 이동
             int nx = x + dx[i];
             int ny = y + dy[i];
             if (nx < 0 || ny < 0 || nx >= N || ny >= N || isVisited[nx][ny] || area[nx][ny] != 1) continue;

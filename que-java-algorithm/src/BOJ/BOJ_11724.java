@@ -6,8 +6,6 @@ public class BOJ_11724 {
 
     private static int[][] area;
     private static boolean[] isVisited;
-    private static int[] dx = {1,-1,0,0};
-    private static int[] dy = {0,0,1,-1};
     private static int N, M;
     private static int count = 0;
 

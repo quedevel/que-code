@@ -8,14 +8,10 @@ public class BOJ_1012 {
 
     private static int[] dx = {1,-1,0,0};
     private static int[] dy = {0,0,1,-1};
-
     private static int[][] area;
     private static boolean[][] isVisited;
-
     private static int count = 0;
-
     private static int w,h,k;
-
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -58,10 +54,7 @@ public class BOJ_1012 {
         for (int i = 0; i < dx.length; i++) {
             int nx = x + dx[i];
             int ny = y + dy[i];
-            if (nx < 0 || ny < 0 || nx >= h || ny >= w || isVisited[nx][ny] || area[nx][ny] != 1){
-                continue;
-            }
-
+            if (nx < 0 || ny < 0 || nx >= h || ny >= w || isVisited[nx][ny] || area[nx][ny] != 1) continue;
             isVisited[nx][ny] = true;
             dfs(nx,ny);
         }

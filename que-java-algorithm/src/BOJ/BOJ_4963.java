@@ -7,7 +7,6 @@ public class BOJ_4963 {
     private static boolean[][] isVisited;
     private static final int[] dx = {1,-1,0,0,1,-1,-1,1};
     private static final int[] dy = {0,0,1,-1,1,-1,1,-1};
-
     private static int W;
     private static int H;
     private static int count = 0;
@@ -17,7 +16,9 @@ public class BOJ_4963 {
             String[] wh = sc.nextLine().split(" ");
             W = Integer.parseInt(wh[0]);
             H = Integer.parseInt(wh[1]);
+
             if (W == 0 && H == 0) break;
+
             map = new String[H][W];
             isVisited = new boolean[H][W];
             for (int i = 0; i < H; i++) {
