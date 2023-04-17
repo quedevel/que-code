@@ -10,10 +10,8 @@ public class BOJ_2583 {
     private static int M;
     private static int N;
     private static int K;
-
     private static final int[] dx = {1,-1,0,0};
     private static final int[] dy = {0,0,1,-1};
-
     private static boolean[][] area;
     private static boolean[][] isVisited;
     private static int areaCount = 0;

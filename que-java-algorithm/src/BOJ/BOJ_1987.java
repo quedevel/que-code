@@ -9,7 +9,6 @@ public class BOJ_1987 {
     private static final int[] dy = {0,0,1,-1};
     private static int H;
     private static int W;
-
     private static int max;
 
     public static void main(String[] args) {
