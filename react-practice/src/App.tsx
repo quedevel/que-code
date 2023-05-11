@@ -1,10 +1,10 @@
 import React from 'react'
-import Game from "./components/tutorial/bingo/Game";
+import ProductApp from "./components/tutorial/thinking/ProductApp";
 
 function App() {
   return (
     <div>
-        <Game />
+        <ProductApp/>
     </div>
   )
 }
