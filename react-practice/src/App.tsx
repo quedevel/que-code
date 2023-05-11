@@ -1,13 +1,12 @@
-import React from 'react';
-import MyApp from './components/quickstart/MyApp'
-import './App.css';
+import React from 'react'
+import Game from "./components/tutorial/Game";
 
 function App() {
   return (
-    <div className="App">
-        <MyApp />
+    <div>
+        <Game />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
