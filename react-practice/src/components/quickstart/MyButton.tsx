@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 interface MyButtonProps{
     count: number
@@ -10,5 +10,5 @@ export default function MyButton({ count, onClick }: MyButtonProps) {
         <button onClick={onClick}>
             Clicked {count} times
         </button>
-    );
+    )
 }
