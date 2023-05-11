@@ -1,5 +1,5 @@
 import React from 'react'
-import Game from "./components/tutorial/Game";
+import Game from "./components/tutorial/bingo/Game";
 
 function App() {
   return (
