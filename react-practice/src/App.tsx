@@ -1,10 +1,17 @@
 import React from 'react'
-import ProductApp from "./components/tutorial/thinking/ProductApp";
+import Profile from "./components/describe/keeping_components_pure/Challenge2";
 
 function App() {
   return (
     <div>
-        <ProductApp/>
+        <Profile person={{
+            imageId: 'lrWQx8l',
+            name: 'Subrahmanyan Chandrasekhar',
+        }} />
+        <Profile person={{
+            imageId: 'MK3eW3A',
+            name: 'Creola Katherine Johnson',
+        }} />
     </div>
   )
 }
