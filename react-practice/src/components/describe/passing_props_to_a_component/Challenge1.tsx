@@ -1,4 +1,4 @@
-import { getImageUrl } from './utils.js';
+import { getImageUrl } from './utils';
 
 interface Scientist {
     name: string

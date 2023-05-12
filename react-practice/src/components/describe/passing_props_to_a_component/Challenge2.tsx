@@ -1,4 +1,4 @@
-import { getImageUrl2, Person } from './utils.js';
+import { getImageUrl2, Person } from './utils';
 
 interface AvatarProps {
     person: Person
