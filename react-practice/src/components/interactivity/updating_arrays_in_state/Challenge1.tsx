@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from 'react'
 
 const initialProducts = [{
     id: 0,
@@ -12,7 +12,7 @@ const initialProducts = [{
     id: 2,
     name: 'Spaghetti',
     count: 2,
-}];
+}]
 
 type Product = {
     id: number
@@ -37,12 +37,12 @@ export default function ShoppingCart() {
                     {' '}
                     (<b>{product.count}</b>)
                     <button onClick={() => {
-                        handleIncreaseClick(product.id);
+                        handleIncreaseClick(product.id)
                     }}>
                         +
                     </button>
                 </li>
             ))}
         </ul>
-    );
+    )
 }

@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import Background from './Background';
-import Box from './Box';
-import produce from 'immer';
+import React, { useState } from 'react'
+import Background from './Background'
+import Box from './Box'
+import produce from 'immer'
 
 const initialPosition = {
     x: 0,
     y: 0
-};
+}
 
 type Shape = {
     color: string
@@ -22,19 +22,19 @@ export default function Canvas() {
     const [shape, setShape] = useState<Shape>({
         color: 'orange',
         position: initialPosition
-    });
+    })
 
     function handleMove(dx: number, dy: number) {
         setShape(produce(shape, (draft) => {
-            draft.position.x += dx;
-            draft.position.y += dy;
-        }));
+            draft.position.x += dx
+            draft.position.y += dy
+        }))
     }
 
     function handleColorChange(e: React.ChangeEvent<HTMLSelectElement>) {
         setShape(produce(shape, (draft) => {
-            draft.color = e.target.value;
-        }));
+            draft.color = e.target.value
+        }))
     }
 
     return (
@@ -58,5 +58,5 @@ export default function Canvas() {
                 Drag me!
             </Box>
         </>
-    );
+    )
 }

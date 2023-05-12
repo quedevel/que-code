@@ -18,5 +18,5 @@ export default function Background({
             height: 250,
             backgroundColor: 'rgba(200, 200, 0, 0.2)',
     }} />
-);
-};
+)
+}

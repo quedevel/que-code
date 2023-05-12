@@ -1,14 +1,14 @@
 type Story = {
-    id: string;
-    label: string;
+    id: string
+    label: string
 }
 
 type StoryTrayProps = {
-    stories: Story[];
+    stories: Story[]
 }
 
 export default function StoryTray({ stories }: StoryTrayProps) {
-    const arr: Story[] = [...stories, { id: 'create', label: 'Create Story' }];
+    const arr: Story[] = [...stories, { id: 'create', label: 'Create Story' }]
 
     return (
         <ul>
@@ -18,5 +18,5 @@ export default function StoryTray({ stories }: StoryTrayProps) {
                 </li>
             ))}
         </ul>
-    );
+    )
 }

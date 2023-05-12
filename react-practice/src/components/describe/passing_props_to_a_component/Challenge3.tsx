@@ -1,4 +1,4 @@
-import React, {ReactNode} from "react";
+import React, {ReactNode} from "react"
 
 interface CardProps {
     children: ReactNode
@@ -11,7 +11,7 @@ function Card({ children }: CardProps) {
                 {children}
             </div>
         </div>
-    );
+    )
 }
 
 export default function Profile() {
@@ -32,5 +32,5 @@ export default function Profile() {
                 <p>Aklilu Lemma was a distinguished Ethiopian scientist who discovered a natural treatment to schistosomiasis.</p>
             </Card>
         </div>
-    );
+    )
 }

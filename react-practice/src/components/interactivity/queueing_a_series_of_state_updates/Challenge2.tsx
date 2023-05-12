@@ -1,9 +1,9 @@
-import { getFinalState } from './processQueue';
+import { getFinalState } from './processQueue'
 
 function increment(n: number) {
-    return n + 1;
+    return n + 1
 }
-increment.toString = () => 'n => n+1';
+increment.toString = () => 'n => n+1'
 
 export default function App() {
     return (
@@ -43,7 +43,7 @@ export default function App() {
                 expected={42}
             />
         </>
-    );
+    )
 }
 
 type TestProps = {
@@ -58,7 +58,7 @@ function TestCase({
   expected
 }: TestProps
 ) {
-    const actual = getFinalState(baseState, queue);
+    const actual = getFinalState(baseState, queue)
     return (
         <>
             <p>Base state: <b>{baseState}</b></p>
@@ -77,5 +77,5 @@ function TestCase({
             })
             </p>
         </>
-    );
+    )
 }

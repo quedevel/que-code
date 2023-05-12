@@ -1,4 +1,4 @@
-import Profile from './Profile';
+import Profile from './Profile'
 
 export default function Gallery() {
     return (
@@ -8,5 +8,5 @@ export default function Gallery() {
             <Profile />
             <Profile />
         </section>
-    );
+    )
 }

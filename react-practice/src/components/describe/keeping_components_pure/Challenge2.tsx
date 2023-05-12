@@ -1,8 +1,8 @@
-import Panel from './Panel';
-import {getImageUrl, Person} from './utils';
+import Panel from './Panel'
+import {getImageUrl, Person} from './utils'
 
 type ProfileProps = {
-    person: Person;
+    person: Person
 }
 
 export default function Profile({ person }: ProfileProps) {
@@ -15,7 +15,7 @@ export default function Profile({ person }: ProfileProps) {
 }
 
 function Header({person}: ProfileProps) {
-    return <h1>{person.name}</h1>;
+    return <h1>{person.name}</h1>
 }
 
 function Avatar({person}: ProfileProps) {
@@ -27,5 +27,5 @@ function Avatar({person}: ProfileProps) {
             width={50}
             height={50}
         />
-    );
+    )
 }

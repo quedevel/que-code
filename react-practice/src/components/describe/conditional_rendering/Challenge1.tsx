@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 
 interface ItemProps {
     name: string
@@ -10,7 +10,7 @@ function Item({ name, isPacked }: ItemProps) {
         <li className="item">
             {name} {isPacked? '✔' :'❌'}
         </li>
-    );
+    )
 }
 
 export default function PackingList() {
@@ -32,5 +32,5 @@ export default function PackingList() {
                 />
             </ul>
         </section>
-    );
+    )
 }

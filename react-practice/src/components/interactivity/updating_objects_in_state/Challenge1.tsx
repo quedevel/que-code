@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 
 type Player = {
-    firstName: string;
-    lastName: string;
-    score: number;
+    firstName: string
+    lastName: string
+    score: number
 }
 
 export default function Scoreboard() {
@@ -11,7 +11,7 @@ export default function Scoreboard() {
         firstName: 'Ranjani',
         lastName: 'Shettar',
         score: 10,
-    });
+    })
 
     function handlePlusClick() {
         setPlayer({
@@ -24,14 +24,14 @@ export default function Scoreboard() {
         setPlayer({
             ...player,
             firstName: e.target.value,
-        });
+        })
     }
 
     function handleLastNameChange(e: React.ChangeEvent<HTMLInputElement>) {
         setPlayer({
             ...player,
             lastName: e.target.value
-        });
+        })
     }
 
     return (
@@ -58,5 +58,5 @@ export default function Scoreboard() {
                 />
             </label>
         </>
-    );
+    )
 }

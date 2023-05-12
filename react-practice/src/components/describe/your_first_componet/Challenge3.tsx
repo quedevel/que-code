@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 
 function Profile() {
     return (
@@ -6,7 +6,7 @@ function Profile() {
             src="https://i.imgur.com/QIrZWGIs.jpg"
             alt="Alan L. Hart"
         />
-    );
+    )
 }
 
 export default function Gallery() {
@@ -17,5 +17,5 @@ export default function Gallery() {
             <Profile />
             <Profile />
         </section>
-    );
+    )
 }

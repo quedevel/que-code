@@ -1,4 +1,4 @@
-import { JSX } from "react/jsx-runtime";
+import { JSX } from "react/jsx-runtime"
 
 const poem = {
     lines: [
@@ -6,7 +6,7 @@ const poem = {
         'Erase again, and then',
         'A poppy blooms.'
     ]
-};
+}
 
 export default function Poem() {
 
@@ -20,12 +20,12 @@ export default function Poem() {
         )
 
         wrappedLines.push( <hr /> )
-    });
+    })
 
     return (
         <article>
             {wrappedLines.slice(0, poem.lines.length + poem.lines.length-1)}
         </article>
-    );
+    )
 }
 

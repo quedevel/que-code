@@ -1,10 +1,10 @@
 export default function LightSwitch() {
     function handleClick() {
-        let bodyStyle = document.body.style;
+        let bodyStyle = document.body.style
         if (bodyStyle.backgroundColor === 'black') {
-            bodyStyle.backgroundColor = 'white';
+            bodyStyle.backgroundColor = 'white'
         } else {
-            bodyStyle.backgroundColor = 'black';
+            bodyStyle.backgroundColor = 'black'
         }
     }
 
@@ -12,5 +12,5 @@ export default function LightSwitch() {
         <button onClick={handleClick}>
             Toggle the lights
         </button>
-    );
+    )
 }

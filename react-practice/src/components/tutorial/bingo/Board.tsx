@@ -1,5 +1,5 @@
-import React from "react";
-import Square from "./Square";
+import React from "react"
+import Square from "./Square"
 
 interface BoardProps {
     xIsNext: boolean
@@ -18,12 +18,12 @@ export default function Board({ xIsNext, squares, onPlay }: BoardProps) {
         }
         onPlay(nextSquares)
     }
-    const winner = calculateWinner(squares);
-    let status;
+    const winner = calculateWinner(squares)
+    let status
     if (winner) {
-        status = "Winner: " + winner;
+        status = "Winner: " + winner
     } else {
-        status = "Next player: " + (xIsNext ? "X" : "O");
+        status = "Next player: " + (xIsNext ? "X" : "O")
     }
     return (
         <>
@@ -57,12 +57,12 @@ function calculateWinner(squares: Array<string|null>) {
         [2, 5, 8],
         [0, 4, 8],
         [2, 4, 6]
-    ];
+    ]
     for (let i = 0; i < lines.length; i++) {
-        const [a, b, c] = lines[i];
+        const [a, b, c] = lines[i]
         if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-            return squares[a];
+            return squares[a]
         }
     }
-    return null;
+    return null
 }

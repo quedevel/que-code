@@ -6,9 +6,9 @@ export default function ColorSwitch({ onChangeColor }: Props) {
     return (
         <button onClick={e => {
             e.stopPropagation()
-            onChangeColor();
+            onChangeColor()
         }}>
             Change color
         </button>
-    );
+    )
 }
