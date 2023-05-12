@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import produce from "immer";
-import AddTodo from './AddTodo.js';
-import TaskList from './TaskList.js';
+import AddTodo from './AddTodo';
+import TaskList from './TaskList';
 
 let nextId = 3;
 const initialTodos = [
