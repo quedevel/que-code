@@ -1,19 +1,19 @@
-import React from "react";
+import React from "react"
 
 interface DrinkProps {
     name: string
 }
 
 function Drink({ name }: DrinkProps) {
-    let part, content, age;
+    let part, content, age
     if (name === 'tea') {
-        part = 'leaf';
-        content = '15–70 mg/cup';
-        age = '4,000+ years';
+        part = 'leaf'
+        content = '15–70 mg/cup'
+        age = '4,000+ years'
     } else if (name === 'coffee') {
-        part = 'bean';
-        content = '80–185 mg/cup';
-        age = '1,000+ years';
+        part = 'bean'
+        content = '80–185 mg/cup'
+        age = '1,000+ years'
     }
     return (
         <section>
@@ -27,7 +27,7 @@ function Drink({ name }: DrinkProps) {
                 <dd>{age}</dd>
             </dl>
         </section>
-    );
+    )
 }
 
 export default function DrinkList() {
@@ -36,5 +36,5 @@ export default function DrinkList() {
             <Drink name="tea" />
             <Drink name="coffee" />
         </div>
-    );
+    )
 }

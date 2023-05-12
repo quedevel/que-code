@@ -1,13 +1,13 @@
-import React, {useState} from 'react';
+import React, {useState} from 'react'
 
 interface BoxProps {
-    children: React.ReactNode;
-    color: string;
+    children: React.ReactNode
+    color: string
     position: {
-        x: number;
-        y: number;
-    };
-    onMove: (dx: number, dy: number) => void;
+        x: number
+        y: number
+    }
+    onMove: (dx: number, dy: number) => void
 }
 
 export default function Box({
@@ -19,15 +19,15 @@ export default function Box({
     const [
         lastCoordinates,
         setLastCoordinates
-    ] = useState<{ x: number; y: number } | null>(null);
+    ] = useState<{ x: number; y: number } | null>(null)
 
     function handlePointerDown(e: React.PointerEvent) {
-        const target = e.target as HTMLElement;
-        target.setPointerCapture(e.pointerId);
+        const target = e.target as HTMLElement
+        target.setPointerCapture(e.pointerId)
         setLastCoordinates({
             x: e.clientX,
             y: e.clientY,
-        });
+        })
     }
 
 
@@ -36,15 +36,15 @@ export default function Box({
             setLastCoordinates({
                 x: e.clientX,
                 y: e.clientY,
-            });
-            const dx = e.clientX - lastCoordinates.x;
-            const dy = e.clientY - lastCoordinates.y;
-            onMove(dx, dy);
+            })
+            const dx = e.clientX - lastCoordinates.x
+            const dy = e.clientY - lastCoordinates.y
+            onMove(dx, dy)
         }
     }
 
     function handlePointerUp(e: React.PointerEvent) {
-        setLastCoordinates(null);
+        setLastCoordinates(null)
     }
 
     return (
@@ -69,6 +69,6 @@ export default function Box({
             }} >
             {children}
         </div>
-    );
+    )
 
 }

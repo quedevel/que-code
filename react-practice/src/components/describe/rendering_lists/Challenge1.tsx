@@ -1,5 +1,5 @@
-import { people } from './data';
-import { getImageUrl, Person } from './utils';
+import { people } from './data'
+import { getImageUrl, Person } from './utils'
 
 export default function List() {
     const getScientists = ( scientists: Person[] ) => {
@@ -15,7 +15,7 @@ export default function List() {
                     known for {person.accomplishment}
                 </p>
             </li>
-        );
+        )
     }
     return (
         <article>
@@ -28,5 +28,5 @@ export default function List() {
                 {getScientists(people.filter(person => person.profession !== 'chemist'))}
             </ul>
         </article>
-    );
+    )
 }

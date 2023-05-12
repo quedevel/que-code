@@ -1,4 +1,4 @@
-import { recipes } from './data';
+import { recipes } from './data'
 
 interface RecipeProps {id: string, name: string, ingredients: string[]}
 export default function RecipeList() {
@@ -9,7 +9,7 @@ export default function RecipeList() {
                 <Recipe key={recipe.id} {...recipe} />
             ))}
         </div>
-    );
+    )
 }
 
 function Recipe({ name, ingredients }: RecipeProps ) {

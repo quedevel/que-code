@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from 'react'
 
 type Todo = {
     id: number
@@ -38,12 +38,12 @@ export default function TaskList({
                 </li>
             ))}
         </ul>
-    );
+    )
 }
 
 function Task({ todo, onChange, onDelete }: TaskProps) {
-    const [isEditing, setIsEditing] = useState(false);
-    let todoContent;
+    const [isEditing, setIsEditing] = useState(false)
+    let todoContent
     if (isEditing) {
         todoContent = (
             <>
@@ -53,13 +53,13 @@ function Task({ todo, onChange, onDelete }: TaskProps) {
                         onChange({
                             ...todo,
                             title: e.target.value
-                        });
+                        })
                     }} />
                 <button onClick={() => setIsEditing(false)}>
                     Save
                 </button>
             </>
-        );
+        )
     } else {
         todoContent = (
             <>
@@ -68,7 +68,7 @@ function Task({ todo, onChange, onDelete }: TaskProps) {
                     Edit
                 </button>
             </>
-        );
+        )
     }
     return (
         <label>
@@ -79,7 +79,7 @@ function Task({ todo, onChange, onDelete }: TaskProps) {
                     onChange({
                         ...todo,
                         done: e.target.checked
-                    });
+                    })
                 }}
             />
             {todoContent}
@@ -87,5 +87,5 @@ function Task({ todo, onChange, onDelete }: TaskProps) {
                 Delete
             </button>
         </label>
-    );
+    )
 }

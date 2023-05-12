@@ -1,36 +1,36 @@
-import React, {useState} from "react";
-import Board from "./Board";
+import React, {useState} from "react"
+import Board from "./Board"
 
 export default function Game() {
-    const [history, setHistory] = useState<any>([Array(9).fill(null)]);
-    const [currentMove, setCurrentMove] = useState<number>(0);
-    const xIsNext = currentMove % 2 === 0;
-    const currentSquares = history[currentMove];
+    const [history, setHistory] = useState<any>([Array(9).fill(null)])
+    const [currentMove, setCurrentMove] = useState<number>(0)
+    const xIsNext = currentMove % 2 === 0
+    const currentSquares = history[currentMove]
 
     const handlePlay = (nextSquares: any) => {
-        const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
-        setHistory(nextHistory);
-        setCurrentMove(nextHistory.length - 1);
+        const nextHistory = [...history.slice(0, currentMove + 1), nextSquares]
+        setHistory(nextHistory)
+        setCurrentMove(nextHistory.length - 1)
     }
 
 
     const jumpTo = (nextMove: number) => {
-        setCurrentMove(nextMove);
+        setCurrentMove(nextMove)
     }
 
     const moves = history.map((squares: Array<string|null>, move: number) => {
-        let description;
+        let description
         if (move > 0) {
-            description = 'Go to move #' + move;
+            description = 'Go to move #' + move
         } else {
-            description = 'Go to game start';
+            description = 'Go to game start'
         }
         return (
             <li key={move}>
                 <button onClick={() => jumpTo(move)}>{description}</button>
             </li>
-        );
-    });
+        )
+    })
 
     return (
         <div className="game">
@@ -41,5 +41,5 @@ export default function Game() {
                 <ol>{moves}</ol>
             </div>
         </div>
-    );
+    )
 }

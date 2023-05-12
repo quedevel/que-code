@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from 'react'
 
 const initialProducts = [{
     id: 0,
@@ -12,7 +12,7 @@ const initialProducts = [{
     id: 2,
     name: 'Spaghetti',
     count: 2,
-}];
+}]
 
 type Product = {
     id: number
@@ -35,7 +35,7 @@ export default function ShoppingCart() {
     function handleDecreaseClick(productId: number) {
         let productList = products.map((product: Product) => {
             return product.id !== productId? product : { ...product, count: product.count-1 }
-        });
+        })
         setProducts(productList.filter(p => p.count > 0))
     }
 
@@ -47,17 +47,17 @@ export default function ShoppingCart() {
                     {' '}
                     (<b>{product.count}</b>)
                     <button onClick={() => {
-                        handleIncreaseClick(product.id);
+                        handleIncreaseClick(product.id)
                     }}>
                         +
                     </button>
                     <button onClick={() => {
-                        handleDecreaseClick(product.id);
+                        handleDecreaseClick(product.id)
                     }}>
                         –
                     </button>
                 </li>
             ))}
         </ul>
-    );
+    )
 }

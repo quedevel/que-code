@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useState } from 'react'
 
 export default function TrafficLight() {
-    const [walk, setWalk] = useState<boolean>(true);
+    const [walk, setWalk] = useState<boolean>(true)
     const handleClick = () => {
-        setWalk(!walk);
+        setWalk(!walk)
         alert(walk? 'Stop is next' : 'Walk is next')
     }
     return (
@@ -15,5 +15,5 @@ export default function TrafficLight() {
                 {walk ? 'Walk' : 'Stop'}
             </h1>
         </>
-    );
+    )
 }

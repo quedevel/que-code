@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import Background from './Background';
-import Box from './Box';
+import React, { useState } from 'react'
+import Background from './Background'
+import Box from './Box'
 
 const initialPosition = {
     x: 0,
     y: 0
-};
+}
 
 type Shape = {
     color: string
@@ -21,7 +21,7 @@ export default function Canvas() {
     const [shape, setShape] = useState<Shape>({
         color: 'orange',
         position: initialPosition
-    });
+    })
 
     function handleMove(dx: number, dy: number) {
         setShape({
@@ -30,14 +30,14 @@ export default function Canvas() {
                 x: shape.position.x + dx,
                 y: shape.position.y + dy,
             }
-        });
+        })
     }
 
     function handleColorChange(e: React.ChangeEvent<HTMLSelectElement>) {
         setShape({
             ...shape,
             color: e.target.value
-        });
+        })
     }
 
     return (
@@ -61,5 +61,5 @@ export default function Canvas() {
                 Drag me!
             </Box>
         </>
-    );
+    )
 }

@@ -1,9 +1,9 @@
-import { useState } from 'react';
-import { sculptureList } from './data.js';
+import { useState } from 'react'
+import { sculptureList } from './data'
 
 export default function Gallery() {
-    const [index, setIndex] = useState<number>(0);
-    const [showMore, setShowMore] = useState<boolean>(false);
+    const [index, setIndex] = useState<number>(0)
+    const [showMore, setShowMore] = useState<boolean>(false)
 
     const handleNextClick = () => {
         setIndex(index + 1)
@@ -14,10 +14,10 @@ export default function Gallery() {
     }
 
     const handleMoreClick = () => {
-        setShowMore(!showMore);
+        setShowMore(!showMore)
     }
 
-    let sculpture = sculptureList[index];
+    let sculpture = sculptureList[index]
     return (
         <>
             {index !== 0 && <button onClick={handlePreviousClick}>Previous</button>}
@@ -38,5 +38,5 @@ export default function Gallery() {
                 alt={sculpture.alt}
             />
         </>
-    );
+    )
 }

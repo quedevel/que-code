@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState } from 'react'
 
-type OnAddTodo = { onAddTodo: (title: string) => void };
+type OnAddTodo = { onAddTodo: (title: string) => void }
 export default function AddTodo({ onAddTodo }: OnAddTodo) {
-    const [title, setTitle] = useState('');
+    const [title, setTitle] = useState('')
     return (
         <>
             <input
@@ -11,8 +11,8 @@ export default function AddTodo({ onAddTodo }: OnAddTodo) {
                 onChange={e => setTitle(e.target.value)}
             />
             <button onClick={() => {
-                setTitle('');
-                onAddTodo(title);
+                setTitle('')
+                onAddTodo(title)
             }}>Add</button>
         </>
     )

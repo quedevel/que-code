@@ -1,13 +1,13 @@
-import { useState } from 'react';
-import AddTodo from './AddTodo';
-import TaskList from './TaskList';
+import { useState } from 'react'
+import AddTodo from './AddTodo'
+import TaskList from './TaskList'
 
-let nextId = 3;
+let nextId = 3
 const initialTodos = [
     { id: 0, title: 'Buy milk', done: true },
     { id: 1, title: 'Eat tacos', done: false },
     { id: 2, title: 'Brew tea', done: false },
-];
+]
 
 type Todo = {
     id: number
@@ -18,7 +18,7 @@ type Todo = {
 export default function TaskApp() {
     const [todos, setTodos] = useState<Array<Todo>>(
         initialTodos
-    );
+    )
 
     function handleAddTodo(title: string) {
         setTodos([
@@ -28,15 +28,15 @@ export default function TaskApp() {
                 title: title,
                 done: false
             }
-        ]);
+        ])
     }
 
     function handleChangeTodo(nextTodo: Todo) {
-        setTodos(todos.map((t: Todo) => { return t.id === nextTodo.id ? nextTodo : t }));
+        setTodos(todos.map((t: Todo) => { return t.id === nextTodo.id ? nextTodo : t }))
     }
 
     function handleDeleteTodo(todoId: number) {
-        setTodos( todos.filter((t: Todo)  => t.id !== todoId));
+        setTodos( todos.filter((t: Todo)  => t.id !== todoId))
     }
 
     return (
@@ -50,5 +50,5 @@ export default function TaskApp() {
                 onDeleteTodo={handleDeleteTodo}
             />
         </>
-    );
+    )
 }

@@ -4,5 +4,5 @@ export default function Profile() {
             src="https://i.imgur.com/QIrZWGIs.jpg"
             alt="Alan L. Hart"
         />
-    );
+    )
 }

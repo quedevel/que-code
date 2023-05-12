@@ -1,6 +1,6 @@
-import React from "react";
+import React from "react"
 
-const baseUrl = 'https://i.imgur.com/';
+const baseUrl = 'https://i.imgur.com/'
 const person = {
     name: 'Gregorio Y. Zara',
     imageId: '7vQD0fP',
@@ -9,7 +9,7 @@ const person = {
         backgroundColor: 'black',
         color: 'pink'
     }
-};
+}
 
 export default function TodoList() {
     return (
@@ -26,5 +26,5 @@ export default function TodoList() {
                 <li>Work on the alcohol-fuelled engine</li>
             </ul>
         </div>
-    );
+    )
 }

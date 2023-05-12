@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 
 export default function Profile() {
     return (
@@ -6,5 +6,5 @@ export default function Profile() {
             src="https://i.imgur.com/lICfvbD.jpg"
             alt="Aklilu Lemma"
         />
-    );
+    )
 }

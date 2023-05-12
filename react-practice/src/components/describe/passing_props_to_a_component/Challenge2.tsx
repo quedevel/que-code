@@ -1,4 +1,4 @@
-import { getImageUrl2, Person } from './utils';
+import { getImageUrl2, Person } from './utils'
 
 interface AvatarProps {
     person: Person
@@ -14,7 +14,7 @@ function Avatar({ person, size }: AvatarProps) {
             width={size}
             height={size}
         />
-    );
+    )
 }
 
 export default function Profile() {
@@ -26,5 +26,5 @@ export default function Profile() {
                 imageId: '7vQD0fP'
             }}
         />
-    );
+    )
 }

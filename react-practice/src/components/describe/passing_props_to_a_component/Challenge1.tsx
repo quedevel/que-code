@@ -1,4 +1,4 @@
-import { getImageUrl } from './utils';
+import { getImageUrl } from './utils'
 
 interface Scientist {
     name: string
@@ -39,7 +39,7 @@ function Profile({
                 </li>
             </ul>
         </section>
-    );
+    )
 }
 
 const scientists = [
@@ -84,5 +84,5 @@ export default function Gallery() {
                 />
             )}
         </div>
-    );
+    )
 }

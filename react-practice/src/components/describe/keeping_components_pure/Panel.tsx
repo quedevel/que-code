@@ -1,11 +1,11 @@
-import {ReactNode, useState} from 'react';
+import {ReactNode, useState} from 'react'
 
 type PanelProps = {
-    children: ReactNode;
+    children: ReactNode
 }
 
 export default function Panel({ children }: PanelProps) {
-    const [open, setOpen] = useState(true);
+    const [open, setOpen] = useState(true)
     return (
         <section className="panel">
             <button onClick={() => setOpen(!open)}>
@@ -13,5 +13,5 @@ export default function Panel({ children }: PanelProps) {
             </button>
             {open && children}
         </section>
-    );
+    )
 }

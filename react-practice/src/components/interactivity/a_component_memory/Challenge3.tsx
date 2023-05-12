@@ -1,16 +1,16 @@
-import { useState } from 'react';
+import { useState } from 'react'
 
 export default function FeedbackForm() {
-    const [isSent, setIsSent] = useState<boolean>(false);
-    const [message, setMessage] = useState<string>('');
+    const [isSent, setIsSent] = useState<boolean>(false)
+    const [message, setMessage] = useState<string>('')
     if (isSent) {
-        return <h1>Thank you!</h1>;
+        return <h1>Thank you!</h1>
     } else {
         return (
             <form onSubmit={e => {
-                e.preventDefault();
-                alert(`Sending: "${message}"`);
-                setIsSent(true);
+                e.preventDefault()
+                alert(`Sending: "${message}"`)
+                setIsSent(true)
             }}>
                 <textarea
                     placeholder="Message"
@@ -20,6 +20,6 @@ export default function FeedbackForm() {
                 <br />
                 <button type="submit">Send</button>
             </form>
-        );
+        )
     }
 }

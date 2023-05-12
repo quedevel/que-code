@@ -10,5 +10,5 @@ export default function Bio() {
                 <b>And <i>pictures</i> of scientists!</b>
             </p>
         </>
-    );
+    )
 }
