@@ -8,5 +8,5 @@ export default function Clock(props: Props) {
         <h1 style={{ color: props.color }}>
             {props.time}
         </h1>
-    );
+    )
 }

@@ -23,7 +23,7 @@ export default function Letter({
                     type="checkbox"
                     checked={isSelected}
                     onChange={() => {
-                        onToggle(letter.id);
+                        onToggle(letter.id)
                     }}
                 />
                 {letter.subject}

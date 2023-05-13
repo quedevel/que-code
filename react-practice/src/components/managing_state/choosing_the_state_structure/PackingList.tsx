@@ -29,7 +29,7 @@ export default function PackingList({
                 onChangeItem({
                   ...item,
                   packed: e.target.checked
-                });
+                })
               }}
             />
             {' '}
@@ -41,5 +41,5 @@ export default function PackingList({
         </li>
       ))}
     </ul>
-  );
+  )
 }

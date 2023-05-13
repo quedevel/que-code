@@ -1,19 +1,19 @@
-import { useState } from 'react';
-import AddItem from './AddItem';
-import PackingList, { Item } from './PackingList';
+import { useState } from 'react'
+import AddItem from './AddItem'
+import PackingList, { Item } from './PackingList'
 
-let nextId = 3;
+let nextId = 3
 const initialItems: Item[] = [
     { id: 0, title: 'Warm socks', packed: true },
     { id: 1, title: 'Travel journal', packed: false },
     { id: 2, title: 'Watercolors', packed: false },
-];
+]
 
 export default function TravelPlan() {
-    const [items, setItems] = useState<Item[]>(initialItems);
+    const [items, setItems] = useState<Item[]>(initialItems)
 
-    const total = items.length;
-    const packed = items.filter((item: Item) => item.packed).length;
+    const total = items.length
+    const packed = items.filter((item: Item) => item.packed).length
 
     function handleAddItem(title: string) {
         setItems([
@@ -23,23 +23,23 @@ export default function TravelPlan() {
                 title: title,
                 packed: false,
             },
-        ]);
+        ])
     }
 
     function handleChangeItem(nextItem: Item) {
         setItems(
             items.map((item) => {
                 if (item.id === nextItem.id) {
-                    return nextItem;
+                    return nextItem
                 } else {
-                    return item;
+                    return item
                 }
             })
-        );
+        )
     }
 
     function handleDeleteItem(itemId: number) {
-        setItems(items.filter((item) => item.id !== itemId));
+        setItems(items.filter((item) => item.id !== itemId))
     }
 
     return (
@@ -55,5 +55,5 @@ export default function TravelPlan() {
                 {packed} out of {total} packed!
             </b>
         </>
-    );
+    )
 }

@@ -1,13 +1,13 @@
-import { useState } from 'react';
-import { letters } from './data';
-import Letter from './LetterForm';
+import { useState } from 'react'
+import { letters } from './data'
+import Letter from './LetterForm'
 
-type SelectedIds = number[];
+type SelectedIds = number[]
 
 export default function MailClient() {
-    const [selectedIds, setSelectedIds] = useState<SelectedIds>([]);
+    const [selectedIds, setSelectedIds] = useState<SelectedIds>([])
 
-    const selectedCount = selectedIds.length;
+    const selectedCount = selectedIds.length
 
     function handleToggle(toggledId: number) {
         // Was it previously selected?
@@ -15,13 +15,13 @@ export default function MailClient() {
             // Then remove this ID from the array.
             setSelectedIds(selectedIds.filter(id =>
                 id !== toggledId
-            ));
+            ))
         } else {
             // Otherwise, add this ID to the array.
             setSelectedIds([
                 ...selectedIds,
                 toggledId
-            ]);
+            ])
         }
     }
 
@@ -47,5 +47,5 @@ export default function MailClient() {
                 </p>
             </ul>
         </>
-    );
+    )
 }

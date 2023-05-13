@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useState } from 'react'
 
 type Props = {
     onAddItem: (title: string) => void
 }
 
 export default function AddItem({ onAddItem }: Props) {
-    const [title, setTitle] = useState<string>('');
+    const [title, setTitle] = useState<string>('')
     return (
         <>
             <input
@@ -14,8 +14,8 @@ export default function AddItem({ onAddItem }: Props) {
                 onChange={e => setTitle(e.target.value)}
             />
             <button onClick={() => {
-                setTitle('');
-                onAddItem(title);
+                setTitle('')
+                onAddItem(title)
             }}>Add</button>
         </>
     )

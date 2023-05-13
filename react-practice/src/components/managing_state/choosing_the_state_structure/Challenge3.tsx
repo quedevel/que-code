@@ -1,13 +1,13 @@
-import { useState } from 'react';
-import { initialLetters } from './data';
-import Letter, {LetterType} from './Letter';
+import { useState } from 'react'
+import { initialLetters } from './data'
+import Letter, {LetterType} from './Letter'
 
 export default function MailClient() {
-    const [letters, setLetters] = useState<LetterType[]>(initialLetters);
-    const [highlightedId, setHighlightedId ] = useState<number|null>(null);
+    const [letters, setLetters] = useState<LetterType[]>(initialLetters)
+    const [highlightedId, setHighlightedId ] = useState<number|null>(null)
 
     function handleHover(letterId: number) {
-        setHighlightedId(letterId);
+        setHighlightedId(letterId)
     }
 
     function handleStar(starredId: number) {
@@ -16,11 +16,11 @@ export default function MailClient() {
                 return {
                     ...letter,
                     isStarred: !letter.isStarred
-                };
+                }
             } else {
-                return letter;
+                return letter
             }
-        }));
+        }))
     }
 
     return (
@@ -40,5 +40,5 @@ export default function MailClient() {
                 ))}
             </ul>
         </>
-    );
+    )
 }

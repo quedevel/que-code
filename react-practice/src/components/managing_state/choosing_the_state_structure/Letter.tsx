@@ -1,15 +1,15 @@
 export type LetterType = {
-    id: number;
-    subject: string;
-    isStarred: boolean;
-};
+    id: number
+    subject: string
+    isStarred: boolean
+}
 
 type Props = {
     letter: LetterType,
     isHighlighted: boolean,
     onHover: (id: number) => void,
     onToggleStar: (id: number) => void,
-};
+}
 
 export default function Letter({
                                    letter,
@@ -24,14 +24,14 @@ export default function Letter({
                 isHighlighted ? 'highlighted' : ''
             }
             onFocus={() => {
-                onHover(letter.id);
+                onHover(letter.id)
             }}
             onPointerMove={() => {
-                onHover(letter.id);
+                onHover(letter.id)
             }}
         >
             <button onClick={() => {
-                onToggleStar(letter.id);
+                onToggleStar(letter.id)
             }}>
                 {letter.isStarred ? 'Unstar' : 'Star'}
             </button>
