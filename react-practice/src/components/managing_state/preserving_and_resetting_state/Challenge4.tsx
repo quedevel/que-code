@@ -1,18 +1,18 @@
-import { useState } from 'react';
+import { useState } from 'react'
 
 export default function Gallery() {
-    const [index, setIndex] = useState<number>(0);
-    const hasNext = index < images.length - 1;
+    const [index, setIndex] = useState<number>(0)
+    const hasNext = index < images.length - 1
 
     function handleClick() {
         if (hasNext) {
-            setIndex(index + 1);
+            setIndex(index + 1)
         } else {
-            setIndex(0);
+            setIndex(0)
         }
     }
 
-    let image = images[index];
+    let image = images[index]
     return (
         <>
             <button onClick={handleClick}>
@@ -26,7 +26,7 @@ export default function Gallery() {
                 {image.place}
             </p>
         </>
-    );
+    )
 }
 
 let images = [{
@@ -50,4 +50,4 @@ let images = [{
 }, {
     place: 'Ljubljana, Slovenia',
     src: 'https://i.imgur.com/3aIiwfm.jpg'
-}];
+}]

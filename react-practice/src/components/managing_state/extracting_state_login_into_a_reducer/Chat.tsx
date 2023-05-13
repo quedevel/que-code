@@ -1,11 +1,12 @@
-import { Dispatch } from 'react';
-import { ActionProps } from './messengerReducer';
+import { Dispatch } from 'react'
+import { ActionProps } from './messengerReducer'
+import { Contact } from './ContactList'
 
 type Props = {
-    contact: { name: string; email: string };
-    message: string;
-    dispatch: Dispatch<ActionProps>;
-};
+    contact: Contact
+    message: string
+    dispatch: Dispatch<ActionProps>
+}
 
 export default function Chat({ contact, message, dispatch }: Props) {
     return (
@@ -23,14 +24,14 @@ export default function Chat({ contact, message, dispatch }: Props) {
             <br />
             <button
                 onClick={() => {
-                    alert(`Sending "${message}" to ${contact.email}`);
+                    alert(`Sending "${message}" to ${contact.email}`)
                     dispatch({
                         type: 'sent_message',
-                    });
+                    })
                 }}
             >
                 Send to {contact.email}
             </button>
         </section>
-    );
+    )
 }

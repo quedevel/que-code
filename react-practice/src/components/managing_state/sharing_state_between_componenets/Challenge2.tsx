@@ -1,12 +1,12 @@
-import React, {useState} from 'react';
-import {foods, filterItems, Food} from './data.js';
+import React, {useState} from 'react'
+import {foods, filterItems, Food} from './data.js'
 
 export default function FilterableList() {
-    const [query, setQuery] = useState<string>('');
-    const results = filterItems(foods, query);
+    const [query, setQuery] = useState<string>('')
+    const results = filterItems(foods, query)
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-        setQuery(e.target.value);
+        setQuery(e.target.value)
     }
 
     return (
@@ -18,7 +18,7 @@ export default function FilterableList() {
             <hr />
             <List items={results} />
         </>
-    );
+    )
 }
 
 type SearchProps = {
@@ -35,7 +35,7 @@ function SearchBar({ query, onChange }: SearchProps) {
                 onChange={onChange}
             />
         </label>
-    );
+    )
 }
 
 function List({ items }: {items: Food[]}) {
@@ -50,5 +50,5 @@ function List({ items }: {items: Food[]}) {
             ))}
             </tbody>
         </table>
-    );
+    )
 }

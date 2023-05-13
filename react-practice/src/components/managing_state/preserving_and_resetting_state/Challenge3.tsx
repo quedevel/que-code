@@ -1,29 +1,29 @@
-import { useState } from 'react';
-import ContactList, {Contact} from './ContactList';
-import EditContact from './EditContact';
+import { useState } from 'react'
+import ContactList, {Contact} from './ContactList'
+import EditContact from './EditContact'
 
 export default function ContactManager() {
     const [
         contacts,
         setContacts
-    ] = useState<Contact[]>(initialContacts);
+    ] = useState<Contact[]>(initialContacts)
     const [
         selectedId,
         setSelectedId
-    ] = useState<number>(0);
+    ] = useState<number>(0)
     const selectedContact = contacts.find(c =>
         c.id === selectedId
-    );
+    )
 
     function handleSave(updatedData: Contact) {
         const nextContacts = contacts.map(c => {
             if (c.id === updatedData.id) {
-                return updatedData;
+                return updatedData
             } else {
-                return c;
+                return c
             }
-        });
-        setContacts(nextContacts);
+        })
+        setContacts(nextContacts)
     }
 
     return (
@@ -49,4 +49,4 @@ const initialContacts: Contact[] = [
     { id: 0, name: 'Taylor', email: 'taylor@mail.com' },
     { id: 1, name: 'Alice', email: 'alice@mail.com' },
     { id: 2, name: 'Bob', email: 'bob@mail.com' }
-];
+]

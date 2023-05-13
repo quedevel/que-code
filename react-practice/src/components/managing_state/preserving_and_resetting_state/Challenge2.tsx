@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState } from 'react'
 
 export default function App() {
-    const [reverse, setReverse] = useState<boolean>(false);
+    const [reverse, setReverse] = useState<boolean>(false)
     let checkbox = (
         <label>
             <input
@@ -11,7 +11,7 @@ export default function App() {
             />
             Reverse order
         </label>
-    );
+    )
     if (reverse) {
         return (
             <>
@@ -19,7 +19,7 @@ export default function App() {
                 <Field key="firstName" label="First name" />
                 {checkbox}
             </>
-        );
+        )
     } else {
         return (
             <>
@@ -27,12 +27,12 @@ export default function App() {
                 <Field key="lastName" label="Last name" />
                 {checkbox}
             </>
-        );
+        )
     }
 }
 
 function Field({ label }: {label: string}) {
-    const [text, setText] = useState('');
+    const [text, setText] = useState('')
     return (
         <label>
             {label}:{' '}
@@ -43,5 +43,5 @@ function Field({ label }: {label: string}) {
                 onChange={e => setText(e.target.value)}
             />
         </label>
-    );
+    )
 }

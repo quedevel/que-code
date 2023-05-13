@@ -1,14 +1,14 @@
-import { useState } from 'react';
-import { Contact } from "./ContactList";
+import { useState } from 'react'
+import { Contact } from "./ContactList"
 
 type Props = {
-    initialData: Contact;
-    onSave: (data: Contact) => void;
-};
+    initialData: Contact
+    onSave: (data: Contact) => void
+}
 
 export default function EditContact({ initialData, onSave }: Props) {
-    const [name, setName] = useState<string>(initialData.name);
-    const [email, setEmail] = useState<string>(initialData.email);
+    const [name, setName] = useState<string>(initialData.name)
+    const [email, setEmail] = useState<string>(initialData.email)
 
     return (
         <section>
@@ -34,20 +34,20 @@ export default function EditContact({ initialData, onSave }: Props) {
                         id: initialData.id,
                         name: name,
                         email: email,
-                    };
-                    onSave(updatedData);
+                    }
+                    onSave(updatedData)
                 }}
             >
                 Save
             </button>
             <button
                 onClick={() => {
-                    setName(initialData.name);
-                    setEmail(initialData.email);
+                    setName(initialData.name)
+                    setEmail(initialData.email)
                 }}
             >
                 Reset
             </button>
         </section>
-    );
+    )
 }

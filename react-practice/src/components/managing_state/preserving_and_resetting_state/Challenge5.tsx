@@ -1,12 +1,12 @@
-import { useState } from 'react';
-import Contact from './Contact.js';
+import { useState } from 'react'
+import Contact from './Contact.js'
 
 export default function ContactList() {
-    const [reverse, setReverse] = useState<boolean>(false);
+    const [reverse, setReverse] = useState<boolean>(false)
 
-    const displayedContacts = [...contacts];
+    const displayedContacts = [...contacts]
     if (reverse) {
-        displayedContacts.reverse();
+        displayedContacts.reverse()
     }
 
     return (
@@ -29,11 +29,11 @@ export default function ContactList() {
                 )}
             </ul>
         </>
-    );
+    )
 }
 
 const contacts = [
     { id: 0, name: 'Alice', email: 'alice@mail.com' },
     { id: 1, name: 'Bob', email: 'bob@mail.com' },
     { id: 2, name: 'Taylor', email: 'taylor@mail.com' }
-];
+]
