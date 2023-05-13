@@ -1,18 +1,18 @@
-import { useState, useRef } from 'react';
+import { useState, useRef } from 'react' 
 
 export default function VideoPlayer() {
-    const [isPlaying, setIsPlaying] = useState(false);
-    const ref = useRef<HTMLVideoElement>(null);
+    const [isPlaying, setIsPlaying] = useState(false) 
+    const ref = useRef<HTMLVideoElement>(null) 
 
     function handleClick() {
-        const nextIsPlaying = !isPlaying;
-        setIsPlaying(nextIsPlaying);
+        const nextIsPlaying = !isPlaying 
+        setIsPlaying(nextIsPlaying) 
 
         if (ref.current) {
             if (nextIsPlaying) {
-                ref.current.play();
+                ref.current.play() 
             } else {
-                ref.current.pause();
+                ref.current.pause() 
             }
         }
     }

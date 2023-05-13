@@ -1,21 +1,21 @@
-import { useState, useRef } from 'react';
+import { useState, useRef } from 'react' 
 
 export default function Chat() {
-    const [text, setText] = useState<string>('');
-    const [isSending, setIsSending] = useState<boolean>(false);
-    const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const [text, setText] = useState<string>('') 
+    const [isSending, setIsSending] = useState<boolean>(false) 
+    const timeoutRef = useRef<NodeJS.Timeout | null>(null) 
 
     function handleSend() {
-        setIsSending(true);
+        setIsSending(true) 
         timeoutRef.current = setTimeout(() => {
-            alert('Sent!');
-            setIsSending(false);
-        }, 3000);
+            alert('Sent!') 
+            setIsSending(false) 
+        }, 3000) 
     }
 
     function handleUndo() {
-        setIsSending(false);
-        if (timeoutRef.current) clearTimeout(timeoutRef.current);
+        setIsSending(false) 
+        if (timeoutRef.current) clearTimeout(timeoutRef.current) 
     }
 
     return (
@@ -36,5 +36,5 @@ export default function Chat() {
                 </button>
             }
         </>
-    );
+    ) 
 }

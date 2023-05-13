@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef } from "react" 
 
 export default function Page() {
     const ref = useRef<HTMLInputElement>(null)
@@ -17,5 +17,5 @@ export default function Page() {
                 placeholder="Looking for something?"
             />
         </>
-    );
+    ) 
 }

@@ -1,9 +1,9 @@
-import { useState } from 'react';
-import { useCounter2 } from './useCounter.js';
+import { useState } from 'react' 
+import { useCounter2 } from './useCounter '
 
 export default function Counter() {
-    const [delay, setDelay] = useState<number>(1000);
-    const count = useCounter2(delay);
+    const [delay, setDelay] = useState<number>(1000) 
+    const count = useCounter2(delay) 
     return (
         <>
             <label>
@@ -20,5 +20,5 @@ export default function Counter() {
             <hr />
             <h1>Ticks: {count}</h1>
         </>
-    );
+    ) 
 }

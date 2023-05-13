@@ -1,19 +1,19 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react' 
 
 interface MyInputProps {
-    shouldFocus: boolean;
-    value: string;
-    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    shouldFocus: boolean 
+    value: string 
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void 
 }
 
 export default function MyInput({ shouldFocus, value, onChange }: MyInputProps) {
-    const ref = useRef<HTMLInputElement>(null);
+    const ref = useRef<HTMLInputElement>(null) 
 
     useEffect(() => {
         if (shouldFocus && ref.current) {
-            ref.current.focus();
+            ref.current.focus() 
         }
-    }, [shouldFocus]);
+    }, [shouldFocus]) 
 
     return (
         <input
@@ -21,5 +21,5 @@ export default function MyInput({ shouldFocus, value, onChange }: MyInputProps) 
             value={value}
             onChange={onChange}
         />
-    );
+    ) 
 }

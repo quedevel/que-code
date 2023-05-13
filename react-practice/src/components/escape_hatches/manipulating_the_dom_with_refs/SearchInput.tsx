@@ -1,6 +1,6 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef } from 'react' 
 
-type SearchInputProps = React.HTMLProps<HTMLInputElement>;
+type SearchInputProps = React.HTMLProps<HTMLInputElement> 
 
 const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
     function SearchInput(props, ref) {
@@ -10,8 +10,8 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
                 ref={ref}
                 placeholder="Looking for something?"
             />
-        );
+        ) 
     }
-);
+) 
 
-export default SearchInput;
+export default SearchInput 

@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useState } from 'react' 
 
 type Contact = {
-    id: number;
-    name: string;
-    email: string;
+    id: number 
+    name: string 
+    email: string 
 }
 
 
@@ -13,18 +13,18 @@ export default function EditContact(props: EditProps) {
             {...props}
             key={props.savedContact.id}
         />
-    );
+    ) 
 }
 
 type EditProps = {
-    savedContact: Contact;
-    onSave: (updatedData: Contact) => void;
-    onReset: () => void;
+    savedContact: Contact 
+    onSave: (updatedData: Contact) => void 
+    onReset: () => void 
 }
 
 function EditForm({ savedContact, onSave }: EditProps) {
-    const [name, setName] = useState(savedContact.name);
-    const [email, setEmail] = useState(savedContact.email);
+    const [name, setName] = useState(savedContact.name) 
+    const [email, setEmail] = useState(savedContact.email) 
 
     return (
         <section>
@@ -49,17 +49,17 @@ function EditForm({ savedContact, onSave }: EditProps) {
                     id: savedContact.id,
                     name: name,
                     email: email
-                };
-                onSave(updatedData);
+                } 
+                onSave(updatedData) 
             }}>
                 Save
             </button>
             <button onClick={() => {
-                setName(savedContact.name);
-                setEmail(savedContact.email);
+                setName(savedContact.name) 
+                setEmail(savedContact.email) 
             }}>
                 Reset
             </button>
         </section>
-    );
+    ) 
 }

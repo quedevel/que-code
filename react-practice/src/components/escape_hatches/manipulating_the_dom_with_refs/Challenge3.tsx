@@ -1,40 +1,40 @@
-import { useRef, useState } from 'react';
-import { flushSync } from 'react-dom';
+import { useRef, useState } from 'react' 
+import { flushSync } from 'react-dom' 
 
 type Cat = {
-    id: number;
-    imageUrl: string;
-};
+    id: number 
+    imageUrl: string 
+} 
 
-const catList: Cat[] = [];
+const catList: Cat[] = [] 
 
-for (let i = 0; i < 10; i++) {
+for (let i = 0;  i < 10; i++) {
     catList.push({
         id: i,
         imageUrl: 'https://placekitten.com/250/200?image=' + i
-    });
+    }) 
 }
 
 export default function CatFriends() {
-    const selectedRef = useRef<HTMLLIElement>(null);
-    const [index, setIndex] = useState(0);
+    const selectedRef = useRef<HTMLLIElement>(null) 
+    const [index, setIndex] = useState(0) 
 
     const handleNextScroll = () => {
         flushSync(() => {
             if (index < catList.length - 1) {
-                setIndex(index + 1);
+                setIndex(index + 1) 
             } else {
-                setIndex(0);
+                setIndex(0) 
             }
-        });
+        }) 
         if(selectedRef.current){
             selectedRef.current.scrollIntoView({
                 behavior: 'smooth',
                 block: 'nearest',
                 inline: 'center'
-            });
+            }) 
         }
-    };
+    } 
 
     return (
         <>
@@ -67,5 +67,5 @@ export default function CatFriends() {
                 </ul>
             </div>
         </>
-    );
+    ) 
 }
