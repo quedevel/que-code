@@ -1,7 +1,7 @@
 import React from "react"
 import Square from "./Square"
 
-interface BoardProps {
+type BoardProps = {
     xIsNext: boolean
     squares: Array<string|null>
     onPlay: (nextSquares: (string | null)[]) => void

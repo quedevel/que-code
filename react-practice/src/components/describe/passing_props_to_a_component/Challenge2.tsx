@@ -1,6 +1,6 @@
 import { getImageUrl2, Person } from './utils'
 
-interface AvatarProps {
+type AvatarProps = {
     person: Person
     size: number
 }

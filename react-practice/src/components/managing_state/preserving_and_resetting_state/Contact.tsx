@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from 'react'
 
 type Contact = {
     id: number
@@ -7,7 +7,7 @@ type Contact = {
 }
 
 export default function Contact({ contact }: {contact: Contact}) {
-    const [expanded, setExpanded] = useState(false);
+    const [expanded, setExpanded] = useState(false)
     return (
         <>
             <p><b>{contact.name}</b></p>
@@ -15,10 +15,10 @@ export default function Contact({ contact }: {contact: Contact}) {
                 <p><i>{contact.email}</i></p>
             }
             <button onClick={() => {
-                setExpanded(!expanded);
+                setExpanded(!expanded)
             }}>
                 {expanded ? 'Hide' : 'Show'} email
             </button>
         </>
-    );
+    )
 }

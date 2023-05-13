@@ -1,6 +1,6 @@
 import React from 'react'
 
-interface MyButtonProps{
+type MyButtonProps = {
     count: number
     onClick: () => void
 }

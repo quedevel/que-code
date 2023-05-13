@@ -3,7 +3,7 @@ import ProductRow from "./ProductRow"
 import ProductCategoryRow from "./ProductCategoryRow"
 import Product from "./interface/Product"
 
-interface ProductTableProps {
+type ProductTableProps = {
     products: Array<Product>
     filterText: string
     inStockOnly: boolean

@@ -1,6 +1,6 @@
 import React from "react"
 
-interface DrinkProps {
+type DrinkProps = {
     name: string
 }
 

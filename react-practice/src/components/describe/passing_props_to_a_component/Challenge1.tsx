@@ -1,6 +1,6 @@
 import { getImageUrl } from './utils'
 
-interface Scientist {
+type Scientist = {
     name: string
     imageId: string
     imageSize: number

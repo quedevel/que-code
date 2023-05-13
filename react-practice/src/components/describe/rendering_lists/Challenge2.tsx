@@ -1,6 +1,6 @@
 import { recipes } from './data'
 
-interface RecipeProps {id: string, name: string, ingredients: string[]}
+type RecipeProps = {id: string, name: string, ingredients: string[]}
 export default function RecipeList() {
     return (
         <div>

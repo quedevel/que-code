@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 
-interface BoxProps {
+type BoxProps = {
     children: React.ReactNode
     color: string
     position: {
