@@ -3,5 +3,5 @@ export default function SearchButton({ onClick }: {onClick: () => void}) {
         <button onClick={onClick}>
             Search
         </button>
-    );
+    ) 
 }

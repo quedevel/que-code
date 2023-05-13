@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react' 
 
 type Position = {
     x: number
@@ -6,19 +6,19 @@ type Position = {
 }
 
 export default function App() {
-    const [position, setPosition] = useState<Position>({ x: 0, y: 0 });
-    const [canMove, setCanMove] = useState<boolean>(true);
+    const [position, setPosition] = useState<Position>({ x: 0, y: 0 }) 
+    const [canMove, setCanMove] = useState<boolean>(true) 
 
     function handleMove(e: MouseEvent) {
         if (canMove) {
-            setPosition({ x: e.clientX, y: e.clientY });
+            setPosition({ x: e.clientX, y: e.clientY }) 
         }
     }
 
     useEffect(() => {
-        window.addEventListener('pointermove', handleMove);
-        return () => window.removeEventListener('pointermove', handleMove);
-    });
+        window.addEventListener('pointermove', handleMove) 
+        return () => window.removeEventListener('pointermove', handleMove) 
+    }) 
 
     return (
         <>
@@ -43,5 +43,5 @@ export default function App() {
                 height: 40,
             }} />
         </>
-    );
+    ) 
 }

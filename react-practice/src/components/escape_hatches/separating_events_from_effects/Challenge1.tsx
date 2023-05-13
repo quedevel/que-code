@@ -1,18 +1,18 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react' 
 
 export default function Timer() {
-    const [count, setCount] = useState<number>(0);
-    const [increment, setIncrement] = useState<number>(1);
+    const [count, setCount] = useState<number>(0) 
+    const [increment, setIncrement] = useState<number>(1) 
 
     useEffect(() => {
         const id = setInterval(() => {
-            setCount(c => c + increment);
-        }, 1000);
+            setCount(c => c + increment) 
+        }, 1000) 
         return () => {
-            clearInterval(id);
-        };
+            clearInterval(id) 
+        } 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, []) 
 
     return (
         <>
@@ -24,13 +24,13 @@ export default function Timer() {
             <p>
                 Every second, increment by:
                 <button disabled={increment === 0} onClick={() => {
-                    setIncrement(i => i - 1);
+                    setIncrement(i => i - 1) 
                 }}>–</button>
                 <b>{increment}</b>
                 <button onClick={() => {
-                    setIncrement(i => i + 1);
+                    setIncrement(i => i + 1) 
                 }}>+</button>
             </p>
         </>
-    );
+    ) 
 }

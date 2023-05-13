@@ -1,16 +1,16 @@
-import { useState, useEffect } from 'react';
-import { createConnection } from './chat';
+import { useState, useEffect } from 'react' 
+import { createConnection } from './chat' 
 
-const serverUrl = 'https://localhost:1234';
+const serverUrl = 'https://localhost:1234' 
 
 function ChatRoom({ roomId }: {roomId: string}) {
-    const [message, setMessage] = useState('');
+    const [message, setMessage] = useState('') 
 
     useEffect(() => {
-        const connection = createConnection(serverUrl, roomId);
-        connection.connect();
-        return () => connection.disconnect();
-    }, [roomId]);
+        const connection = createConnection(serverUrl, roomId) 
+        connection.connect() 
+        return () => connection.disconnect() 
+    }, [roomId]) 
 
     return (
         <>
@@ -20,11 +20,11 @@ function ChatRoom({ roomId }: {roomId: string}) {
                 onChange={e => setMessage(e.target.value)}
             />
         </>
-    );
+    ) 
 }
 
 export default function App() {
-    const [roomId, setRoomId] = useState<string>('general');
+    const [roomId, setRoomId] = useState<string>('general') 
     return (
         <>
             <label>
@@ -41,5 +41,5 @@ export default function App() {
             <hr />
             <ChatRoom roomId={roomId} />
         </>
-    );
+    ) 
 }

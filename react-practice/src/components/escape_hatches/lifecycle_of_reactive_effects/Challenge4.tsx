@@ -1,9 +1,9 @@
-import { useState } from 'react';
-import ChatRoom from './ChatRoom';
+import { useState } from 'react' 
+import ChatRoom from './ChatRoom' 
 
 export default function App() {
-    const [roomId, setRoomId] = useState<string>('general');
-    const [isEncrypted, setIsEncrypted] = useState<boolean>(false);
+    const [roomId, setRoomId] = useState<string>('general') 
+    const [isEncrypted, setIsEncrypted] = useState<boolean>(false) 
     return (
         <>
             <label>
@@ -31,5 +31,5 @@ export default function App() {
                 isEncrypted={isEncrypted}
             />
         </>
-    );
+    ) 
 }
