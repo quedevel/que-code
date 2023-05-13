@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import Contact from './Contact.js'
+import Contact from './Contact'
 
 export default function ContactList() {
     const [reverse, setReverse] = useState<boolean>(false)
