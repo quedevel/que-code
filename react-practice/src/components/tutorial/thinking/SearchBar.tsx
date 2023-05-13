@@ -1,6 +1,6 @@
 import React from "react"
 
-interface SearchBarProps {
+type SearchBarProps = {
     filterText: string
     inStockOnly: boolean
     onFilterTextChange: (value: string) => void

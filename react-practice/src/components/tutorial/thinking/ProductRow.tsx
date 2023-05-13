@@ -1,7 +1,7 @@
 import React from "react"
 import Product from "./interface/Product"
 
-interface Props {
+type Props = {
     product: Product
 }
 

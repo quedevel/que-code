@@ -1,6 +1,6 @@
 import React from "react"
 
-interface Product {
+type Product = {
     title: string
     isFruit: boolean
     id: number

@@ -1,6 +1,6 @@
 import React from "react"
 
-interface SquareProps {
+type SquareProps = {
     value: string|null
     onSquareClick: () => void
 }

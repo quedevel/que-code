@@ -3,7 +3,7 @@ import SearchBar from "./SearchBar"
 import ProductTable from "./ProductTable"
 import Product from "./interface/Product"
 
-interface Props {
+type Props = {
     products: Product[]
 }
 
