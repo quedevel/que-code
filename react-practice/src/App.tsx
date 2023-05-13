@@ -1,5 +1,5 @@
 import React from 'react'
-import Profile from "./components/describe/keeping_components_pure/Challenge2";
+import Profile from "./components/describing_the_ui/keeping_components_pure/Challenge2";
 
 function App() {
   return (
