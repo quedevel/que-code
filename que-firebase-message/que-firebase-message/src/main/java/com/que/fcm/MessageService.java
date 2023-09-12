@@ -2,6 +2,8 @@ package com.que.fcm;
 
 import com.google.firebase.messaging.AndroidConfig;
 import com.google.firebase.messaging.AndroidNotification;
+import com.google.firebase.messaging.AndroidNotification.Priority;
+import com.google.firebase.messaging.AndroidNotification.Visibility;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
@@ -30,15 +32,18 @@ public class MessageService {
     AndroidNotification androidNotification = AndroidNotification.builder()
         .setTitle("안드로이드 타이틀")
         .setBody("안드로이트 내용")
+        .setChannelId("Default")
+        .setPriority(Priority.HIGH)
+        .setVisibility(Visibility.PUBLIC)
         .build();
 
     AndroidConfig androidConfig = AndroidConfig.builder()
         .setNotification(androidNotification)
+        .setPriority(AndroidConfig.Priority.HIGH)
         .build();
 
     Map<String, String> data = new HashMap<>();
     data.put("deeplink","example://peachmind");
-
 
     Message message = Message.builder()
         .setNotification(notification)
